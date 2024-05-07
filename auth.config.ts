@@ -2,7 +2,7 @@ import type { NextAuthConfig } from 'next-auth';
 import { NextResponse } from 'next/server';
  
 export const authConfig = {
-  secret: process.env.AUTH_SECRET,
+  secret: "vncuwipehwcvuwcvnweui938ry8", //cambiar a proccess.env.AUTH_SECRET
   pages: {
     signIn: '/login',
   },
@@ -20,7 +20,8 @@ export const authConfig = {
         return NextResponse.redirect(new URL('/authorized', nextUrl));
       }
       return true;
-    },
+    
+  },
   jwt({token, user}) {
     return {...token, ...user};
   },
