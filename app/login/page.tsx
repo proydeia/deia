@@ -1,22 +1,12 @@
-'use client'
+'use client';
 import Navbar from "../navBar";
 import React, { useRef } from 'react'
+import { useFormState } from "react-dom";
+import { authenticate } from "./login_action";
+
 export default function LoginPage() {
 
-    
-// //falta la funcion para tomar los datos ingresados, investigar useServer/useClient
-// function handleSubmit(e){
-//     //previene que el navegador recargue la pagina
-//     e.preventDefault();
-
-//     //lee los datos del formulario
-//     const form = e.target;
-//     const formData = new FormData(form);
-
-//     //aca convierto los datos en un JSON
-//     const formJson = Object.fromEntries(formData.entries());
-//     console.log(formJson);
-// }
+    const [state, formAction] = useFormState(authenticate, undefined);
 
     return (
         <>
@@ -27,27 +17,18 @@ export default function LoginPage() {
                 <form 
                 method="post" 
                 className="flex flex-col items-center gap-4 w-1/2"
-                
-                onSubmit={(e: React.SyntheticEvent) => {
-                    e.preventDefault();
-                    const target = e.target as typeof e.target & {
-                        email: {value: string };
-                        password: {value: string};
-                    };
-                    const email = target.email.value;
-                    const password = target.password.value;
+                action={formAction}>
 
-                    console.log(email);
-                    console.log(password);
-
-                }}
-                >
                     <label>Ingrese mail</label>
-                    <input name="email" type="email" className="w-1/2 h-8 bg-red-100 border-none"></input>
+                    <input name="user" id="user" type="text" className="w-1/2 h-8 bg-red-100 border-none"></input>
+                    {state?.errors?.user && <p>{state.errors.user}</p>}
 
                     <label>Ingrese contraseña</label>
-                    <input name="password" type="password" className="w-1/2 h-8 bg-red-100 border-none"></input>
+                    <input name="password" id="user" type="password" className="w-1/2 h-8 bg-red-100 border-none"></input>
+                    {state?.errors?.password && <p>{state.errors.password}</p>}
+
                     <button type="submit" className="w-1/2 h-8 bg-green-200" />
+                    {state?.message && <p>{state.message}</p>}
 
                 </form>
 

@@ -20,7 +20,7 @@ export const { auth, signIn, signOut } = NextAuth({
         //   const user = await logIn(inputData);
           
         //   return user as User;
-        return null;
+        return credentials as User//{name:"jojo", email:"jojo@gmail.com"} as User;
     },
     }),
   ],
