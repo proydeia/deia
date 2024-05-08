@@ -1,3 +1,4 @@
+import NavbarA from "./Components/NavBar";
 import { auth } from "@/auth";
 import Logout from "./logOut_button";
 import { getUserList } from "../lib/db/schema";
@@ -7,10 +8,10 @@ export default async function AuthorizedPage() {
 
     return(
         <>
+        <NavbarA/>
         <main>
-            <div>
+            <div className="flex justify-center">
                 <h1>Authorized page</h1>
-                <h2>{JSON.stringify(users)}</h2>
                 <Logout/>
             </div>
         </main>

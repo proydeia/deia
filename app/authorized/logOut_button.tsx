@@ -1,5 +1,6 @@
 import { signOut } from "@/auth";
 export default function Logout(){
+    
     const handler = async() => {
         "use server"
         console.log('signing out');
