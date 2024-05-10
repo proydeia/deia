@@ -9,7 +9,7 @@ export default function Logout(){
     return(
         <>
             <form action={handler}>
-                    <button type="submit">Sign Out</button>
+                    <button type="submit" className="bg-teal-500 p-4 rounded-lg hover:bg-teal-600">Sign Out</button>
             </form>
         </>
     )

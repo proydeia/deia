@@ -1,6 +1,5 @@
 import NavbarA from "./Components/NavBar";
 import { auth } from "@/auth";
-import Logout from "./logOut_button";
 import { getUserList } from "../lib/db/schema";
 export default async function AuthorizedPage() {
     console.log(await auth())
@@ -8,11 +7,11 @@ export default async function AuthorizedPage() {
 
     return(
         <>
-        <NavbarA/>
         <main>
-            <div className="flex justify-center">
-                <h1>Authorized page</h1>
-                <Logout/>
+            <div className="relative flex justify-center flex-col items-center">
+        <NavbarA/>
+                <h1>Mostrar lista de pacientes</h1>
+                <div className="bg-teal-200 w-10/12 items-center h-screen">Esto contendra la lista de pacientes </div>
             </div>
         </main>
         </>
