@@ -1,8 +1,8 @@
 'use client';
 import Navbar from "../navBar";
-import React, { useRef } from 'react'
 import { useFormState } from "react-dom";
-import { authenticate } from "./login_action";
+import { authenticate } from "../actions/loginauth_form_actions";
+import FormButton from "../componenetes/form_button";
 
 export default function LoginPage() {
 
@@ -27,7 +27,7 @@ export default function LoginPage() {
                     <input name="password" id="user" type="password" className="w-1/2 h-8 bg-red-100 border-none"></input>
                     {state?.errors?.password && <p>{state.errors.password}</p>}
 
-                    <button type="submit" className="w-1/2 h-8 bg-green-200" />
+                    <FormButton />
                     {state?.message && <p>{state.message}</p>}
 
                 </form>
