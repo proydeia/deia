@@ -11,18 +11,19 @@ export const { auth, signIn, signOut } = NextAuth({
     Credentials({
       async authorize(credentials) {
 
-        // const username = credentials.user as string;
-        // const password = credentials.password as string;
+        const username = credentials.user as string;
+        const password = credentials.password as string;
         
-        // const inputData:{name:string, password:string} = {name: username, password: password};
+        const inputData:{name:string, password:string} = {name: username, password: password};
         
-        // const user = await login(inputData);
-        // if(!user)
-        // {
-        //   return null;
-        // }   
+        
+        const user = await login(inputData);
+        
+        console.log(inputData, user);
 
-        return credentials as User
+        if(!user || user?.error) return null;
+
+        return user as User
       },
     }),
   ],
