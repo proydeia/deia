@@ -1,5 +1,5 @@
 import Logout from "../logOut_button"
-
+import Agregar from "./Btn_agregarPac"
 export default function NavbarA(){
     return(
         <>
@@ -7,7 +7,7 @@ export default function NavbarA(){
              <div className="relative items-center sm:fixed gap-5 top-0 left-0 sm:h-screen sm:w-1/12 m-0 flex  flex-row sm:flex-col shadow-lg bg-teal-100 hover:bg-green-500 w-screen h-20">
                  <p>DEIA</p>
                  <Logout/>
-                 <button>Boton 1</button>
+                <Agregar/>
                  <button>Boton 2</button>
              </div>
          </nav>
