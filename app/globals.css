@@ -6,6 +6,7 @@
     :root {
       --color-primary: 186 199 255;
       --color-secondary: 55 117 153;
+      --color-third: 8 91 139;
       /* ... */
     }
   }
