@@ -1,20 +1,19 @@
-"use strict"
 import { createKysely } from '@vercel/postgres-kysely'; 
-//const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 //-----------> Hashing:
 
-// export async function hash(data:string) {
-//     return bcrypt.hash(data, 10).then(function(hash:string) {
-//         return hash;
-//     });
-// }
+export async function hash(data:string) {
+    return bcrypt.hash(data, 10).then(function(hash:string) {
+        return hash;
+    });
+}
 
-// export async function compare(data:string, hash:string) {
-//     return bcrypt.compare(data, hash).then(function(result:boolean) {
-//         return result;
-//     });
-// }
+export async function compare(data:string, hash:string) {
+    return bcrypt.compare(data, hash).then(function(result:boolean) {
+        return result;
+    });
+}
 
 //-----------> Database:
 
@@ -88,11 +87,37 @@ export async function login(inputData:{name: string, password: string}){
     };
 };
 
-export async function getUserList(){
-    const users = await db
+
+//las siguentes 3 se repiten pero no se como darle tipado al array de dataRequest
+
+export async function getMedicsList(orgId:string){
+    const medics = await db
                   .selectFrom("users")
+                  .where("users.adm", "=", false)
+                  .where("users.organization", "=", orgId)
                   .select(["id", "name"])
-                  .executeTakeFirst();
+                  .execute();
     
-    return users;
+    return medics;
+}
+
+export async function getPatientsList(medicId:string){
+    const patients = await db
+                  .selectFrom("patients")
+                  .where("patients.medic", "=", medicId)
+                  .select(["id", "name"])
+                  .execute();
+    
+    return patients;
+}
+
+
+export async function getSpirometriesList(patientId:string){
+    const spirometries = await db
+                  .selectFrom("spirometries")
+                  .where("spirometries.patient", "=", patientId)
+                  .select(["id", "obstruction", "restriction", "date"])
+                  .execute();
+    
+    return spirometries;
 }
