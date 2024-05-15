@@ -1,6 +1,5 @@
 "use strict"
 import { createKysely } from '@vercel/postgres-kysely'; 
-import { User } from 'next-auth';
 //const bcrypt = require('bcrypt');
 
 //-----------> Hashing:
@@ -19,14 +18,41 @@ import { User } from 'next-auth';
 
 //-----------> Database:
 
-interface pTable {
+interface organizationTable {
     id: string;
     name: string;
+    domain: string;
+    medics: number;
+}
+
+interface userTable {
+    id: string;
+    name: string;
+    adm: boolean;
     password: string;
+    organization: string; //foreing key
+}
+
+interface patientTable {
+    id: string;
+    name: string;
+    extraInfo: string;
+    medic: string; //foreing key
+}
+
+interface spirometryTable {
+    id: string;
+    obstruction: number;
+    restriction: number;
+    date: Date;
+    patient: string; //foreing key
 }
 
 interface Database {
-    p: pTable
+    organizations: organizationTable,
+    users: userTable
+    patients: patientTable
+    spirometries: spirometryTable
 }
 
 const db = createKysely<Database>();
@@ -38,27 +64,33 @@ export default db;
 export async function login(inputData:{name: string, password: string}){
     try{
         const user = await db
-        .selectFrom("p")
-        .where("p.name", "=", inputData.name)
+        .selectFrom("users")
+        .where("users.name", "=", inputData.name)
         .select(["id", "name", "password"])
-        .execute();
+        .executeTakeFirst();
 
-        console.log(1,typeof user);
+        if(!user) return null;
 
-        if(user.length === 0 || !user) return null;
+        return {
 
-        return user as User;
+            id: user.id,
+            name: user.name,        
+        
+        };
     }
 
     catch(error: unknown)
     {
-        return null;
+        console.log(error);
+        return{
+            error: await error
+        };
     };
 };
 
 export async function getUserList(){
     const users = await db
-                  .selectFrom("p")
+                  .selectFrom("users")
                   .select(["id", "name"])
                   .executeTakeFirst();
     
