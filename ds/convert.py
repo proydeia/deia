@@ -23,7 +23,7 @@ genai.configure(api_key=os.environ['API_KEY'])
 model = genai.GenerativeModel()
 #response = model.generate_content('I will now send you a text message with extra data about someone. I want you to send me, in messages separated by a new line, the format specified in each of the following factors: smoking (a number 0 (if they dont) or 1 (if they do)), age (a whole number), sex (a number 0 (male) or 1 (female)), height (a whole number), weight (a floating number). Just send me the data in parenthesis and nothing more. If you understand respond "Ok.".')
 #print(response.text)
-starting_question = 'I will now send you a text message with extra data about someone. I want you to send me, in messages separated by a new line, the format specified in each of the following factors: smoking (a number 0 (if they dont) or 1 (if they do)), age (a whole number), sex (a number 0 (male) or 1 (female)), height (a whole number), weight (a floating number). Just send me the data in parenthesis and nothing more. Message:\n\n'
+starting_question = 'I will now send you a text message with extra data about someone. I want you to send me, in messages separated by a new line, the format specified in each of the following factors (give me a -1 if the factor isnt mentioned at all): smoking (a number 0 (if they dont) or 1 (if they do)), age (a whole number), sex (a number 0 (male) or 1 (female)), height (a whole number), weight (a floating number). Just send me the data in parenthesis and nothing more. Message:\n\n'
 
 dumpAHacer = False
 
