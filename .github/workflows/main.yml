@@ -12,6 +12,9 @@ jobs:
         with:
           python-version: '3.x'
 
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip

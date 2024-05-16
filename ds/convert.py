@@ -1,7 +1,7 @@
 import json
 import google.generativeai as genai
 import os
-import dotenv
+#import dotenv
 
 def json_to_obj(path):
     with open(path) as f:
@@ -11,7 +11,7 @@ def obj_to_json(obj, path):
     with open(path, 'w') as f:
         json.dump(obj, f)
     
-dotenv.load_dotenv('.env')
+#dotenv.load_dotenv('.env')
 
 nombreDumpDB = 'datadump'
 obj = json_to_obj(f'ds/{nombreDumpDB}.json')
