@@ -1,12 +1,22 @@
 import NavbarA from "./Components/NavBar";
 export default async function AuthorizedPage() {
 
+    const ia = async() => {
+        const ans = await fetch('http://localhost:8000', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        return ans;
+    }
+
     return (
         <>
             <main>
                 <div className="relative grid justify-center grid-cols-12  gap-4">
                     <NavbarA />
-
+                    {JSON.stringify(ia)}
                     <div className="bg-primary  items-center h-screen col-start-3 col-end-13">Esto contendra la lista de pacientes </div>
                 </div>
             </main>

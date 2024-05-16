@@ -70,6 +70,8 @@ export async function login(inputData:{name: string, password: string}){
 
         if(!user) return null;
 
+        if (!compare(inputData.password, user.password)) return null;
+        
         return {
 
             id: user.id,
@@ -87,26 +89,12 @@ export async function login(inputData:{name: string, password: string}){
     };
 };
 
-
-//las siguentes 3 se repiten pero no se como darle tipado al array de dataRequest
-
-export async function getMedicsList(orgId:string){
-    const medics = await db
-                  .selectFrom("users")
-                  .where("users.adm", "=", false)
-                  .where("users.organization", "=", orgId)
-                  .select(["id", "name"])
-                  .execute();
-    
-    return medics;
-}
-
 export async function getPatientsList(medicId:string){
     const patients = await db
-                  .selectFrom("patients")
-                  .where("patients.medic", "=", medicId)
-                  .select(["id", "name"])
-                  .execute();
+    .selectFrom("patients")
+    .where("patients.medic", "=", medicId)
+    .select(["id", "name"])
+    .execute();
     
     return patients;
 }
@@ -114,10 +102,10 @@ export async function getPatientsList(medicId:string){
 
 export async function getSpirometriesList(patientId:string){
     const spirometries = await db
-                  .selectFrom("spirometries")
-                  .where("spirometries.patient", "=", patientId)
-                  .select(["id", "obstruction", "restriction", "date"])
-                  .execute();
+    .selectFrom("spirometries")
+    .where("spirometries.patient", "=", patientId)
+    .select(["id", "obstruction", "restriction", "date"])
+    .execute();
     
     return spirometries;
 }
