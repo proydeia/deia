@@ -11,7 +11,7 @@ def obj_to_json(obj, path):
     with open(path, 'w') as f:
         json.dump(obj, f)
     
-dotenv.load_dotenv('ds/.env')
+dotenv.load_dotenv('.env')
 
 nombreDumpDB = 'datadump'
 obj = json_to_obj(f'ds/{nombreDumpDB}.json')
