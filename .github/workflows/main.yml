@@ -29,7 +29,7 @@ jobs:
         run: python ds/convert.py
 
       - name: Run model creation script
-        run: python ds/model.py
+        run: python ds/creamodelos.py
       
       - name: Commit files
         run: |
