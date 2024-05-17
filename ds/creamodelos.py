@@ -1,4 +1,4 @@
-import sklearn
+from sklearn.linear_model import LinearRegression
 import pickle
 import json
 
@@ -22,7 +22,7 @@ if obsEntries < minimum:
         xObs.append(list(vals.values()))
         yObs.append(v['obstruction'])
 
-    modelObs = sklearn.linear_model.LinearRegression()
+    modelObs = LinearRegression()
     modelObs.fit(xObs, yObs)
 
     with open('ds/modelObs.pkl', 'wb') as f:
@@ -42,7 +42,7 @@ if resEntries < minimum:
         xRes.append(list(vals.values()))
         yRes.append(v['restriction'])
 
-    modelRes = sklearn.linear_model.LinearRegression()
+    modelRes = LinearRegression()
     modelRes.fit(xRes, yRes)
 
     with open('ds/modelRes.pkl', 'wb') as f:
