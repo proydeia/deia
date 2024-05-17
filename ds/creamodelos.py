@@ -13,7 +13,7 @@ with open('ds/res.json') as f:
     res = json.load(f)
 
 obsEntries = len(obs)
-if obsEntries < minimum:
+if obsEntries >= minimum:
     xObs = []
     yObs = []
     for k, v in obs.items():
@@ -33,7 +33,7 @@ else:
     print('Too few entries.')
 
 resEntries = len(res)
-if resEntries < minimum:
+if resEntries >= minimum:
     xRes = []
     yRes = []
     for k, v in res.items():
