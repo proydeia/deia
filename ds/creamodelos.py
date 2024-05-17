@@ -14,7 +14,8 @@ with open('ds/res.json') as f:
 
 obsEntries = len(obs)
 if obsEntries < minimum:
-    xObs, yObs = []
+    xObs = []
+    yObs = []
     for k, v in obs.items():
         vals = v.copy()
         del vals['obstruction']
@@ -33,7 +34,8 @@ else:
 
 resEntries = len(res)
 if resEntries < minimum:
-    xRes, yRes = []
+    xRes = []
+    yRes = []
     for k, v in res.items():
         vals = v.copy()
         del vals['restriction']
