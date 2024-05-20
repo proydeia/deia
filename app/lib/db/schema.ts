@@ -9,8 +9,8 @@ export async function hash(data:string) {
     });
 }
 
-export async function compare(data:string, hash:string) {
-    return bcrypt.compare(data, hash).then(function(result:boolean) {
+export async function compare(data:string, hash:string): Promise<boolean> {
+    return bcrypt.compare(data, hash).then(function(result:boolean): boolean {
         return result;
     });
 }
@@ -65,18 +65,19 @@ export async function login(inputData:{name: string, password: string}){
         const user = await db
         .selectFrom("users")
         .where("users.name", "=", inputData.name)
-        .select(["id", "name", "password"])
+        .select(["id", "name", "password", "adm"])
         .executeTakeFirst();
 
-        if(!user) return null;
+        if( !user || !await compare(user.password,inputData.password) ) return null;
 
-        if (!compare(inputData.password, user.password)) return null;
+        //if (!await compare(user.password,inputData.password)) return null;
         
         return {
 
             id: user.id,
-            name: user.name,        
-        
+            name: user.name,
+            adm: user.adm,   
+
         };
     }
 
@@ -88,24 +89,3 @@ export async function login(inputData:{name: string, password: string}){
         };
     };
 };
-
-export async function getPatientsList(medicId:string){
-    const patients = await db
-    .selectFrom("patients")
-    .where("patients.medic", "=", medicId)
-    .select(["id", "name"])
-    .execute();
-    
-    return patients;
-}
-
-
-export async function getSpirometriesList(patientId:string){
-    const spirometries = await db
-    .selectFrom("spirometries")
-    .where("spirometries.patient", "=", patientId)
-    .select(["id", "obstruction", "restriction", "date"])
-    .execute();
-    
-    return spirometries;
-}

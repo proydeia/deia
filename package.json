@@ -11,16 +11,17 @@
   "dependencies": {
     "@vercel/postgres-kysely": "^0.8.0",
     "bcrypt": "^5.1.1",
-    "bcryptjs": "^2.4.3",
     "kysely": "^0.27.3",
     "next": "14.2.3",
-    "next-auth": "^5.0.0-beta.17",
+    "next-auth": "^5.0.0-beta.18",
+    "pg": "^8.11.5",
     "react": "^18",
     "react-dom": "^18",
     "zod": "^3.23.6"
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/pg": "^8.11.6",
     "@types/react": "^18",
     "@types/react-dom": "^18.3.0",
     "eslint": "^8",
