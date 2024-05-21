@@ -1,4 +1,5 @@
-import { createKysely } from '@vercel/postgres-kysely'; 
+import { Insertable, Selectable, TableExpression, Updateable, } from "kysely";
+import { createKysely, } from '@vercel/postgres-kysely'; 
 const bcrypt = require('bcrypt');
 
 //-----------> Hashing:
@@ -18,33 +19,42 @@ export async function compare(data:string, hash:string): Promise<boolean> {
 //-----------> Database:
 
 interface organizationTable {
-    id: string;
+    id: string; //Primary KEY
     name: string;
     domain: string;
     medics: number;
 }
 
 interface userTable {
-    id: string;
+    id: string; //Primary KEY
     name: string;
     adm: boolean;
     password: string;
-    organization: string; //foreing key
+    organization: string; //Foreing KEY
 }
 
 interface patientTable {
-    id: string;
+    id: string; //Primary KEY
     name: string;
     extraInfo: string;
-    medic: string; //foreing key
+    medic: string; //foreing KEY
 }
 
 interface spirometryTable {
-    id: string;
+    id: string; //Primary KEY
     obstruction: number;
     restriction: number;
+    patient: string; //Foreing KEY
     date: Date;
-    patient: string; //foreing key
+    fev1: Float32Array;
+    fev1pred: Float32Array;
+    fvc: Float32Array;
+    fvcpred: Float32Array;
+    correctionobs: number;
+    correctionobsmed: number;
+    correctionres: number;
+    correctionresmed: number;
+    enjson: boolean;
 }
 
 interface Database {
@@ -56,9 +66,25 @@ interface Database {
 
 const db = createKysely<Database>();
 
+export type newSpirometry = Insertable<spirometryTable>; 
+export type newPatient = Insertable<patientTable>; 
+
 export default db;
 
 //-----------> Queries:
+
+export async function checkIfExists(table:TableExpression<Database, keyof Database>, id:string): Promise<boolean> {
+    try {
+        const idList = await db
+        .selectFrom(table)
+        .select("id")
+        .execute();        
+        return id in idList 
+    } 
+    catch(e){
+        throw new Error("Error interno de la base de datos al checkear la eistencia del ID");
+    }
+}
 
 export async function login(inputData:{name: string, password: string}){
     try{
