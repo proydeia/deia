@@ -46,15 +46,15 @@ interface spirometryTable {
     restriction: number;
     patient: string; //Foreing KEY
     date: Date;
-    fev1: Float32Array;
-    fev1pred: Float32Array;
-    fvc: Float32Array;
-    fvcpred: Float32Array;
-    correctionobs: number;
-    correctionobsmed: number;
-    correctionres: number;
-    correctionresmed: number;
-    enjson: boolean;
+    fev1: number;
+    fev1pred: number;
+    fvc: number;
+    fvcpred: number;
+    correctionobs: number | undefined;
+    correctionobsmed: number | undefined;
+    correctionres: number | undefined;
+    correctionresmed: number | undefined;
+    enjson: boolean | undefined;
 }
 
 interface Database {
@@ -73,13 +73,13 @@ export default db;
 
 //-----------> Queries:
 
-export async function checkIfExists(table:TableExpression<Database, keyof Database>, id:string): Promise<boolean> {
+export async function checkIfExists(table:TableExpression<Database, keyof Database>, id:string) {
     try {
         const idList = await db
         .selectFrom(table)
         .select("id")
         .execute();        
-        return id in idList 
+        return idList.some((element) => element.id === id);
     } 
     catch(e){
         throw new Error("Error interno de la base de datos al checkear la eistencia del ID");

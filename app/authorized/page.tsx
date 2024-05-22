@@ -1,12 +1,7 @@
-import { createSpirometry } from "../actions/medic";
-import { checkIfExists } from "../lib/db/schema";
 import NavbarA from "./Components/NavBar";
 
 
-export default async function AuthorizedPage() {
-
-    const res = checkIfExists("spirometries", "newhvjpfqcow9u02jf498hvbwd2")
-    console.log(res);
+export default async function AuthorizedPage() {  
     return (
         <>
             <main>

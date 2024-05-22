@@ -4,13 +4,24 @@ const axios = require('axios').default;
 const moment = require('moment');
 const { v4: uuidv4 } = require('uuid');
 
+// Datos del input medico
 type spirometryInput = {
     patient: string;
-    fev1: Float32Array;
-    fev1pred: Float32Array;
-    fvc: Float32Array;
-    fvcpred: Float32Array;
+    fev1: number;
+    fev1pred: number;
+    fvc: number;
+    fvcpred: number;
 }
+
+// ID
+const uuid = async() => {
+    let uuid = uuidv4();
+    while(await checkIfExists("spirometries", "uuid")){
+        uuid = uuidv4();
+        console.log("uuid");
+    }
+    return uuid;
+};
 
 
 // Pacientes
@@ -60,56 +71,52 @@ export async function getSpirometry(spirometryId:string){
     return spirometry;
 }
 
-export async function createSpirometry(spirometryData: spirometryInput): Promise<Error | newSpirometry>{
+export async function createSpirometry(spirometryData: spirometryInput): Promise<Error | newSpirometry | undefined>{
     
     try{
-
-        const obstruction:number = await axios.get("http://127.0.0.1:8000", spirometryData)
+        
+        const obstruction:number = await axios.post("http://127.0.0.1:8000/obstruction", spirometryData)
         .then((res:any) => {
-            return res.data;
+            return res.data.result; //devuelve el analisis obstructivo.
         })
         .catch((err:any) => {
             throw new Error("Error al analizar la obstruccion");
         })
 
-        const restriction:number = await axios.get("http://127.0.0.1:8000", spirometryData)
+        const restriction:number = await axios.post("http://127.0.0.1:8000/restriction", spirometryData)
         .then((res:any) => {
-            return res.data;
+            return res.data.result; //devuelve el analisis restrictivo.
         })
         .catch((err:any) => {
             throw new Error("Error al analizar la restriccion");
         })
 
-        const date = moment().format("YYYY-MM-DD");
+        const date = moment().format("YYYY-MM-DD"); //genera fecha actual.
 
-        const uuid = () => {
-            let uuid = uuidv4();
-            while(async() => await checkIfExists("spirometries", "uuid")){
-                uuid = uuidv4();
-            }
-            return uuid;
-        };
-
-        const spirometryId = uuid();
+        const spirometryId = await uuid(); // genera un UUID único.	
         
-        let spirometry = {
+        const spirometry: newSpirometry = {
             ...spirometryData,
             id:spirometryId,
             obstruction:obstruction,
             restriction:restriction,
-            date:date,
-            correctionobs:-1,
-            correctionobsmed:-1,
-            correctionres:-1,
-            correctionresmed:-1,
-            enjson:false
-        };
-        //guardar en la base de datos
-        return spirometry;
-    }
+            date:date
+        }; //crea el objeto spirometry con los datos de entrada, los del analisis, la fecha y el UUID.
 
-    catch(e)
+        const spirometryDB = await db 
+        .insertInto("spirometries")
+        .values(spirometry)
+        .returningAll()
+        .executeTakeFirst();
+
+        //guarda todos los datos en la DB y los devuelve, en conjunto 
+        //con los no incluidos que se generan en la DB por default (enjson, etc.)
+
+        return spirometryDB;
+
+    }
+    catch(error:any)
     {
-        throw new Error("Error al analizar la obstruccion");
+        throw new Error(error as string);
     }
 }
