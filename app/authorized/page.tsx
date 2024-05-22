@@ -1,6 +1,5 @@
 import NavbarA from "./Components/NavBar";
 
-
 export default async function AuthorizedPage() {  
     return (
         <>

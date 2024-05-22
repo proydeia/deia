@@ -1,30 +1,21 @@
-import { auth } from "@/auth"
-import { Session, User } from "next-auth"
+import { auth } from "@/auth";
+import { Session, User } from "next-auth";
 
-const getSession = async (): Promise<Session | null> => {
 
+export const getSession = async (): Promise <Session | null> => { //devuelve la session del usuario, si existe.
     const session = await auth();
     if(!session) return null;
-
     return session as Session;
-
 }
 
-const isAdmin = async (): Promise<boolean | null> => {
+export const isAdmin = async (): Promise <boolean | null> => { //devuelve si el usuario es admin o no, si está en sessión.
     const session = await getSession();
     const adm:boolean = session?.user?.admin as boolean;
-    
-    return adm  || null;
+    return adm || null;
 }
 
-const userId = async (): Promise<string | null> => {    
+export const userId = async (): Promise <string | null> => { //devuelve el id del usuario, si está en sessión. 
     const session = await getSession();
     const id:string = session?.user?.id as string;
-
     return id || null;
 }
-
-export {     // Si el usuario esta logeado; sino devuelve 'undefined'.
-    isAdmin, //-->  Devuelve el valor de session.user.admin (true | false).
-    userId,  //-->  Devueve el valor de session.user.id (string).
-};

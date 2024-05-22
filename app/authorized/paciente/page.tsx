@@ -1,5 +1,5 @@
 import NavbarA from "../Components/NavBar"
-import {getPatientsList} from "@/app/actions/medic"
+import {getPatientsList} from "@/app/actions/patient"
 import { userId } from "@/app/actions/token";
 
 export default async function ingresoPaciente() {

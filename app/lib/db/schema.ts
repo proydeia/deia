@@ -67,24 +67,16 @@ interface Database {
 const db = createKysely<Database>();
 
 export type newSpirometry = Insertable<spirometryTable>; 
-export type newPatient = Insertable<patientTable>; 
+export type Spirometry = Selectable<spirometryTable>; 
+
+export type newPatient = Insertable<patientTable>;
+export type Patient = Selectable<patientTable>;
+
+export type DatabaseType = Database;
 
 export default db;
 
 //-----------> Queries:
-
-export async function checkIfExists(table:TableExpression<Database, keyof Database>, id:string) {
-    try {
-        const idList = await db
-        .selectFrom(table)
-        .select("id")
-        .execute();        
-        return idList.some((element) => element.id === id);
-    } 
-    catch(e){
-        throw new Error("Error interno de la base de datos al checkear la eistencia del ID");
-    }
-}
 
 export async function login(inputData:{name: string, password: string}){
     try{

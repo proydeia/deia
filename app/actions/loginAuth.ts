@@ -1,12 +1,11 @@
 "use server"
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
-import { LoginState, SignupFormSchema } from '%/definitions/loginFormDefinition';
+import { LoginState, SignupFormSchema } from '@/app/lib/definitions/loginFormDefinition';
 
  
 export async function authenticate(state: LoginState,  formData: FormData) {
   try {
-
     const validatedFields = SignupFormSchema.safeParse({
       user: formData.get('user'),
       password: formData.get('password'),

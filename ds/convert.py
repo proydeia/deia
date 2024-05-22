@@ -14,11 +14,11 @@ def obj_to_json(obj, path):
 #dotenv.load_dotenv('.env')
 
 nombreDumpDB = 'datadump'
-obj = json_to_obj(f'ds/{nombreDumpDB}.json')
+obj = json_to_obj(f'C:/Users/48110679/Desktop/git/deia/ds/{nombreDumpDB}.json')
 nombreJsonObstruccion = 'obs'
-obsJson = json_to_obj(f'ds/{nombreJsonObstruccion}.json')
+obsJson = json_to_obj(f'C:/Users/48110679/Desktop/git/deia/ds/{nombreJsonObstruccion}.json')
 nombreJsonRestriccion = 'res'
-resJson = json_to_obj(f'ds/{nombreJsonRestriccion}.json')
+resJson = json_to_obj(f'C:/Users/48110679/Desktop/git/deia/ds/{nombreJsonRestriccion}.json')
 
 def aivals(extrainfo):
     genai.configure(api_key=os.environ['API_KEY'])
