@@ -1,26 +1,19 @@
-// 'use server'
-// import NavbarA from "../Components/NavBar"
-// import useMultistepForm from "../MultiStep_form/multistep_form"
+import NavbarA from "../Components/NavBar"
+export default function ingresoPaciente() {
 
-// export default function ingresoPaciente() {
-//     const { steps, currentStepIndex } = useMultistepForm([
-//         <div>One</div>,
-//         <div>Two</div>,
-//     ])
-//     return (
-//         <>
-//             <NavbarA />
-//             <div className="flex justify-center items-center h-screen">
-//                 <div className=" w-1/2 h-1/2 bg-primary rounded-lg">
-//                     <form>
-//                         <div className="absolute top-0 right-0">
-//                             {currentStepIndex + 1}/{steps.length}
-//                         </div>
-//                         {steps}
-//                     </form>
-//                 </div>
+    return (
+        <>
+            <NavbarA />
+            <div className="flex justify-center items-center h-screen">
+                <div className=" w-full bg-primary rounded-lg sm:w-1/2">
+                    <form className="bg-red-400 flex flex-col justify-center items-center h-full" >
+                        <div>Parte 1</div>
+                        <div>Parte 2</div>
+                        <div>Parte 3</div>
+                    </form>
+                </div>
 
-//             </div>
-//         </>
-//     )
-// }
+            </div>
+        </>
+    )
+}
