@@ -1,4 +1,4 @@
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, LogisticRegression
 import pickle
 import json
 
@@ -42,7 +42,7 @@ if resEntries >= minimum:
         xRes.append(list(vals.values()))
         yRes.append(v['restriction'])
 
-    modelRes = LinearRegression()
+    modelRes = LogisticRegression(class_weight="balanced")
     modelRes.fit(xRes, yRes)
 
     with open('ds/modelRes.pkl', 'wb') as f:
