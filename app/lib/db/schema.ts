@@ -88,11 +88,11 @@ export async function login(inputData:{name: string, password: string}){
     };
 };
 
-export async function getUserList(){
+export async function getUserList() {
     const users = await db
                   .selectFrom("users")
                   .select(["id", "name"])
-                  .executeTakeFirst();
+                  .execute();
     
     return users;
 }
