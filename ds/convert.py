@@ -10,6 +10,8 @@ def json_to_obj(path):
 def obj_to_json(obj, path):
     with open(path, 'w') as f:
         json.dump(obj, f)
+    with open(f'ds/{nombreDumpDB}.json', 'w') as f:
+        json.dump(obj, f)
     
 #dotenv.load_dotenv('.env')
 
