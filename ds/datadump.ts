@@ -12,7 +12,12 @@ export async function spirometriesModel(): Promise< {} > {
 
         const dataPromise =  enjsonFalse.map(async (spirometry:Spirometry) => {
             const { patient, date, id, ...filteredSpirometry} = spirometry;
-            const extraInfo = await getExtraInfo(spirometry.patient);
+            const extraInfo = await db
+            .selectFrom("patients")
+            .select(["extrainfo"])
+            .where("patients.id", "=", spirometry.patient)
+            .executeTakeFirstOrThrow();
+
             dataDump = {
                 ...dataDump, 
                 [spirometry.id]: {
@@ -36,21 +41,5 @@ export async function spirometriesModel(): Promise< {} > {
 
     catch(error:unknown){
         throw new Error (JSON.stringify(error));
-    }
-}
-
-async function getExtraInfo(id:string): Promise<string> {
-    try{
-        const extrainfo = await db
-        .selectFrom("patients")
-        .select(["extrainfo"])
-        .where("patients.id", "=", id)
-        .executeTakeFirstOrThrow();
-        
-        return extrainfo?.extrainfo;
-    }
-    catch(error:unknown)
-    {
-        throw new Error("Error al buscar la informacion extra del paciente");
     }
 }

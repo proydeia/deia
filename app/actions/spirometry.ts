@@ -55,7 +55,7 @@ export async function spirometriesModel(): Promise< {} > {
 
             dataDump = {
                 ...dataDump, 
-                [spirometry.id.toString()]: {
+                [spirometry.id]: {
                     ...filteredSpirometry, 
                     notasextra: extraInfo.extrainfo, 
                     "fuma": -1,
