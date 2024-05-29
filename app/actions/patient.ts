@@ -1,5 +1,5 @@
 "use server"
-import db, { newPatient } from "../lib/db/schema";
+import db, { newPatient, Patient } from "../lib/db/schema";
 import { uuid } from "./generateId";
 const axios = require('axios').default;
 const moment = require('moment');
@@ -12,23 +12,36 @@ type patientInput = {
 
 // Pacientes
 
-export async function getPatientsList(medicId:string){
-    const patients = await db
-    .selectFrom("patients")
-    .where("patients.medic", "=", medicId)
-    .select(["id", "name"])
-    .execute();
-    
-    return patients;
+export async function getPatientsList(medicId:string): Promise < Patient[] | Error > {
+    try{
+        const patients = await db
+        .selectFrom("patients")
+        .where("patients.medic", "=", medicId)
+        .selectAll()
+        .execute();
+        
+        return patients;
+    }
+    catch(errror:unknown){
+        return new Error("Error al buscar los pacientes");
+    }
 }
 
-export async function getPatient(patientId:string){
-    const patient = await db
-    .selectFrom("patients")
-    .where("patients.id", "=", patientId)
-    .executeTakeFirst();
+export async function getPatient(patientId:string): Promise < Patient | Error > {
+    try{
+        const patient = await db
+        .selectFrom("patients")
+        .selectAll()
+        .where("patients.id", "=", patientId)
+        .executeTakeFirst();
 
-    return patient;
+        if(!patient) return {} as Patient;
+
+        return patient;
+
+    } catch(error:unknown){
+        return new Error("Error al buscar el paciente");
+    }
 }
 
 export async function createPatient(patientData:newPatient ): Promise<Error | {}>{

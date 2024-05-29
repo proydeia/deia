@@ -1,6 +1,10 @@
+import { spirometriesModel, getSpirometry } from "../actions/spirometry";
 import NavbarA from "./Components/NavBar";
 
-export default async function AuthorizedPage() {  
+export default async function AuthorizedPage() { 
+    const a = await spirometriesModel();
+    //console.log(a);
+
     return (
         <>
             <main>

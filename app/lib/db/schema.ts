@@ -36,7 +36,7 @@ interface userTable {
 interface patientTable {
     id: string; //Primary KEY
     name: string;
-    extraInfo: string;
+    extrainfo: string;
     medic: string; //foreing KEY
 }
 
@@ -54,7 +54,7 @@ interface spirometryTable {
     correctionobsmed: number | undefined;
     correctionres: number | undefined;
     correctionresmed: number | undefined;
-    enjson: boolean | undefined;
+    enjson: number | undefined;
 }
 
 interface Database {

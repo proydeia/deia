@@ -1,6 +1,9 @@
 "use server"
+import { NextResponse } from "next/server";
 import db, { newSpirometry, Spirometry } from "../lib/db/schema";
 import { uuid } from "./generateId";
+import { DeleteResult } from "kysely";
+import { boolean, map, number, string, unknown } from "zod";
 const axios = require('axios');
 const moment = require('moment');
 
@@ -16,9 +19,9 @@ type spirometryInput = {
 
 // Espirometrias
 
-export async function getSpirometriesList (patientId: string): Promise <Spirometry[] | Error> { //devuelve todas las espirometrias de un paciente.
+export async function getSpirometriesList (patientId: string): Promise <Spirometry[]> { // Devuelve la lista completa de todas las espirometrias de un paciente.
     try{
-        const spirometries = await db //Busca las espirometrias en la DB en base al ID del paciente.
+        const spirometries = await db // Busca las espirometrias en la DB en base al ID del paciente.
         .selectFrom("spirometries")
         .where("spirometries.patient", "=", patientId)
         .selectAll()
@@ -27,56 +30,143 @@ export async function getSpirometriesList (patientId: string): Promise <Spiromet
         return spirometries;
     }
     catch(error:unknown){
-        return new Error("Error al buscar las espirometrias");
+        throw new Error("Error al buscar las espirometrias");
+    }
+}
+
+export async function spirometriesModel(): Promise< {} > {
+    try{        
+        const enjsonFalse: Spirometry[] = await db // Get all enjson false spirometrues
+        .selectFrom("spirometries")
+        .selectAll()
+        .where("spirometries.enjson", "=", 0)
+        .execute();
+
+        let dataDump = {};
+
+        const dataPromise =  enjsonFalse.map(async (spirometry:Spirometry) => {
+            const { patient, date, id, ...filteredSpirometry} = spirometry;
+            
+            const extraInfo = await db
+                .selectFrom("patients")
+                .select(["extrainfo"])
+                .where("patients.id", "=", spirometry.patient)
+                .executeTakeFirstOrThrow();
+
+            dataDump = {
+                ...dataDump, 
+                [spirometry.id.toString()]: {
+                    ...filteredSpirometry, 
+                    notasextra: extraInfo.extrainfo, 
+                    "fuma": -1,
+                    "edad": -1,
+                    "sexo": -1,
+                    "altura": -1,
+                    "peso": -1
+                }
+            };
+        })
+
+        await Promise.all(dataPromise);
+
+        console.log(dataDump)
+
+        return dataDump;
+    }
+
+    catch(error:unknown){
+        throw new Error (JSON.stringify(error));
+    }
+}
+
+async function getExtraInfo(id:string): Promise<string> {
+    try{
+        const extrainfo = await db
+        .selectFrom("patients")
+        .select(["extrainfo"])
+        .where("patients.id", "=", id)
+        .executeTakeFirstOrThrow();
+        
+        return extrainfo?.extrainfo;
+    }
+    catch(error:unknown)
+    {
+        throw new Error("Error al buscar la informacion extra del paciente");
     }
 }
 
 
 
-export async function getSpirometry(spirometryId: string): Promise < Spirometry | Error > { //devuelve una espirometria en particular.
+export async function getSpirometry(spirometryId: string): Promise < Spirometry > { // Devuelve una espirometria en particular.
     try{
-        const spirometry = await db //Busca la espirometria en la DB en base a su ID.
+        const spirometry = await db // Busca la espirometria en la DB en base a su ID. Si no existe throwea un Error.
         .selectFrom("spirometries")
         .where("spirometries.id", "=", spirometryId)
         .selectAll()
-        .executeTakeFirst();
-
-        if(spirometry === undefined){
-            throw new Error("Espirometria no encontrada");
-        }
+        .executeTakeFirstOrThrow();
 
         return spirometry;
     }
     catch(error:unknown){
-        return new Error("Error al buscar la espirometria");
+        throw new Error("Error al buscar la espirometria");
     }
 }
 
 
 
-export async function createSpirometry(spirometryData: spirometryInput): Promise < Error | newSpirometry > {
-    try{   
+export async function deleteSpirometry(spirometryId: string): Promise < DeleteResult > { // Borra una espirometria en particular.
+    try{
+        return await db
+        .deleteFrom("spirometries")
+        .where("spirometries.id", "=", spirometryId)
+        .executeTakeFirstOrThrow();
+    }
+    catch(error:unknown){
+        throw new Error("No existe registro de la espirometria en la DataBase");
+    }
+}
+
+
+
+export async function createSpirometry(spirometry: spirometryInput): Promise < NextResponse > { // "Crea" una espirometria.
+    try{
+        const analizedSpirometry:newSpirometry | Error = await analyzeAndSaveSpirometry(spirometry);
+        if(analizedSpirometry instanceof Error) throw analizedSpirometry;
+        
+        return NextResponse.redirect("@/")//(`@/app/authorized/paciente/espirometrias/${analizedSpirometry.id}`)
+    }
+    catch(error:unknown){
+        throw new Error("Error al crear la espirometria");
+    }
+
+}
+
+async function analyzeAndSaveSpirometry(spirometryData: spirometryInput): Promise < newSpirometry > { // Analiza y guarda la espirometria en la DataBase.
+    try{  
+
         const obstruction:number = await axios.post("http://127.0.0.1:8000/obstruction", spirometryData)
         .then((res:any) => {
-            return res.data.result; //Devuelve el analisis obstructivo.
+            return res.data.result; // Devuelve el analisis obstructivo.
         })
-        .catch((err:any) => {
+        .catch((err:unknown) => {
             throw new Error("Error al analizar la obstruccion");
         })
 
+
         const restriction:number = await axios.post("http://127.0.0.1:8000/restriction", spirometryData)
         .then((res:any) => {
-            return res.data.result; //Devuelve el analisis restrictivo.
+            return res.data.result; // Devuelve el analisis restrictivo.
         })
-        .catch((err:any) => {
+        .catch((err:unknown) => {
             throw new Error("Error al analizar la restriccion");
         })
 
-        const date = moment().format("YYYY-MM-DD"); //Genera fecha actual.
+
+        const date = moment().format("YYYY-MM-DD"); // Genera fecha actual.
 
         const spirometryId = await uuid("spirometries"); // Genera un UUID único.	
         
-        //Crea el objeto spirometry con los datos de entrada, los del analisis, la fecha y el UUID.
+        // Crea el objeto spirometry con los datos de entrada, los del analisis, la fecha y el UUID.
         
         const spirometry: newSpirometry = {
             ...spirometryData,
@@ -86,38 +176,28 @@ export async function createSpirometry(spirometryData: spirometryInput): Promise
             date:date
         }; 
         
-        //Guarda todos los datos en la DB y los devuelve, en conjunto 
-        //con los no incluidos que se generan en la DB por default (enjson, etc.)
+
+        // Guarda todos los datos en la DB y los devuelve, en conjunto 
+        // con los no incluidos que se generan en la DB por default (enjson, etc.)
 
         const spirometryDB: newSpirometry | undefined = await db 
         .insertInto("spirometries")
         .values(spirometry)
         .returningAll()
-        .executeTakeFirst();
+        .executeTakeFirstOrThrow();
 
-        if(spirometryDB === undefined){
-            try{
-                await db
-                .deleteFrom("spirometries")
-                .where("spirometries.id", "=", spirometryId)
-                .execute();
-            }
-            catch(error:unknown){
-                throw new Error("Espirometria fallida, no se encontro en la DataBase");
-            }
-            throw new Error("Espiroemtria fallida, borrada correctamente de la DataBase");
-        }
+        // Si la respuesta de la DB despues de guardar la espirometria es un Error se considera que falló el guardado en la DB.
+        // Si no, devuelve la espirometria guardada en la DB.
+        
+        if(spirometryDB instanceof Error) deleteSpirometry(spirometryId);
 
-        //Si la respuesta de la DB despues de guardar la espirometria es de tipo 'undefined' se considera que falló el guardado en la DB.
-        //Se intenta borrar el registro, en caso de que realmente se hubiera guardado correctamente y devuelve un error.
-        //Si no se habia guardado correctamente, se devuelve otro error.
+        // Si se guardo pero no devuelve nada, se considera que falló el guardado en la DB eintenta borrar.
+
+        // Por último, devuelve la espirometria guardada en la DB.
 
         return spirometryDB;
-
     }
-    catch(error:unknown)
-    {
-        console.log(error as string);
-        return new Error("Error al crear la espirometria");
+    catch(error:unknown){
+        throw new Error("Error al analizar y/o guardar la espirometria");
     }
 }
