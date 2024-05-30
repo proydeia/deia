@@ -1,9 +1,10 @@
 'use client'
 import { useState } from "react"
+import db, { getUserList } from "../lib/db/schema"
 import ListaPacientes from "../prueba_de_props/page"
 export default function Testeo() {
 
-  const listaPacientes: Paciente[] = [
+  const listaPacientes = [
     {
       nombre: 'Juan',
       apellido: 'Pérez',
@@ -40,14 +41,15 @@ export default function Testeo() {
       sexo: 'otro',
     }
   ]
-    const [etapa, setEtapa] = useState()
+    // const [etapa, setEtapa] = useState()
     //averiguar como pasar las props de los inputs
     // sm:w-full sm:max-w-lg
+    const onclick = async() => console.log(db);
     return (
         <div className="flex min-h-full flex-1 flex-row justify-center items-center  px-6 py-12 lg:px-8">
         <div className=" shadow-md rounded-lg p-6 sm:mx-auto min-w-full ">
         
-      <ListaPacientes pacientes={listaPacientes} />
+        <button onClick={async() => await onclick()}>ola</button>
     
         </div>
       </div>

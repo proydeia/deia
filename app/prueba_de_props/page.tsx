@@ -1,3 +1,4 @@
+import { getUserList } from "../lib/db/schema";
 type Paciente = {
     nombre: string;
     apellido: string;
@@ -9,11 +10,13 @@ type ListaPacientesProps = {
     pacientes: Paciente[]
 }
 
-const ListaPacientes: React.FC<ListaPacientesProps> = ({ pacientes }) => {
+const ListaPacientes: React.FC<ListaPacientesProps> = () => {
+    
     return (
         <>
             <div>
-                {pacientes.map((pacientes, index) => (
+                
+                {/* {pacientes.map((pacientes, index) => (
                     <table key={index} className="bg-primary shadow-md rounded-sm p-6 my-4 w-full ">
                         <tbody>
                             <tr className="text-lg font-bold">{pacientes.nombre} {pacientes.apellido}</tr>
@@ -22,7 +25,7 @@ const ListaPacientes: React.FC<ListaPacientesProps> = ({ pacientes }) => {
                             <td>Sexo: {pacientes.sexo}</td>
                         </tbody>
                     </table>
-                ))}
+                ))} */}
             </div>
         </>
     )
