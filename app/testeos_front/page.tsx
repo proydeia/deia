@@ -1,9 +1,9 @@
-'use client'
-import { useState } from "react"
-import db, { getUserList } from "../lib/db/schema"
-import ListaPacientes from "../prueba_de_props/page"
-export default function Testeo() {
+"use client";
 
+import { useState, useEffect } from "react";
+import Navbar from "../navBar";
+
+export default function Testeo() {
   const listaPacientes = [
     {
       nombre: 'Juan',
@@ -39,21 +39,158 @@ export default function Testeo() {
       dni: '34567890',
       email: 'alex.rodriguez@example.com',
       sexo: 'otro',
+    },
+    {
+      nombre: 'Sofía',
+      apellido: 'López',
+      dni: '45678901',
+      email: 'sofia.lopez@example.com',
+      sexo: 'femenino',
+    },
+    {
+      nombre: 'Pedro',
+      apellido: 'Gómez',
+      dni: '56789012',
+      email: 'pedro.gomez@example.com',
+      sexo: 'masculino',
+    },
+    {
+      nombre: 'Ana',
+      apellido: 'Martín',
+      dni: '67890123',
+      email: 'ana.martin@example.com',
+      sexo: 'femenino',
+    },
+    {
+      nombre: 'Luis',
+      apellido: 'Hernández',
+      dni: '78901234',
+      email: 'luis.hernandez@example.com',
+      sexo: 'masculino',
+    },
+    {
+      nombre: 'Laura',
+      apellido: 'Fernández',
+      dni: '89012345',
+      email: 'laura.fernandez@example.com',
+      sexo: 'femenino',
+    },
+    {
+      nombre: 'Miguel',
+      apellido: 'Ramírez',
+      dni: '90123456',
+      email: 'miguel.ramirez@example.com',
+      sexo: 'masculino',
+    },
+    {
+      nombre: 'Elena',
+      apellido: 'Torres',
+      dni: '01234567',
+      email: 'elena.torres@example.com',
+      sexo: 'femenino',
+    },
+    {
+      nombre: 'David',
+      apellido: 'Domínguez',
+      dni: '12345001',
+      email: 'david.dominguez@example.com',
+      sexo: 'masculino',
+    },
+    {
+      nombre: 'Marta',
+      apellido: 'Ruiz',
+      dni: '23456002',
+      email: 'marta.ruiz@example.com',
+      sexo: 'femenino',
+    },
+    {
+      nombre: 'Alberto',
+      apellido: 'Molina',
+      dni: '34567003',
+      email: 'alberto.molina@example.com',
+      sexo: 'masculino',
+    },
+    {
+      nombre: 'Isabel',
+      apellido: 'Navarro',
+      dni: '45678004',
+      email: 'isabel.navarro@example.com',
+      sexo: 'femenino',
     }
-  ]
-    // const [etapa, setEtapa] = useState()
-    //averiguar como pasar las props de los inputs
-    // sm:w-full sm:max-w-lg
-    const onclick = async() => console.log(db);
-    return (
-        <div className="flex min-h-full flex-1 flex-row justify-center items-center  px-6 py-12 lg:px-8">
-        <div className=" shadow-md rounded-lg p-6 sm:mx-auto min-w-full ">
-        
-        <button onClick={async() => await onclick()}>ola</button>
-    
+  ];
+  
+
+  interface Paciente {
+    nombre: string;
+    apellido: string;
+    dni: string;
+    email: string;
+    sexo: string;
+  }
+
+  function transformarListaEnObjeto(
+    lista: Paciente[]
+  ): Record<string, Paciente> {
+    return lista.reduce((obj, paciente) => {
+      obj[paciente.dni] = paciente;
+      return obj;
+    }, {} as Record<string, Paciente>);
+  }
+
+  const pacientesObj = transformarListaEnObjeto(listaPacientes);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredPacientes, setFilteredPacientes] = useState<Paciente[]>([]);
+
+  useEffect(() => {
+    setFilteredPacientes(
+      Object.values(pacientesObj).filter(
+        (paciente) =>
+          paciente.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          paciente.apellido.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  }, [searchTerm]);
+
+  const listaTest = filteredPacientes.map((paciente, index) => (
+    <li key={index} className="bg-primary_light p-2 rounded mb-2 shadow-sm">
+      {paciente.nombre} {paciente.apellido}
+    </li>
+  ));
+
+  return (
+    <>
+      <Navbar />
+      <main className="flex flex-row h-screen">
+        {/* LISTA DE PACIENTES */}
+        <div className="w-5/12 flex items-center justify-center bg-primary">
+          <div className="w-10/12 flex flex-col gap-4 items-center">
+            <p className="text-2xl font-bold text-left  w-full">
+              Historial de Pacientes
+            </p>
+            <div className="w-full">
+              <div className="mb-4">
+                <input
+                  type="text"
+                  placeholder="Buscar"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full p-2 border rounded bg-primary_light static"
+                />
+              </div>
+              <ul>{listaTest}</ul>
+            </div>
+
+            <div className="w-full flex justify-center ">
+              <button className="mt-4 mx-6 bg-third text-white py-2 px-8 rounded">
+                Agregar pacientes
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    
-      
-    )
+        {/* PREVISUALIZACION DE PACIENTES */}
+        <div className="w-7/12 bg-secondary">2</div>
+      </main>
+    </>
+  );
 }
