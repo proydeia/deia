@@ -1,51 +1,60 @@
-"use strict"
-import { createKysely } from '@vercel/postgres-kysely'; 
-//const bcrypt = require('bcrypt');
+import { Insertable, Selectable, TableExpression, Updateable, } from "kysely";
+import { createKysely, } from '@vercel/postgres-kysely'; 
+const bcrypt = require('bcrypt');
 
 //-----------> Hashing:
 
-// export async function hash(data:string) {
-//     return bcrypt.hash(data, 10).then(function(hash:string) {
-//         return hash;
-//     });
-// }
+export async function hash(data:string) {
+    return bcrypt.hash(data, 10).then(function(hash:string) {
+        return hash;
+    });
+}
 
-// export async function compare(data:string, hash:string) {
-//     return bcrypt.compare(data, hash).then(function(result:boolean) {
-//         return result;
-//     });
-// }
+export async function compare(data:string, hash:string): Promise<boolean> {
+    return bcrypt.compare(data, hash).then(function(result:boolean): boolean {
+        return result;
+    });
+}
 
 //-----------> Database:
 
 interface organizationTable {
-    id: string;
+    id: string; //Primary KEY
     name: string;
     domain: string;
     medics: number;
 }
 
 interface userTable {
-    id: string;
+    id: string; //Primary KEY
     name: string;
     adm: boolean;
     password: string;
-    organization: string; //foreing key
+    organization: string; //Foreing KEY
 }
 
 interface patientTable {
-    id: string;
+    id: string; //Primary KEY
     name: string;
-    extraInfo: string;
-    medic: string; //foreing key
+    extrainfo: string;
+    medic: string; //foreing KEY
 }
 
 interface spirometryTable {
-    id: string;
+    id: string; //Primary KEY
     obstruction: number;
     restriction: number;
+    patient: string; //Foreing KEY
     date: Date;
-    patient: string; //foreing key
+    fev1: number;
+    fev1pred: number;
+    fvc: number;
+    fvcpred: number;
+    correctionobs: number | undefined;
+    correctionobsmed: number | undefined;
+    correctionres: number | undefined;
+    correctionresmed: number | undefined;
+    enjson: number | undefined;
 }
 
 interface Database {
@@ -57,6 +66,14 @@ interface Database {
 
 const db = createKysely<Database>();
 
+export type newSpirometry = Insertable<spirometryTable>; 
+export type Spirometry = Selectable<spirometryTable>; 
+
+export type newPatient = Insertable<patientTable>;
+export type Patient = Selectable<patientTable>;
+
+export type DatabaseType = Database;
+
 export default db;
 
 //-----------> Queries:
@@ -66,16 +83,19 @@ export async function login(inputData:{name: string, password: string}){
         const user = await db
         .selectFrom("users")
         .where("users.name", "=", inputData.name)
-        .select(["id", "name", "password"])
+        .select(["id", "name", "password", "adm"])
         .executeTakeFirst();
 
-        if(!user) return null;
+        if( !user || !await compare(user.password,inputData.password) ) return null;
 
+        //if (!await compare(user.password,inputData.password)) return null;
+        
         return {
 
             id: user.id,
-            name: user.name,        
-        
+            name: user.name,
+            adm: user.adm,   
+
         };
     }
 
@@ -87,12 +107,3 @@ export async function login(inputData:{name: string, password: string}){
         };
     };
 };
-
-export async function getUserList() {
-    const users = await db
-                  .selectFrom("users")
-                  .select(["id", "name"])
-                  .execute();
-    
-    return users;
-}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import NavbarA from "../Components/NavBar";
 
 export default function IngresoPaciente() {
@@ -13,6 +14,23 @@ export default function IngresoPaciente() {
                     <div>Parte 2</div>
                     <div>Parte 3</div>
                 </form>
+=======
+import NavbarA from "../Components/NavBar"
+import {getPatientsList} from "@/app/actions/patient"
+import { userId } from "@/app/actions/token";
+
+export default async function ingresoPaciente() {
+
+    const id = await userId();
+    const patients = await getPatientsList(id as string);
+    
+    return (
+        <>
+            <NavbarA />
+            <div className="flex justify-center items-center h-screen">
+                <div className=" w-1/2 h-1/2 bg-primary rounded-lg">
+                </div>
+>>>>>>> b102a395d774d67e1afdadd34f2653fb65719a64
             </div>
         </>
     );

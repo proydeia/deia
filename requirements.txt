@@ -1,0 +1,6 @@
+Flask
+flask-restful
+fastapi
+google-generativeai
+python-dotenv
+scikit-learn

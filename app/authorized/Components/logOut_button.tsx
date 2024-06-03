@@ -3,7 +3,6 @@ export default function Logout(){
     
     const handler = async() => {
         "use server"
-        console.log('signing out');
         await signOut({redirect: true, redirectTo: '/'});
     }
     return(

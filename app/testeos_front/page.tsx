@@ -1,124 +1,123 @@
 "use client";
-
+import AgregarPacientes from "../componenetes/agregar_p_form";
 import { useState, useEffect } from "react";
 import Navbar from "../navBar";
 
 export default function Testeo() {
   const listaPacientes = [
     {
-      nombre: 'Juan',
-      apellido: 'Pérez',
-      dni: '12345678',
-      email: 'juan.perez@example.com',
-      sexo: 'masculino',
+      nombre: "Juan",
+      apellido: "Pérez",
+      dni: "12345678",
+      email: "juan.perez@example.com",
+      sexo: "masculino",
     },
     {
-      nombre: 'María',
-      apellido: 'González',
-      dni: '87654321',
-      email: 'maria.gonzalez@example.com',
-      sexo: 'femenino',
+      nombre: "María",
+      apellido: "González",
+      dni: "87654321",
+      email: "maria.gonzalez@example.com",
+      sexo: "femenino",
     },
     {
-      nombre: 'Carlos',
-      apellido: 'Sánchez',
-      dni: '23456789',
-      email: 'carlos.sanchez@example.com',
-      sexo: 'masculino',
+      nombre: "Carlos",
+      apellido: "Sánchez",
+      dni: "23456789",
+      email: "carlos.sanchez@example.com",
+      sexo: "masculino",
     },
     {
-      nombre: 'Lucía',
-      apellido: 'Martínez',
-      dni: '98765432',
-      email: 'lucia.martinez@example.com',
-      sexo: 'femenino',
+      nombre: "Lucía",
+      apellido: "Martínez",
+      dni: "98765432",
+      email: "lucia.martinez@example.com",
+      sexo: "femenino",
     },
     {
-      nombre: 'Alex',
-      apellido: 'Rodríguez',
-      dni: '34567890',
-      email: 'alex.rodriguez@example.com',
-      sexo: 'otro',
+      nombre: "Alex",
+      apellido: "Rodríguez",
+      dni: "34567890",
+      email: "alex.rodriguez@example.com",
+      sexo: "otro",
     },
     {
-      nombre: 'Sofía',
-      apellido: 'López',
-      dni: '45678901',
-      email: 'sofia.lopez@example.com',
-      sexo: 'femenino',
+      nombre: "Sofía",
+      apellido: "López",
+      dni: "45678901",
+      email: "sofia.lopez@example.com",
+      sexo: "femenino",
     },
     {
-      nombre: 'Pedro',
-      apellido: 'Gómez',
-      dni: '56789012',
-      email: 'pedro.gomez@example.com',
-      sexo: 'masculino',
+      nombre: "Pedro",
+      apellido: "Gómez",
+      dni: "56789012",
+      email: "pedro.gomez@example.com",
+      sexo: "masculino",
     },
     {
-      nombre: 'Ana',
-      apellido: 'Martín',
-      dni: '67890123',
-      email: 'ana.martin@example.com',
-      sexo: 'femenino',
+      nombre: "Ana",
+      apellido: "Martín",
+      dni: "67890123",
+      email: "ana.martin@example.com",
+      sexo: "femenino",
     },
     {
-      nombre: 'Luis',
-      apellido: 'Hernández',
-      dni: '78901234',
-      email: 'luis.hernandez@example.com',
-      sexo: 'masculino',
+      nombre: "Luis",
+      apellido: "Hernández",
+      dni: "78901234",
+      email: "luis.hernandez@example.com",
+      sexo: "masculino",
     },
     {
-      nombre: 'Laura',
-      apellido: 'Fernández',
-      dni: '89012345',
-      email: 'laura.fernandez@example.com',
-      sexo: 'femenino',
+      nombre: "Laura",
+      apellido: "Fernández",
+      dni: "89012345",
+      email: "laura.fernandez@example.com",
+      sexo: "femenino",
     },
     {
-      nombre: 'Miguel',
-      apellido: 'Ramírez',
-      dni: '90123456',
-      email: 'miguel.ramirez@example.com',
-      sexo: 'masculino',
+      nombre: "Miguel",
+      apellido: "Ramírez",
+      dni: "90123456",
+      email: "miguel.ramirez@example.com",
+      sexo: "masculino",
     },
     {
-      nombre: 'Elena',
-      apellido: 'Torres',
-      dni: '01234567',
-      email: 'elena.torres@example.com',
-      sexo: 'femenino',
+      nombre: "Elena",
+      apellido: "Torres",
+      dni: "01234567",
+      email: "elena.torres@example.com",
+      sexo: "femenino",
     },
     {
-      nombre: 'David',
-      apellido: 'Domínguez',
-      dni: '12345001',
-      email: 'david.dominguez@example.com',
-      sexo: 'masculino',
+      nombre: "David",
+      apellido: "Domínguez",
+      dni: "12345001",
+      email: "david.dominguez@example.com",
+      sexo: "masculino",
     },
     {
-      nombre: 'Marta',
-      apellido: 'Ruiz',
-      dni: '23456002',
-      email: 'marta.ruiz@example.com',
-      sexo: 'femenino',
+      nombre: "Marta",
+      apellido: "Ruiz",
+      dni: "23456002",
+      email: "marta.ruiz@example.com",
+      sexo: "femenino",
     },
     {
-      nombre: 'Alberto',
-      apellido: 'Molina',
-      dni: '34567003',
-      email: 'alberto.molina@example.com',
-      sexo: 'masculino',
+      nombre: "Alberto",
+      apellido: "Molina",
+      dni: "34567003",
+      email: "alberto.molina@example.com",
+      sexo: "masculino",
     },
     {
-      nombre: 'Isabel',
-      apellido: 'Navarro',
-      dni: '45678004',
-      email: 'isabel.navarro@example.com',
-      sexo: 'femenino',
-    }
+      nombre: "Isabel",
+      apellido: "Navarro",
+      dni: "45678004",
+      email: "isabel.navarro@example.com",
+      sexo: "femenino",
+    },
   ];
-  
 
   interface Paciente {
     nombre: string;
@@ -137,6 +136,8 @@ export default function Testeo() {
     }, {} as Record<string, Paciente>);
   }
 
+  const [formA, setFormA] = useState(0);
+  console.log(formA);
   const pacientesObj = transformarListaEnObjeto(listaPacientes);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -165,7 +166,7 @@ export default function Testeo() {
         {/* LISTA DE PACIENTES */}
         <div className="w-5/12 flex items-center justify-center bg-primary">
           <div className="w-10/12 flex flex-col gap-4 items-center">
-            <p className="text-2xl font-bold text-left  w-full">
+            <p className="text-3xl font-bold text-left  w-full">
               Historial de Pacientes
             </p>
             <div className="w-full">
@@ -178,18 +179,31 @@ export default function Testeo() {
                   className="w-full p-2 border rounded bg-primary_light static"
                 />
               </div>
-              <ul>{listaTest}</ul>
+              <div className="h-96 overflow-y-auto">
+                <ul>{listaTest}</ul>
+              </div>
             </div>
 
             <div className="w-full flex justify-center ">
-              <button className="mt-4 mx-6 bg-third text-white py-2 px-8 rounded">
+              <button
+                onClick={() => setFormA(1)}
+                className="mt-4 mx-6 bg-third text-white py-2 px-8 rounded"
+              >
                 Agregar pacientes
               </button>
             </div>
           </div>
         </div>
         {/* PREVISUALIZACION DE PACIENTES */}
-        <div className="w-7/12 bg-secondary">2</div>
+        <div className="w-7/12 bg-secondary flex justify-center ">
+          {formA === 1 && <AgregarPacientes />}
+          <div className="h-full w-10/12 flex items-center justify-center flex-col ">
+            <p className="font-bold text-left text-3xl w-full">
+              Instrucciones
+            </p>
+            <div className="text-left ">Como usar nuestra página?</div>
+          </div>
+        </div>
       </main>
     </>
   );
