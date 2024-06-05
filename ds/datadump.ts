@@ -22,12 +22,12 @@ export async function spirometriesModel(): Promise< {} > {
                 ...dataDump, 
                 [spirometry.id]: {
                     ...filteredSpirometry, 
-                    notasextra: extraInfo, 
-                    "fuma": -1,
-                    "edad": -1,
-                    "sexo": -1,
-                    "altura": -1,
-                    "peso": -1
+                    'notasextra': extraInfo.extrainfo, 
+                    'fuma': -1,
+                    'edad': -1,
+                    'sexo': -1,
+                    'altura': -1,
+                    'peso': -1,
                 }
             };
         })
