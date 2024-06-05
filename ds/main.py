@@ -46,7 +46,7 @@ class SpirometryPlus(Spirometry):
 
 @app.post("/obstruction")
 async def predictobs(spirometry: Spirometry):
-    if spirometry.fev1 / spirometry.fvc < 0.7: return {"result": 0}
+    if spirometry.fev1 / spirometry.fvc >= 0.7: return {"result": 0}
     res = spirometry.fev1 / spirometry.fev1pred
     if res < 0.3:
         return {"result": 4} #Muy Severo - GOLD 4
@@ -69,7 +69,7 @@ async def predictobsai(spirometry: SpirometryPlus):
 async def predictres(spirometry: Spirometry):
     f1res = spirometry.fev1 / spirometry.fvc
     if f1res < 0.7: return {"result": 0}
-    fvctopred = spirometry.fvcpred / spirometry.fev1pred
+    fvctopred = spirometry.fvc / spirometry.fvcpred
     if  fvctopred <= 0.8:
         return {"result": 1}
     else:
