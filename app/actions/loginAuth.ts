@@ -1,5 +1,5 @@
 "use server"
-import { signIn } from '@/auth';
+import { signIn,signOut } from '@/auth';
 import { AuthError } from 'next-auth';
 import { LoginState, SignupFormSchema } from '@/app/lib/definitions/loginFormDefinition';
 
@@ -39,4 +39,8 @@ export async function authenticate(state: LoginState,  formData: FormData) {
 
     throw error;
   }
+}
+
+export async function logOut() {
+  await signOut({redirect: true, redirectTo: '/'});
 }

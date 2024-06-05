@@ -1,37 +1,35 @@
-<<<<<<< HEAD
-import NavbarA from "../Components/NavBar";
+"use client"
+
+import { getPatientsList } from "@/app/actions/patient";
+import { userId } from "@/app/actions/token";
+import { useState, useEffect } from "react";
+import AgregarPacientes from "@/app/componenetes/agregar_p_form";
+import Lista_y_Busqueda from "../Components/lista";
+import Navbar from "@/app/navBar";
 
 export default function IngresoPaciente() {
-    return (
-        <>
-            
-            <div className="flex flex-row justify-center items-center h-screen overflow-hidden">
-                {/* aca va la previsualizacion */}
-                <NavbarA/>
-                <form className="relative flex flex-col justify-center items-center w-full h-full overflow-auto scrollbar-hide">
-                    <div>Parte 1</div>
-                    <div className="bg-black w-9/12 h-96"></div>
-                    <div>Parte 2</div>
-                    <div>Parte 3</div>
-                </form>
-=======
-import NavbarA from "../Components/NavBar"
-import {getPatientsList} from "@/app/actions/patient"
-import { userId } from "@/app/actions/token";
+  const [formA, setFormA] = useState(0);
 
-export default async function ingresoPaciente() {
 
-    const id = await userId();
-    const patients = await getPatientsList(id as string);
-    
-    return (
-        <>
-            <NavbarA />
-            <div className="flex justify-center items-center h-screen">
-                <div className=" w-1/2 h-1/2 bg-primary rounded-lg">
-                </div>
->>>>>>> b102a395d774d67e1afdadd34f2653fb65719a64
-            </div>
-        </>
-    );
+  
+
+  return (
+    <>
+      <Navbar/>
+      <main className="flex flex-row h-screen">
+        {/* LISTA DE PACIENTES */}
+        <Lista_y_Busqueda/>
+        {/* PREVISUALIZACION DE PACIENTES */}
+        <div className="w-7/12 bg-secondary flex justify-center ">
+          {/* {formA === 1 && <AgregarPacientes />} */}
+          <div className="h-full w-10/12 flex items-center justify-center flex-col ">
+            <p className="font-bold text-left text-3xl w-full">
+              Instrucciones
+            </p>
+            <div className="text-left ">Como usar nuestra página?</div>
+          </div>
+        </div>
+      </main>
+    </>
+  );
 }

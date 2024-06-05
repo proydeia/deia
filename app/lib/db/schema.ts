@@ -89,7 +89,7 @@ export async function login(inputData:{name: string, password: string}){
         if( !user || !await compare(user.password,inputData.password) ) return null;
 
         //if (!await compare(user.password,inputData.password)) return null;
-        
+        console.log(inputData)
         return {
 
             id: user.id,

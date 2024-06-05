@@ -1,9 +1,9 @@
-import { signOut } from "@/auth";
+"use client";
+// import { logOut } from "@/app/actions/loginAuth";
 export default function Logout(){
     
     const handler = async() => {
-        "use server"
-        await signOut({redirect: true, redirectTo: '/'});
+        // logOut();
     }
     return(
         <>
