@@ -67,10 +67,10 @@ async def predictobsai(spirometry: SpirometryPlus):
 
 @app.post("/restriction")
 async def predictres(spirometry: Spirometry):
-    if spirometry.fev1 / spirometry.fvc < 0.7: return {"result": 0}
     f1res = spirometry.fev1 / spirometry.fvc
+    if f1res < 0.7: return {"result": 0}
     fvctopred = spirometry.fvcpred / spirometry.fev1pred
-    if  fvctopred <= 0.8: #and f1res >= 0.75:
+    if  fvctopred <= 0.8:
         return {"result": 1}
     else:
         return {"result": 0}
