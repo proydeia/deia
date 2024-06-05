@@ -35,8 +35,10 @@ async def add(numbers: Numbers):
 
 class Spirometry(BaseModel):
     fev1: float
+    #LLN = lin - Comparación con minimo o punto fijo.
     fev1pred: float
     fvc: float
+    #LLN = lin - Comparación con minimo o punto fijo.
     fvcpred: float
 
 class SpirometryPlus(Spirometry):
@@ -44,6 +46,7 @@ class SpirometryPlus(Spirometry):
 
 @app.post("/obstruction")
 async def predictobs(spirometry: Spirometry):
+    if spirometry.fev1 / spirometry.fvc < 0.7: return {"result": 0}
     res = spirometry.fev1 / spirometry.fev1pred
     if res < 0.3:
         return {"result": 4} #Muy Severo - GOLD 4
@@ -64,9 +67,10 @@ async def predictobsai(spirometry: SpirometryPlus):
 
 @app.post("/restriction")
 async def predictres(spirometry: Spirometry):
+    if spirometry.fev1 / spirometry.fvc < 0.7: return {"result": 0}
     f1res = spirometry.fev1 / spirometry.fvc
     fvctopred = spirometry.fvcpred / spirometry.fev1pred
-    if f1res >= 0.75 and fvctopred <= 0.75:
+    if  fvctopred <= 0.8: #and f1res >= 0.75:
         return {"result": 1}
     else:
         return {"result": 0}
