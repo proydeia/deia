@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 import db, { newSpirometry, Spirometry } from "../lib/db/schema";
 import { uuid } from "./generateId";
 import { DeleteResult } from "kysely";
-import { boolean, map, number, string, unknown } from "zod";
 const axios = require('axios');
 const moment = require('moment');
 
@@ -19,7 +18,7 @@ type spirometryInput = {
 
 // Espirometrias
 
-export async function getSpirometriesList (patientId: string): Promise <Spirometry[]> { // Devuelve la lista completa de todas las espirometrias de un paciente.
+export async function getSpirometriesList (patientId: string): Promise < Spirometry[] > { // Devuelve la lista completa de todas las espirometrias de un paciente.
     try{
         const spirometries = await db // Busca las espirometrias en la DB en base al ID del paciente.
         .selectFrom("spirometries")
@@ -31,67 +30,6 @@ export async function getSpirometriesList (patientId: string): Promise <Spiromet
     }
     catch(error:unknown){
         throw new Error("Error al buscar las espirometrias");
-    }
-}
-
-export async function spirometriesModel(): Promise< {} > {
-    try{        
-        const enjsonFalse: Spirometry[] = await db // Get all enjson false spirometrues
-        .selectFrom("spirometries")
-        .selectAll()
-        .where("spirometries.enjson", "=", 0)
-        .execute();
-
-        let dataDump = {};
-
-        const dataPromise =  enjsonFalse.map(async (spirometry:Spirometry) => {
-            const { patient, date, id, ...filteredSpirometry} = spirometry;
-            
-            const extraInfo = await db
-                .selectFrom("patients")
-                .select(["extrainfo"])
-                .where("patients.id", "=", spirometry.patient)
-                .executeTakeFirstOrThrow();
-
-            dataDump = {
-                ...dataDump, 
-                [spirometry.id]: {
-                    ...filteredSpirometry, 
-                    notasextra: extraInfo.extrainfo, 
-                    "fuma": -1,
-                    "edad": -1,
-                    "sexo": -1,
-                    "altura": -1,
-                    "peso": -1
-                }
-            };
-        })
-
-        await Promise.all(dataPromise);
-
-        console.log(dataDump)
-
-        return dataDump;
-    }
-
-    catch(error:unknown){
-        throw new Error (JSON.stringify(error));
-    }
-}
-
-async function getExtraInfo(id:string): Promise<string> {
-    try{
-        const extrainfo = await db
-        .selectFrom("patients")
-        .select(["extrainfo"])
-        .where("patients.id", "=", id)
-        .executeTakeFirstOrThrow();
-        
-        return extrainfo?.extrainfo;
-    }
-    catch(error:unknown)
-    {
-        throw new Error("Error al buscar la informacion extra del paciente");
     }
 }
 
