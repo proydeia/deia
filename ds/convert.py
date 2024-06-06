@@ -1,7 +1,7 @@
 import json
 import google.generativeai as genai
 import os
-#import dotenv
+import dotenv
 
 def json_to_obj(path):
     with open(path) as f:
@@ -10,10 +10,8 @@ def json_to_obj(path):
 def obj_to_json(obj, path):
     with open(path, 'w') as f:
         json.dump(obj, f)
-    with open(f'ds/{nombreDumpDB}.json', 'w') as f:
-        json.dump(obj, f)
     
-#dotenv.load_dotenv('.env')
+dotenv.load_dotenv('.env')
 
 nombreDumpDB = 'datadump'
 obj = json_to_obj(f'ds/{nombreDumpDB}.json')
@@ -23,17 +21,25 @@ nombreJsonRestriccion = 'res'
 resJson = json_to_obj(f'ds/{nombreJsonRestriccion}.json')
 
 def aivals(extrainfo):
+    if extrainfo == "": return [-1, -1, -1, -1, -1]
+    print("Processing AI...")
     genai.configure(api_key=os.environ['API_KEY'])
     starting_question = 'I will now send you a text message with extra data about someone. I want you to send me, in messages separated by a new line, the format specified in each of the following factors (give me a -1 if the factor isnt mentioned at all): smoking (a number 0 (if they dont) or 1 (if they do)), age (a whole number), sex (a number 0 (male) or 1 (female)), height (a floating number), weight (a floating number). Just send me the data in parenthesis and nothing more. Message:\n\n'  
     model = genai.GenerativeModel()
     response = model.generate_content(starting_question + extrainfo).text
     data = response.split('\n')
     correctData = []
-    for d in data:
-        try:
-            correctData.append(int(d.replace('(', '').replace(')', '')))
-        except:
-            correctData.append(float(d.replace('(', '').replace(')', '')))
+    try:
+        if ", " in data[0]:
+            data = data[0].split(", ")
+        for d in data:
+            try:
+                correctData.append(int(d.replace('(', '').replace(')', '')))
+            except:
+                correctData.append(float(d.replace('(', '').replace(')', '')))
+    except:
+        correctData = [-1, -1, -1, -1, -1]
+    print(correctData)
     return correctData
 
 dumpAHacer = False
@@ -52,12 +58,10 @@ for k, v in obj.items():
     if vals[10] == 0:
         dumpAHacer = True
         message = vals[11]
-        valsExtra = [-1 for _ in range(5)]
-        print("Processing AI...")
-        correctData = aivals(message)
-        print(correctData)
+        correctData = None
 
         if vals[6] == 1:
+            correctData = aivals(message)
             vObs["obstruction"] = v["correctionobsmed"]
             vObs["fev1"] = v["fev1"]
             vObs["fev1pred"] = v["fev1pred"]
@@ -68,6 +72,8 @@ for k, v in obj.items():
             obsJson[k] = vObs
 
         if vals[8] == 1:
+            if not correctData:
+                correctData = aivals(message)
             vRes["restriction"] = v["correctionrestmed"]
             vRes["fev1"] = v["fev1"]
             vRes["fev1pred"] = v["fev1pred"]
