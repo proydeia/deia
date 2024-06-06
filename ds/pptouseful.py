@@ -27,7 +27,7 @@ for key, value in data.items():
             else:
                 data[key]["obstruction"] = 1 #Leve - GOLD 1
         if datacsv.loc[int(key.split("_")[1])]["Label"] == "Obstructive" and data[key]["obstruction"] == 0:
-            data[key]["correctionobsmed"] = 1
+            data[key]["correctionobsmed"] = 1.5
             data[key]["correctionobs"] = 1
         elif datacsv.loc[int(key.split("_")[1])]["Label"] == "Non-obstructive" and data[key]["obstruction"] == 1:
             data[key]["correctionobsmed"] = 0

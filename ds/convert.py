@@ -58,30 +58,37 @@ for k, v in obj.items():
     if vals[10] == 0:
         dumpAHacer = True
         message = vals[11]
-        correctData = None
+        correctData = aivals(message)
 
         if vals[6] == 1:
-            correctData = aivals(message)
             vObs["obstruction"] = v["correctionobsmed"]
-            vObs["fev1"] = v["fev1"]
-            vObs["fev1pred"] = v["fev1pred"]
-            vObs["fvc"] = v["fvc"]
-            vObs["fvcpred"] = v["fvcpred"]
-            for i in range(len(correctData)):
-                vObs[keys[12 + i]] = correctData[i]
-            obsJson[k] = vObs
+        else:
+            vObs["obstruction"] = v["obstruction"]
+        vObs["fev1"] = v["fev1"]
+        vObs["fev1pred"] = v["fev1pred"]
+        vObs["fvc"] = v["fvc"]
+        vObs["fvcpred"] = v["fvcpred"]
+        vObs["fuma"] = correctData[0]
+        vObs["edad"] = correctData[1]
+        vObs["sexo"] = correctData[2]
+        vObs["altura"] = correctData[3]
+        vObs["peso"] = correctData[4]
+        obsJson[k] = vObs
 
         if vals[8] == 1:
-            if not correctData:
-                correctData = aivals(message)
             vRes["restriction"] = v["correctionrestmed"]
-            vRes["fev1"] = v["fev1"]
-            vRes["fev1pred"] = v["fev1pred"]
-            vRes["fvc"] = v["fvc"]
-            vRes["fvcpred"] = v["fvcpred"]
-            for i in range(len(correctData)):
-                vRes[keys[12 + i]] = correctData[i]
-            resJson[k] = vRes
+        else:
+            vRes["restriction"] = v["restriction"]
+        vRes["fev1"] = v["fev1"]
+        vRes["fev1pred"] = v["fev1pred"]
+        vRes["fvc"] = v["fvc"]
+        vRes["fvcpred"] = v["fvcpred"]
+        vRes["fuma"] = correctData[0]
+        vRes["edad"] = correctData[1]
+        vRes["sexo"] = correctData[2]
+        vRes["altura"] = correctData[3]
+        vRes["peso"] = correctData[4]
+        resJson[k] = vRes
 
         obj[k]["enjson"] = 1
     else:
