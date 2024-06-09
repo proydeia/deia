@@ -39,6 +39,11 @@ if resEntries >= minimum:
     for k, v in res.items():
         vals = v.copy()
         del vals['restriction']
+        del vals['fuma']
+        del vals['edad']
+        del vals['sexo']
+        del vals['altura']
+        del vals['peso']
         xRes.append(list(vals.values()))
         yRes.append(v['restriction'])
 
