@@ -10,11 +10,11 @@ export default async function AuthorizedPage() {
   return (
     <>
       <Navbar />
-      <main className="flex flex-row h-screen">
+      <main className="flex flex-col sm:flex-row h-screen">
         {/* LISTA DE PACIENTES */}
-        <div className="w-5/12 flex items-center justify-center bg-primary">
+        <div className="sm:w-5/12 w-full flex items-center justify-center bg-primary">
           <div className="w-10/12 flex flex-col gap-4 items-center">
-            <p className="text-3xl font-bold text-left w-full">Historial de Pacientes</p>
+            <p className="text-xl sm:text-3xl font-bold text-left w-full">Historial de Pacientes</p>
             <div className="w-full">
               <div className="mb-4">
                 <input
@@ -44,7 +44,7 @@ export default async function AuthorizedPage() {
           </div>
         </div>
         {/* ACA VAMOS A IR CAMBIANDO DE COMPONENTES */}
-        <div className="bg-secondary w-7/12 ">
+        <div className="bg-secondary w-full sm:w-7/12 ">
           <AgregarPacientes/>
         </div>
       </main>
