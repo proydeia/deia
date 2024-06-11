@@ -1,7 +1,7 @@
 "use server"
 import db, { newPatient, Patient } from "../lib/db/schema";
 import { uuid } from "./generateId";
-import { userId } from "./token";
+import { userId, isAdmin } from "./token";
 
 // Datos del input medico
 
@@ -13,6 +13,8 @@ type patientInput = {
 // Pacientes
 
 export async function getPatientsList(): Promise < Patient[] > {
+    const id = await userId();
+    if (!id || await isAdmin()) return [] 
     try{
         const id = await userId();
         if(id == undefined) throw new Error;
@@ -31,9 +33,10 @@ export async function getPatientsList(): Promise < Patient[] > {
 }
 
 export async function getPatient(patientId:string): Promise < Patient > {
+    const id = await userId();
+    if (!id || await isAdmin()) return {} as Patient;
     try{
         const id = await userId();
-        if(id == undefined) throw new Error;
         
         const patient = await db
         .selectFrom("patients")
@@ -53,10 +56,10 @@ export async function getPatient(patientId:string): Promise < Patient > {
 }
 
 export async function createPatient(patientData:patientInput): Promise < newPatient > {
-    try{
-        const medId = await userId();
-        if(medId == undefined) throw new Error;
+    const id = await userId();
+    if(!id || await isAdmin()) return {} as newPatient;
 
+    try{
         const id = await uuid("patients")
 
         const patient: newPatient = await db
@@ -65,7 +68,7 @@ export async function createPatient(patientData:patientInput): Promise < newPati
             id: id,
             name: patientData.name,
             extrainfo: patientData.extraInfo,
-            medic: medId,
+            medic: id,
         })
         .returningAll()
         .executeTakeFirstOrThrow()

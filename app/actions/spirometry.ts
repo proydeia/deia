@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import db, { newSpirometry, Spirometry } from "../lib/db/schema";
 import { uuid } from "./generateId";
 import { DeleteResult } from "kysely";
+import { isAdmin, userId } from "./token";
 const axios = require('axios');
 const moment = require('moment');
 
@@ -20,68 +21,84 @@ type spirometryInput = {
 
 export async function getSpirometriesList (patientId: string): Promise < Spirometry[] > { // Devuelve la lista completa de todas las espirometrias de un paciente.
     try{
+        const id: string | null = await userId();
+        if(!id || await isAdmin()) return [];
+
         const spirometries = await db // Busca las espirometrias en la DB en base al ID del paciente.
         .selectFrom("spirometries")
+        .innerJoin("patients", "spirometries.patient", "patients.id")
+        .innerJoin("users", "patients.medic", "users.id")
         .where("spirometries.patient", "=", patientId)
+        .where("patients.medic", "=", id)
         .selectAll()
         .execute();
-        
         return spirometries;
     }
     catch(error:unknown){
-        throw new Error("Error al buscar las espirometrias");
+        return []
     }
 }
 
 
 
-export async function getSpirometry(spirometryId: string): Promise < Spirometry > { // Devuelve una espirometria en particular.
+export async function getSpirometry(spirometryId: string): Promise < Spirometry | String > { // Devuelve una espirometria en particular.
     try{
+        const id: string | null = await userId();
+        if(!id || await isAdmin()) return 'U';
+
         const spirometry = await db // Busca la espirometria en la DB en base a su ID. Si no existe throwea un Error.
         .selectFrom("spirometries")
+        .innerJoin("patients", "spirometries.patient", "patients.id")
+        .innerJoin("users", "patients.medic", "users.id")
         .where("spirometries.id", "=", spirometryId)
+        .where("patients.medic", "=", id)
         .selectAll()
         .executeTakeFirstOrThrow();
 
         return spirometry;
     }
     catch(error:unknown){
-        throw new Error("Error al buscar la espirometria");
+        return 'E';
     }
 }
 
 
 
-export async function deleteSpirometry(spirometryId: string): Promise < DeleteResult > { // Borra una espirometria en particular.
+export async function deleteSpirometry(spirometryId: string): Promise < DeleteResult | String > { // Borra una espirometria en particular.
+    const id: string | null = await userId();
+    if(!id || await isAdmin()) return 'U';
     try{
         return await db
         .deleteFrom("spirometries")
+        .innerJoin("patients", "spirometries.patient", "patients.medic")
         .where("spirometries.id", "=", spirometryId)
+        .where("patients.medic", "=", id)
         .executeTakeFirstOrThrow();
     }
     catch(error:unknown){
-        throw new Error("No existe registro de la espirometria en la DataBase");
+        return 'E';
     }
 }
 
 
 
-export async function createSpirometry(spirometry: spirometryInput): Promise < NextResponse > { // "Crea" una espirometria.
+export async function createSpirometry(spirometry: spirometryInput): Promise < NextResponse | String > { // "Crea" una espirometria.
+    const id = await userId();
+    if (!id || await isAdmin()) return 'U';
     try{
         const analizedSpirometry:newSpirometry | Error = await analyzeAndSaveSpirometry(spirometry);
         if(analizedSpirometry instanceof Error) throw analizedSpirometry;
         
-        return NextResponse.redirect("@/")//(`@/app/authorized/paciente/espirometrias/${analizedSpirometry.id}`)
+        return NextResponse.redirect("@/spirometries")//(`@/app/authorized/paciente/espirometrias/${analizedSpirometry.id}`)
     }
     catch(error:unknown){
-        throw new Error("Error al crear la espirometria");
+        return 'E';
     }
 
 }
 
 async function analyzeAndSaveSpirometry(spirometryData: spirometryInput): Promise < newSpirometry > { // Analiza y guarda la espirometria en la DataBase.
     try{  
-
         const obstruction:number = await axios.post("http://127.0.0.1:8000/obstruction", spirometryData)
         .then((res:any) => {
             return res.data.result; // Devuelve el analisis obstructivo.
