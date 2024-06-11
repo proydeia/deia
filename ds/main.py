@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import google.generativeai as genai
 from sklearn.linear_model import LinearRegression
+import numpy as np
 import pickle
 from convert import aivals
 import os
@@ -62,7 +63,7 @@ async def predictobsai(spirometry: SpirometryPlus):
     if model1 is None:
         return {"result": -1}
     x = [spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, *aivals(spirometry.notasextra)]
-    res = model1.predict([x])
+    res = np.clip(model1.predict([x]), 0, 5)
     return {"result": res[0]}
 
 @app.post("/restriction")
