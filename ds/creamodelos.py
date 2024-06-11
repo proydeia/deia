@@ -32,6 +32,11 @@ if obsEntries >= minimum:
     for k, v in obs.items():
         vals = v.copy()
         del vals['obstruction']
+#        del vals['fuma']
+#        del vals['edad']
+#        del vals['sexo']
+#        del vals['altura']
+#        del vals['peso']
         xObs.append(list(vals.values()))
         yObs.append(v['obstruction'])
 
@@ -55,6 +60,7 @@ if obsEntries >= minimum:
             else:
                 print('Old model is better or equal.')
     else:
+        print(r2_score(yObsVal, modelObs.predict(xObsVal)))
         with open('ds/modelObs.pkl', 'wb') as j:
             pickle.dump(modelObs, j)
         print('Models created and saved.')
@@ -68,11 +74,11 @@ if resEntries >= minimum:
     for k, v in res.items():
         vals = v.copy()
         del vals['restriction']
-        del vals['fuma']
-        del vals['edad']
-        del vals['sexo']
-        del vals['altura']
-        del vals['peso']
+#        del vals['fuma']
+#        del vals['edad']
+#        del vals['sexo']
+#        del vals['altura']
+#        del vals['peso']
         xRes.append(list(vals.values()))
         yRes.append(v['restriction'])
 
