@@ -1,7 +1,8 @@
 import { getSpirometriesList } from "@/app/actions/spirometry";
-import { getPatientsList } from "@/app/actions/patient";
+import { getPatientsList, getPatient } from "@/app/actions/patient";
 import Navbar from "../navBar";
 import AgregarPacientes from "../componenetes/agregar_p_form";
+import Lista_y_Busqueda from "./Components/lista";
 
 export default async function AuthorizedPage() {
 
@@ -25,9 +26,15 @@ export default async function AuthorizedPage() {
               </div>
               {/* lista pacientes */}
               <div className="h-96 overflow-y-auto">
-                {a.map((patient) => (
-                  <p className="bg-primary_light p-2 rounded mb-2 shadow-sm" key={patient.id}>{patient.name}</p>
-                ))}
+                {/* <Lista_y_Busqueda/> */}
+                {/* {a.map((patient) => (
+                   <button
+                   key={patient.id}
+                  //  onClick={() => console.log("Clicked Patient:", patient)}
+                 >
+                   <p className="bg-primary_light p-2 rounded mb-2 shadow-sm">{patient.name}</p>
+                 </button>
+                ))} */}
 
                 {/* espirometrias
                 {b.map((spirometry) => (
@@ -45,7 +52,7 @@ export default async function AuthorizedPage() {
         </div>
         {/* ACA VAMOS A IR CAMBIANDO DE COMPONENTES */}
         <div className="bg-secondary w-full sm:w-7/12 ">
-          <AgregarPacientes/>
+          <AgregarPacientes />
         </div>
       </main>
     </>

@@ -1,42 +1,18 @@
-"use client";
-import { useState, useEffect } from "react";
+// "use client";
+import { useState } from "react";
 import { getPatientsList, getPatient } from "@/app/actions/patient"; // Assuming these functions return promises or async data
 import { userId } from "@/app/actions/token";
 
-interface Paciente {
-  id: string;
-  name: string;
-  extrainfo: string;
-  medic: string;
-}
 
-export default function Lista_y_Busqueda(){
+export default async function Lista_y_Busqueda(){
+  const a = await getPatientsList();
   // Specify the component type
-  const [patients, setPatients] = useState<Paciente[] | Error>([]);
+  // const [patients, setPatients] = useState<Paciente[] | Error>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredPacientes, setFilteredPacientes] = useState<Paciente[]>([]);
+  // const [filteredPacientes, setFilteredPacientes] = useState<Paciente[]>([]);
   const [loading, setLoading] = useState(true);
 
-//   const fetchData = async () => {
-//     const id = await userId(); // Add semicolon here
-//     const lista: Paciente[] | Error = await getPatientsList(id as string); // Type assertion for clarity
-//     // setPatients(lista);
-//     console.log(lista);
-//     console.log("lista renderizada");
-//     setLoading(false);
-//   };
 
-//   useEffect(() => {
-//     fetchData();
-//   }, []);
-
-//  const listaTest = filteredPacientes.map(
-//     (paciente: Paciente, index: number) => (
-//       <li key={index} className="bg-primary_light p-2 rounded mb-2 shadow-sm">
-//         {paciente.name} {paciente.extrainfo}
-//       </li>
-//     )
-//   );
 
   return (
     <div className="w-5/12 flex items-center justify-center bg-primary">
@@ -55,7 +31,14 @@ export default function Lista_y_Busqueda(){
             />
           </div>
           <div className="h-96 overflow-y-auto">
-            {loading ? <p>Loading patients...</p> : <ul></ul>}
+            {/* {loading ? <p>Loading patients...</p> : a.map((patient) => (
+                   <button
+                   key={patient.id}
+                   onClick={() => console.log("Clicked Patient:", patient)}
+                 >
+                   <p className="bg-primary_light p-2 rounded mb-2 shadow-sm">{patient.name}</p>
+                 </button>
+                ))} */}
           </div>
         </div>
 
