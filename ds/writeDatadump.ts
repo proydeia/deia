@@ -1,6 +1,9 @@
 import db, { Spirometry } from "@/app/lib/db/schema";
+import nuevoDataDump from "@/app/lib/db/schema";
 
-export async function spirometriesModel(): Promise< {} > {
+console.log(JSON.stringify(nuevoDataDump));
+
+export async function writeJSON(): Promise< {} > {
     try{        
         const enjsonFalse: Spirometry[] = await db // Get all enjson false spirometrues
         .selectFrom("spirometries")
@@ -22,12 +25,12 @@ export async function spirometriesModel(): Promise< {} > {
                 ...dataDump, 
                 [spirometry.id]: {
                     ...filteredSpirometry, 
-                    notasextra: extraInfo, 
+                    "notasextra": extraInfo.extrainfo, 
                     "fuma": -1,
                     "edad": -1,
                     "sexo": -1,
                     "altura": -1,
-                    "peso": -1
+                    "peso": -1,
                 }
             };
         })
