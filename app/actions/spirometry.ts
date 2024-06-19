@@ -22,20 +22,26 @@ type spirometryInput = {
 export async function getSpirometriesList (patientId: string): Promise < Spirometry[] > { // Devuelve la lista completa de todas las espirometrias de un paciente.
     try{
         const id: string | null = await userId();
-        if(!id || await isAdmin()) return [];
-
-        const spirometries = await db // Busca las espirometrias en la DB en base al ID del paciente.
+        
+        if(!id || await isAdmin()) throw new Error('U');
+        //ya ckeee q el med existe, checkear que el paciente asignado es el correcto, checkear que la esp asignada es la correcta
+        const spirometries = await db
         .selectFrom("spirometries")
+        .where("spirometries.patient", "=", patientId)
+
         .innerJoin("patients", "spirometries.patient", "patients.id")
         .innerJoin("users", "patients.medic", "users.id")
-        .where("spirometries.patient", "=", patientId)
+        
         .where("patients.medic", "=", id)
+        
         .selectAll()
         .execute();
+
         return spirometries;
     }
+
     catch(error:unknown){
-        return []
+        throw new Error('D')
     }
 }
 
@@ -44,21 +50,26 @@ export async function getSpirometriesList (patientId: string): Promise < Spirome
 export async function getSpirometry(spirometryId: string): Promise < Spirometry | String > { // Devuelve una espirometria en particular.
     try{
         const id: string | null = await userId();
-        if(!id || await isAdmin()) return 'U';
+        
+        if(!id || await isAdmin()) throw new Error("U");
 
-        const spirometry = await db // Busca la espirometria en la DB en base a su ID. Si no existe throwea un Error.
+        const spirometry = await db 
         .selectFrom("spirometries")
+        
         .innerJoin("patients", "spirometries.patient", "patients.id")
         .innerJoin("users", "patients.medic", "users.id")
+
         .where("spirometries.id", "=", spirometryId)
         .where("patients.medic", "=", id)
+
         .selectAll()
         .executeTakeFirstOrThrow();
 
         return spirometry;
     }
+
     catch(error:unknown){
-        return 'E';
+        throw new Error("D");
     }
 }
 
@@ -66,7 +77,9 @@ export async function getSpirometry(spirometryId: string): Promise < Spirometry 
 
 export async function deleteSpirometry(spirometryId: string): Promise < DeleteResult | String > { // Borra una espirometria en particular.
     const id: string | null = await userId();
-    if(!id || await isAdmin()) return 'U';
+
+    if(!id || await isAdmin()) throw new Error('U');
+    
     try{
         return await db
         .deleteFrom("spirometries")
@@ -75,8 +88,9 @@ export async function deleteSpirometry(spirometryId: string): Promise < DeleteRe
         .where("patients.medic", "=", id)
         .executeTakeFirstOrThrow();
     }
+    
     catch(error:unknown){
-        return 'E';
+        throw new Error('D');
     }
 }
 

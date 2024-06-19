@@ -1,10 +1,9 @@
-import { getSpirometriesList } from "@/app/actions/spirometry";
+import { getSpirometriesList, getSpirometry } from "@/app/actions/spirometry";
 import { getPatientsList } from "@/app/actions/patient";
 import NavbarA from "./Components/NavBar";
 
 export default async function AuthorizedPage() {
     
-    const a = await getPatientsList();
     const b = await getSpirometriesList("mc82fy9hrcn489pnyrcf489n8pq23");
     return (
         <>

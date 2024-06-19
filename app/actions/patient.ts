@@ -14,7 +14,7 @@ type patientInput = {
 
 export async function getPatientsList(): Promise < Patient[] > {
     const id = await userId();
-    if (!id || await isAdmin()) return [] 
+    if (!id || await isAdmin()) throw new Error('U')
     try{
         const id = await userId();
         if(id == undefined) throw new Error;
@@ -28,13 +28,13 @@ export async function getPatientsList(): Promise < Patient[] > {
         return patients;
     }
     catch(errror:unknown){
-        throw new Error("Error al buscar pacientes");
+        throw new Error('D');
     }
 }
 
 export async function getPatient(patientId:string): Promise < Patient > {
     const id = await userId();
-    if (!id || await isAdmin()) return {} as Patient;
+    if (!id || await isAdmin()) throw new Error('U');
     try{
         const id = await userId();
         
@@ -51,13 +51,13 @@ export async function getPatient(patientId:string): Promise < Patient > {
 
     }
     catch(error:unknown){
-        throw new Error("Error al buscar paciente");
+        throw new Error('D');
     }
 }
 
 export async function createPatient(patientData:patientInput): Promise < newPatient > {
     const id = await userId();
-    if(!id || await isAdmin()) return {} as newPatient;
+    if(!id || await isAdmin()) throw new Error('U')
 
     try{
         const id = await uuid("patients")
@@ -75,6 +75,6 @@ export async function createPatient(patientData:patientInput): Promise < newPati
         return patient
     }
     catch(error: unknown){
-        throw new Error("Error al crear paciente");
+        throw new Error('D')
     }
 }
