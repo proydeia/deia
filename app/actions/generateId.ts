@@ -20,6 +20,6 @@ export async function uuid (table: TableExpression <DatabaseType, keyof Database
         return uuid;
     }
     catch(e){
-        throw new Error("Error interno al generar el ID");
+        throw new Error("ID generation failed.");
     }
 };

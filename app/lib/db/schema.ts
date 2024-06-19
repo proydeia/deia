@@ -19,32 +19,32 @@ export async function compare(data:string, hash:string): Promise<boolean> {
 //-----------> Database:
 
 interface organizationTable {
-    id: string; //Primary KEY
+    id: string;
     name: string;
     domain: string;
     medics: number;
 }
 
 interface userTable {
-    id: string; //Primary KEY
+    id: string;
     name: string;
     adm: boolean;
     password: string;
-    organization: string; //Foreing KEY
+    organization: string;
 }
 
-interface patientTable {
-    id: string; //Primary KEY
+interface pacientTable {
+    id: string;
     name: string;
     extrainfo: string;
-    medic: string; //foreing KEY
+    medic: string;
 }
 
 interface spirometryTable {
-    id: string; //Primary KEY
+    id: string;
     obstruction: number;
     restriction: number;
-    patient: string; //Foreing KEY
+    patient: string;
     date: Date;
     fev1: number;
     fev1pred: number;
@@ -60,7 +60,7 @@ interface spirometryTable {
 interface Database {
     organizations: organizationTable,
     users: userTable
-    patients: patientTable
+    pacients: pacientTable
     spirometries: spirometryTable
 }
 
@@ -69,8 +69,8 @@ const db = createKysely<Database>();
 export type newSpirometry = Insertable<spirometryTable>; 
 export type Spirometry = Selectable<spirometryTable>; 
 
-export type newPatient = Insertable<patientTable>;
-export type Patient = Selectable<patientTable>;
+export type newPacient = Insertable<pacientTable>;
+export type Pacient = Selectable<pacientTable>;
 
 export type DatabaseType = Database;
 
