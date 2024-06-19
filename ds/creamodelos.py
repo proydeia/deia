@@ -1,5 +1,5 @@
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import r2_score, mean_squared_error, accuracy_score
+from sklearn.metrics import mean_squared_error, accuracy_score
 import pickle
 import json
 import pandas as pd
@@ -61,7 +61,7 @@ if os.path.exists('ds/modelObs.pkl'):
         else:
             print('Old model is better or equal.')
 else:
-    print(r2_score(yObsVal, modelObs.predict(xObsVal)))
+    print(mean_squared_error(yObsVal, modelObs.predict(xObsVal)))
     with open('ds/modelObs.pkl', 'wb') as j:
         pickle.dump(modelObs, j)
     print('Models created and saved.')
