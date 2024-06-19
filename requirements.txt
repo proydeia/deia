@@ -4,5 +4,6 @@ fastapi
 google-generativeai
 python-dotenv
 scikit-learn
+tensorflow
 numpy
 pandas
