@@ -29,7 +29,9 @@ jobs:
         run: python ds/convert.py
 
       - name: Run model creation script
-        run: python ds/creamodelos.py
+        env:
+          wandb: ${{ secrets.WANDB }}
+        run: wandb login $wandb && python ds/creamodelos.py
       
       - name: Commit files
         run: |

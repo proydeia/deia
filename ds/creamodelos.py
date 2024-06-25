@@ -6,6 +6,8 @@ import pandas as pd
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.optimizers import Adam
+import wandb
+from wandb.integration.keras import WandbMetricsLogger #, WandbModelCheckpoint
 import os
 
 def CompareKerasModels(model1, model2, valDataX, valDataY):
@@ -28,6 +30,33 @@ with open('ds/res.json') as f:
 
 ### Obstruction model
 
+api = wandb.Api()
+runs = api.runs(path="proydeia/deia")
+currRun = 1
+model_type = 'obstruction'
+architecture = 'dense'
+for run in runs:
+    if f'{model_type} - {architecture}' in run.name:
+        currRun += 1
+
+wandb.init(
+    project="deia",
+    name=f'{model_type} - {architecture} - {currRun}',
+
+    config={
+        "layer_sizes": [64, 32, 16, 1],
+        "input_dim": 9,
+        "activation_per_layer": ['relu', 'relu', 'relu', 'sigmoid'],
+        "epochs": 20,
+        "batch_size": 16,
+    }
+)
+
+wandb_callbacks = [
+    WandbMetricsLogger(),
+    #WandbModelCheckpoint(filepath="my_model_{epoch:02d}.5"),
+]
+
 xObs = []
 yObs = []
 for k, v in obs.items():
@@ -47,7 +76,10 @@ modelObs.add(Dense(32, activation='relu'))
 modelObs.add(Dense(16, activation='relu'))
 modelObs.add(Dense(1, activation='sigmoid'))
 modelObs.compile(loss='mean_squared_error', optimizer=Adam())
-modelObs.fit(pd.DataFrame(xObsTrain), pd.DataFrame(yObsTrain), epochs=20, batch_size=16)
+modelObs.fit(pd.DataFrame(xObsTrain), pd.DataFrame(yObsTrain), epochs=20, batch_size=16, validation_data=(pd.DataFrame(xObsVal), pd.DataFrame(yObsVal)), callbacks=wandb_callbacks)
+wandb.log({'mean_squared_error': mean_squared_error(yObsVal, modelObs.predict(xObsVal))})
+
+wandb.finish()
 
 if os.path.exists('ds/modelObs.pkl'):
     with open('ds/modelObs.pkl', 'rb') as f:
