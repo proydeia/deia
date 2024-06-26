@@ -20,10 +20,12 @@ type spirometryInput = {
 // Espirometrias
 
 export async function getSpirometriesList (patientId: string): Promise < Spirometry[] > { // Devuelve la lista completa de todas las espirometrias de un paciente.
+    
+    const id: string | null = await userId();
+    
+    if(!id || await isAdmin()) throw new Error('U');
+    
     try{
-        const id: string | null = await userId();
-        
-        if(!id || await isAdmin()) throw new Error('U');
         //ya ckeee q el med existe, checkear que el paciente asignado es el correcto, checkear que la esp asignada es la correcta
         const spirometries = await db
         .selectFrom("spirometries")
@@ -48,10 +50,12 @@ export async function getSpirometriesList (patientId: string): Promise < Spirome
 
 
 export async function getSpirometry(spirometryId: string): Promise < Spirometry | String > { // Devuelve una espirometria en particular.
+    
+    const id: string | null = await userId();
+    
+    if(!id || await isAdmin()) throw new Error("U");
+    
     try{
-        const id: string | null = await userId();
-        
-        if(!id || await isAdmin()) throw new Error("U");
 
         const spirometry = await db 
         .selectFrom("spirometries")
@@ -76,6 +80,7 @@ export async function getSpirometry(spirometryId: string): Promise < Spirometry 
 
 
 export async function deleteSpirometry(spirometryId: string): Promise < DeleteResult | String > { // Borra una espirometria en particular.
+    
     const id: string | null = await userId();
 
     if(!id || await isAdmin()) throw new Error('U');
@@ -97,14 +102,18 @@ export async function deleteSpirometry(spirometryId: string): Promise < DeleteRe
 
 
 export async function createSpirometry(spirometry: spirometryInput): Promise < NextResponse | String > { // "Crea" una espirometria.
+
     const id = await userId();
+    
     if (!id || await isAdmin()) return 'U';
+
     try{
         const analizedSpirometry:newSpirometry | Error = await analyzeAndSaveSpirometry(spirometry);
         if(analizedSpirometry instanceof Error) throw analizedSpirometry;
         
         return NextResponse.redirect("@/spirometries")//(`@/app/authorized/paciente/espirometrias/${analizedSpirometry.id}`)
     }
+
     catch(error:unknown){
         return 'E';
     }
@@ -121,7 +130,6 @@ async function analyzeAndSaveSpirometry(spirometryData: spirometryInput): Promis
             throw new Error("Error al analizar la obstruccion");
         })
 
-
         const restriction:number = await axios.post("http://127.0.0.1:8000/restriction", spirometryData)
         .then((res:any) => {
             return res.data.result; // Devuelve el analisis restrictivo.
@@ -129,7 +137,6 @@ async function analyzeAndSaveSpirometry(spirometryData: spirometryInput): Promis
         .catch((err:unknown) => {
             throw new Error("Error al analizar la restriccion");
         })
-
 
         const date = moment().format("YYYY-MM-DD"); // Genera fecha actual.
 

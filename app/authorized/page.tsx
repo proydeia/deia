@@ -1,9 +1,10 @@
-import { getSpirometriesList, getSpirometry } from "@/app/actions/spirometry";
-import { getPatientsList } from "@/app/actions/patient";
+import { getSpirometriesList } from "@/app/actions/spirometry";
 import NavbarA from "./Components/NavBar";
+import { writeJSON } from "@/ds/writeDatadump";
 
 export default async function AuthorizedPage() {
-    
+
+    writeJSON();
     const b = await getSpirometriesList("mc82fy9hrcn489pnyrcf489n8pq23");
     return (
         <>

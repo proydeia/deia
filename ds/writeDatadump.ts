@@ -1,9 +1,6 @@
 import db, { Spirometry } from "@/app/lib/db/schema";
-import nuevoDataDump from "@/app/lib/db/schema";
 
-console.log(JSON.stringify(nuevoDataDump));
-
-export async function writeJSON(): Promise< {} > {
+export async function writeJSON() {
     try{        
         const enjsonFalse: Spirometry[] = await db // Get all enjson false spirometrues
         .selectFrom("spirometries")
@@ -11,7 +8,7 @@ export async function writeJSON(): Promise< {} > {
         .where("spirometries.enjson", "=", 0)
         .execute();
 
-        let dataDump = {};
+        const datadump: any = require('./datadump.json');
 
         const dataPromise =  enjsonFalse.map(async (spirometry:Spirometry) => {
             const { patient, date, id, ...filteredSpirometry} = spirometry;
@@ -21,25 +18,22 @@ export async function writeJSON(): Promise< {} > {
             .where("patients.id", "=", spirometry.patient)
             .executeTakeFirstOrThrow();
 
-            dataDump = {
-                ...dataDump, 
-                [spirometry.id]: {
-                    ...filteredSpirometry, 
-                    "notasextra": extraInfo.extrainfo, 
-                    "fuma": -1,
-                    "edad": -1,
-                    "sexo": -1,
-                    "altura": -1,
-                    "peso": -1,
-                }
+            datadump[spirometry.id] = {
+                ...filteredSpirometry, 
+                "notasextra": extraInfo.extrainfo, 
+                "fuma": -1,
+                "edad": -1,
+                "sexo": -1,
+                "altura": -1,
+                "peso": -1,
             };
         })
 
         await Promise.all(dataPromise);
 
-        console.log(dataDump)
+        console.log(JSON.stringify(datadump));
 
-        return dataDump;
+        return;
     }
 
     catch(error:unknown){
