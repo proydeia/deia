@@ -1,18 +1,16 @@
-// "use client";
+
+"use client";
 import { useState } from "react";
-import { getPatientsList, getPatient } from "@/app/actions/patient"; // Assuming these functions return promises or async data
-import { userId } from "@/app/actions/token";
+import { getPatientsList } from "@/app/actions/patient"; // Assuming these functions return promises or async data
 
 
-export default async function Lista_y_Busqueda(){
-  const a = await getPatientsList();
+const a = async() => await getPatientsList();
+export default function Lista_y_Busqueda() {
   // Specify the component type
   // const [patients, setPatients] = useState<Paciente[] | Error>([]);
   const [searchTerm, setSearchTerm] = useState("");
   // const [filteredPacientes, setFilteredPacientes] = useState<Paciente[]>([]);
   const [loading, setLoading] = useState(true);
-
-
 
   return (
     <div className="w-5/12 flex items-center justify-center bg-primary">
@@ -32,26 +30,9 @@ export default async function Lista_y_Busqueda(){
           </div>
           <div className="h-96 overflow-y-auto">
             {/* {loading ? <p>Loading patients...</p> : a.map((patient) => (
-                   <button
-                   key={patient.id}
-                   onClick={() => console.log("Clicked Patient:", patient)}
-                 >
-                   <p className="bg-primary_light p-2 rounded mb-2 shadow-sm">{patient.name}</p>
-                 </button>
-                ))} */}
+              <p>{patient.name}{patient.id}</p>
+            ))} */}
           </div>
-        </div>
-
-        <div className="w-full flex justify-center ">
-          <button
-            onClick={() => {
-              // Implement logic for adding patients here
-              console.log("Adding patients...");
-            }}
-            className="mt-4 mx-6 bg-third text-white py-2 px-8 rounded"
-          >
-            Agregar pacientes
-          </button>
         </div>
       </div>
     </div>

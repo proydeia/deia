@@ -46,8 +46,8 @@ export default function AgregarPacientes() {
 
   return (
     <div className="h-full flex flex-col justify-center items-center">
-      <p className="text-2xl sm:text-3xl font-bold text-left w-full">Form</p>
       <form onSubmit={handleSubmit} className="w-10/12 bg-primary_light h-3/4 rounded-sm flex flex-col justify-center items-center gap-4">
+      <p className="text-2xl sm:text-3xl font-bold text-left w-11/12">Form</p>
         <label htmlFor="name">
           <h1 className="text-sm font-light text-third">Nombre y Apellido</h1>
           <input

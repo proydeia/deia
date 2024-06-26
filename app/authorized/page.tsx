@@ -1,40 +1,24 @@
-import { getSpirometriesList } from "@/app/actions/spirometry";
-import { getPatientsList, getPatient } from "@/app/actions/patient";
 import Navbar from "../navBar";
 import AgregarPacientes from "../componenetes/agregar_p_form";
 import Lista_y_Busqueda from "./Components/lista";
 
 export default async function AuthorizedPage() {
 
-  const a = await getPatientsList();
-  const b = await getSpirometriesList("mc82fy9hrcn489pnyrcf489n8pq23");
   return (
     <>
       <Navbar />
       <main className="flex flex-col sm:flex-row h-screen">
         {/* LISTA DE PACIENTES */}
         <div className="sm:w-5/12 w-full flex items-center justify-center bg-primary">
+                 <Lista_y_Busqueda/> 
           <div className="w-10/12 flex flex-col gap-4 items-center">
-            <p className="text-xl sm:text-3xl font-bold text-left w-full">Historial de Pacientes</p>
-            <div className="w-full">
-              <div className="mb-4">
-                <input
-                  type="text"
-                  placeholder="Buscar Paciente"
-                  className="w-full p-2 border rounded bg-primary_light static"
-                />
-              </div>
-              {/* lista pacientes */}
+            {/* lista pacientes */}
               <div className="h-96 overflow-y-auto">
-                {/* <Lista_y_Busqueda/> */}
-                {/* {a.map((patient) => (
-                   <button
-                   key={patient.id}
-                  //  onClick={() => console.log("Clicked Patient:", patient)}
-                 >
+                 {/* {a.map((patient) => (
+                  
                    <p className="bg-primary_light p-2 rounded mb-2 shadow-sm">{patient.name}</p>
-                 </button>
-                ))} */}
+                 
+                ))}  */}
 
                 {/* espirometrias
                 {b.map((spirometry) => (
@@ -49,7 +33,7 @@ export default async function AuthorizedPage() {
               </div>
             </div>
           </div>
-        </div>
+        
         {/* ACA VAMOS A IR CAMBIANDO DE COMPONENTES */}
         <div className="bg-secondary w-full sm:w-7/12 ">
           <AgregarPacientes />
