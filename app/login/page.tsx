@@ -24,7 +24,7 @@ export default function LoginPage() {
                     {state?.errors?.user && <p>{state.errors.user}</p>}
 
                     <label>Ingrese contraseña</label>
-                    <input name="password" id="user" type="password" className="w-1/2 h-8 bg-red-100 border-none"></input>
+                    <input name="password" id="password" type="password" className="w-1/2 h-8 bg-red-100 border-none"></input>
                     {state?.errors?.password && <p>{state.errors.password}</p>}
 
                     <FormButton />

@@ -2,34 +2,32 @@
 import db, { newPatient, Patient } from "../lib/db/schema";
 import { uuid } from "./generateId";
 import { userId, isAdmin } from "./token";
+import { DeleteResult } from "kysely";
 
 // Datos del input medico
 
-type patientInput = {
+type pacientInput = {
     name: string;
     extraInfo: string;
 }
 
 // Pacientes
 
-export async function getPatientsList(): Promise < Patient[] > {
+export async function getPacientsList(): Promise < Patient[] > {
     
-    const id = await userId();
-    
+    const id: string | null = await userId();
     if (!id || await isAdmin()) throw new Error('U')
     
-    try{
-        const id = await userId();
-        if(id == undefined) throw new Error;
-
-        const patients = await db
+    try{    
+        return await db
         .selectFrom("patients")
-        .where("patients.medic", "=", id)
-        .selectAll()
-        .execute();
+
+        .where("patients.medic", "=", id)                   // El medico esta relacionado con el paciente
         
-        return patients;
+        .selectAll()
+        .execute();        
     }
+
     catch(errror:unknown){
         throw new Error('D');
     }
@@ -42,26 +40,47 @@ export async function getPatient(patientId:string): Promise < Patient > {
     if (!id || await isAdmin()) throw new Error('U');
     
     try{
-        const id = await userId();
         
-        const patient = await db
+        return await db
         .selectFrom("patients")
+        
+        .where("patients.medic", "=", id)                   // El medico esta relacionado con el paciente
+        .where("patients.id", "=", patientId)               // El paciente esta relacionado con el id
+        
         .selectAll()
-        .where("patients.id", "=", patientId)
-        .where("patients.medic", "=", id)
-        .executeTakeFirst();
-
-        if(!patient) return {} as Patient;
-
-        return patient;
-
+        .executeTakeFirstOrThrow();
     }
+
     catch(error:unknown){
         throw new Error('D');
     }
 }
 
-export async function createPatient(patientData:patientInput): Promise < newPatient > {
+
+
+export async function deletePacient(patientId: string): Promise < DeleteResult > {
+    
+    const id: string | null = await userId();
+    if(!id || await isAdmin()) throw new Error('U');
+    
+    try{
+        return await db
+        .deleteFrom("patients")
+
+        .where("patients.medic", "=", id)                   // El medico esta relacionado con el paciente
+        .where("patients.id", "=", patientId) 
+        
+        .executeTakeFirstOrThrow();
+    }
+    
+    catch(error:unknown){
+        throw new Error('D');
+    }
+}
+
+
+
+export async function createPacient(patientData:pacientInput): Promise < newPatient > {
     
     const id = await userId();
     
@@ -70,7 +89,7 @@ export async function createPatient(patientData:patientInput): Promise < newPati
     try{
         const id = await uuid("patients")
 
-        const patient: newPatient = await db
+        return await db
         .insertInto("patients")
         .values({
             id: id,
@@ -79,9 +98,9 @@ export async function createPatient(patientData:patientInput): Promise < newPati
             medic: id,
         })
         .returningAll()
-        .executeTakeFirstOrThrow()
-        return patient
+        .executeTakeFirstOrThrow();
     }
+
     catch(error: unknown){
         throw new Error('D')
     }
