@@ -29,7 +29,9 @@ jobs:
         run: python ds/convert.py
 
       - name: Run model creation script
-        run: python ds/creamodelos.py
+        env:
+          wandb: ${{ secrets.WANDB }}
+        run: wandb login $wandb && python ds/creamodelos.py
       
       - name: Commit files
         run: |
@@ -37,3 +39,4 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add .
           git diff --quiet && git diff --staged --quiet || (git commit -m "Add changes" && git push)
+          git push origin HEAD:refs/heads/data_science

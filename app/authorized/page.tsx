@@ -1,4 +1,4 @@
-import { getSpirometriesList } from "@/app/actions/spirometry";
+import { getSpirometriesList } from "@/app/api/spirometry";
 import NavbarA from "./Components/NavBar";
 import { writeJSON } from "@/ds/writeDatadump";
 

@@ -1,14 +1,23 @@
 import db, { Spirometry } from "@/app/lib/db/schema";
+import { readFileSync, writeFileSync } from 'fs';
 
 export async function writeJSON() {
-    try{        
+    try{     
+
         const enjsonFalse: Spirometry[] = await db // Get all enjson false spirometrues
         .selectFrom("spirometries")
         .selectAll()
         .where("spirometries.enjson", "=", 0)
         .execute();
 
-        const datadump: any = require('./datadump.json');
+        await db //set all enjson false (0) to true (1)
+        .updateTable("spirometries")
+        .set({enjson: 1})
+        .where("spirometries.enjson", "=", 0)
+        .execute();
+
+        const oldDatadump: any = readFileSync('./ds/datadump.json', 'utf8');
+        let newDatadump: any = {};
 
         const dataPromise =  enjsonFalse.map(async (spirometry:Spirometry) => {
             const { patient, date, id, ...filteredSpirometry} = spirometry;
@@ -17,8 +26,8 @@ export async function writeJSON() {
             .select(["extrainfo"])
             .where("patients.id", "=", spirometry.patient)
             .executeTakeFirstOrThrow();
-
-            datadump[spirometry.id] = {
+            
+            newDatadump[spirometry.id] = {
                 ...filteredSpirometry, 
                 "notasextra": extraInfo.extrainfo, 
                 "fuma": -1,
@@ -29,14 +38,14 @@ export async function writeJSON() {
             };
         })
 
-        await Promise.all(dataPromise);
-
-        console.log(JSON.stringify(datadump));
-
-        return;
+        await Promise.all(dataPromise).then(() => {
+            newDatadump = {...JSON.parse(oldDatadump), ...newDatadump};
+            writeFileSync('./ds/datadump.json', JSON.stringify(newDatadump, null, 2));
+        });
     }
 
     catch(error:unknown){
-        throw new Error (JSON.stringify(error));
+        console.log(error)
+        throw new Error;
     }
 }

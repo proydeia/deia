@@ -122,6 +122,7 @@ export async function createSpirometry(spirometry: spirometryInput): Promise < N
 
 async function analyzeAndSaveSpirometry(spirometryData: spirometryInput): Promise < newSpirometry > { // Analiza y guarda la espirometria en la DataBase.
     try{  
+        
         const obstruction:number = await axios.post("http://127.0.0.1:8000/obstruction", spirometryData)
         .then((res:any) => {
             return res.data.result; // Devuelve el analisis obstructivo.

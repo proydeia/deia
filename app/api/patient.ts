@@ -13,8 +13,11 @@ type patientInput = {
 // Pacientes
 
 export async function getPatientsList(): Promise < Patient[] > {
+    
     const id = await userId();
+    
     if (!id || await isAdmin()) throw new Error('U')
+    
     try{
         const id = await userId();
         if(id == undefined) throw new Error;
@@ -33,8 +36,11 @@ export async function getPatientsList(): Promise < Patient[] > {
 }
 
 export async function getPatient(patientId:string): Promise < Patient > {
+    
     const id = await userId();
+    
     if (!id || await isAdmin()) throw new Error('U');
+    
     try{
         const id = await userId();
         
@@ -56,7 +62,9 @@ export async function getPatient(patientId:string): Promise < Patient > {
 }
 
 export async function createPatient(patientData:patientInput): Promise < newPatient > {
+    
     const id = await userId();
+    
     if(!id || await isAdmin()) throw new Error('U')
 
     try{
