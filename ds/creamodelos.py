@@ -11,8 +11,8 @@ from wandb.integration.keras import WandbMetricsLogger #, WandbModelCheckpoint
 import os
 
 def CompareKerasModels(model1, model2, valDataX, valDataY):
-    score1 = mean_squared_error(valDataY, model1.predict(valDataX))
-    score2 = mean_squared_error(valDataY, model2.predict(valDataX))
+    score1 = mean_squared_error(valDataY, model1.predict(pd.DataFrame(valDataX)))
+    score2 = mean_squared_error(valDataY, model2.predict(pd.DataFrame(valDataX)))
     return score1, score2
 
 def CompareLogisticModels(model1, model2, valDataX, valDataY):
@@ -77,7 +77,7 @@ modelObs.add(Dense(16, activation='relu'))
 modelObs.add(Dense(1, activation='sigmoid'))
 modelObs.compile(loss='mean_squared_error', optimizer=Adam())
 modelObs.fit(pd.DataFrame(xObsTrain), pd.DataFrame(yObsTrain), epochs=20, batch_size=16, validation_data=(pd.DataFrame(xObsVal), pd.DataFrame(yObsVal)), callbacks=wandb_callbacks)
-wandb.log({'mean_squared_error': mean_squared_error(yObsVal, modelObs.predict(xObsVal))})
+wandb.log({'mean_squared_error': mean_squared_error(yObsVal, modelObs.predict(pd.DataFrame(xObsVal)))})
 
 wandb.finish()
 
@@ -93,12 +93,29 @@ if os.path.exists('ds/modelObs.pkl'):
         else:
             print('Old model is better or equal.')
 else:
-    print(mean_squared_error(yObsVal, modelObs.predict(xObsVal)))
+    #print(mean_squared_error(yObsVal, modelObs.predict(xObsVal)))
     with open('ds/modelObs.pkl', 'wb') as j:
         pickle.dump(modelObs, j)
     print('Models created and saved.')
 
 ### Restriction model
+
+currRun = 1
+model_type = 'restriction'
+architecture = 'logistic'
+for run in runs:
+    if f'{model_type} - {architecture}' in run.name:
+        currRun += 1
+
+wandb.init(
+    project="deia",
+    name=f'{model_type} - {architecture} - {currRun}',
+)
+
+wandb_callbacks = [
+    WandbMetricsLogger(),
+    #WandbModelCheckpoint(filepath="my_model_{epoch:02d}.5"),
+]
 
 xRes = []
 yRes = []
@@ -115,6 +132,9 @@ yResval = yRes[int(0.8 * len(yRes)):]
 
 modelRes = LogisticRegression(class_weight="balanced")
 modelRes.fit(xResTrain, yResTrain)
+wandb.log({'accuracy': accuracy_score(yResval, modelRes.predict(xResval)), "valPredAttempt": list(modelRes.predict(xResval)), "valTrue": yResval})
+
+wandb.finish()
 
 if os.path.exists('ds/modelRes.pkl'):
     with open('ds/modelRes.pkl', 'rb') as f:

@@ -3,7 +3,6 @@ flask-restful
 fastapi
 google-generativeai
 python-dotenv
-pickle
 scikit-learn
 tensorflow
 numpy
