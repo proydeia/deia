@@ -45,7 +45,16 @@ export async function getSpirometriesList (patientId: string): Promise < Spirome
         throw new Error('D')
     }
 }
+//para cualquier funcion de base de datos, llamarlo en un try catch y manejar los errores
+// const a = async () => {
+//     try{
+//         return await getSpirometriesList("1")
+//     }
+//     catch(error:unknown){
+//         chekear info del error y dcidir la rta
 
+//     }
+// }
 
 
 export async function getSpirometry (spirometryId: string): Promise < Spirometry > {
