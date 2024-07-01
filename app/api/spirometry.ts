@@ -132,6 +132,8 @@ async function analyzeAndSaveSpirometry(spirometryData: spirometryInput): Promis
             throw new Error('O');
         })
 
+        //callwear obstructionai
+
         const restriction:number = await axios.post("http://127.0.0.1:8000/restriction", spirometryData)
         .then((res:any) => {
             return res.data.result;
@@ -139,6 +141,8 @@ async function analyzeAndSaveSpirometry(spirometryData: spirometryInput): Promis
         .catch((err:unknown) => {
             throw new Error('R');
         })
+
+        //callwear restrictionai
 
         const date = moment().format("YYYY-MM-DD"); // Genera fecha actual.
 
