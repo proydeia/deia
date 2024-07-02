@@ -10,6 +10,7 @@ from keras.optimizers import Adam
 import wandb
 from wandb.integration.keras import WandbMetricsLogger #, WandbModelCheckpoint
 import os
+import numpy as np
 
 def CompareKerasModels(model1, model2, valDataX, valDataY):
     score1 = mean_squared_error(valDataY, model1.predict(pd.DataFrame(valDataX)))
@@ -66,7 +67,7 @@ for k, v in obs.items():
     xObs.append(list(vals.values()))
     yObs.append(v['obstruction'] / 5)
 
-xObsTrain, yObsTrain, xObsVal, yObsVal = train_test_split(xObs, yObs, test_size=0.25, random_state=42)
+xObsTrain, xObsVal, yObsTrain, yObsVal = train_test_split(xObs, yObs, test_size=0.25, random_state=42)
 
 modelObs = Sequential()
 modelObs.add(Dense(64, input_dim=9, activation='relu'))
@@ -123,13 +124,10 @@ for k, v in res.items():
     xRes.append(list(vals.values()))
     yRes.append(v['restriction'])
 
-xResTrain = xRes[:int(0.8 * len(xRes))]
-yResTrain = yRes[:int(0.8 * len(yRes))]
-xResval = xRes[int(0.8 * len(xRes)):]
-yResval = yRes[int(0.8 * len(yRes)):]
+xResTrain, xResval, yResTrain, yResval = train_test_split(xRes, yRes, test_size=0.25, random_state=42)
 
 modelRes = LogisticRegression(class_weight="balanced")
-modelRes.fit(xResTrain, yResTrain)
+modelRes.fit(np.array(xResTrain), np.array(yResTrain))
 wandb.log({'accuracy': accuracy_score(yResval, modelRes.predict(xResval)), "valPredAttempt": list(modelRes.predict(xResval)), "valTrue": yResval})
 
 wandb.finish()
