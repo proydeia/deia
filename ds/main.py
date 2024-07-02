@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import google.generativeai as genai
 from sklearn.linear_model import LinearRegression
+import keras
+import numpy as np
 import pickle
 from convert import aivals
 import os
@@ -35,8 +37,10 @@ async def add(numbers: Numbers):
 
 class Spirometry(BaseModel):
     fev1: float
+    #LLN = lin - Comparación con minimo o punto fijo.
     fev1pred: float
     fvc: float
+    #LLN = lin - Comparación con minimo o punto fijo.
     fvcpred: float
 
 class SpirometryPlus(Spirometry):
@@ -44,6 +48,7 @@ class SpirometryPlus(Spirometry):
 
 @app.post("/obstruction")
 async def predictobs(spirometry: Spirometry):
+    if spirometry.fev1 / spirometry.fvc >= 0.7: return {"result": 0}
     res = spirometry.fev1 / spirometry.fev1pred
     if res < 0.3:
         return {"result": 4} #Muy Severo - GOLD 4
@@ -59,14 +64,15 @@ async def predictobsai(spirometry: SpirometryPlus):
     if model1 is None:
         return {"result": -1}
     x = [spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, *aivals(spirometry.notasextra)]
-    res = model1.predict([x])
+    res = model1.predict([x]) * 5
     return {"result": res[0]}
 
 @app.post("/restriction")
 async def predictres(spirometry: Spirometry):
     f1res = spirometry.fev1 / spirometry.fvc
-    fvctopred = spirometry.fvcpred / spirometry.fev1pred
-    if f1res >= 0.75 and fvctopred <= 0.75:
+    if f1res < 0.7: return {"result": 0}
+    fvctopred = spirometry.fvc / spirometry.fvcpred
+    if  fvctopred <= 0.8:
         return {"result": 1}
     else:
         return {"result": 0}

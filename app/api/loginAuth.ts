@@ -6,6 +6,7 @@ import { LoginState, SignupFormSchema } from '@/app/lib/definitions/loginFormDef
  
 export async function authenticate(state: LoginState,  formData: FormData) {
   try {
+
     const validatedFields = SignupFormSchema.safeParse({
       user: formData.get('user'),
       password: formData.get('password'),
@@ -20,8 +21,9 @@ export async function authenticate(state: LoginState,  formData: FormData) {
     await signIn('credentials', formData);
   
   } 
-  catch (error: unknown) 
-  {
+
+  catch (error: unknown){
+    
     if (error instanceof AuthError) {
       switch (error.type) {
         

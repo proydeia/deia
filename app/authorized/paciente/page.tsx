@@ -1,35 +1,29 @@
-"use client"
-
-import { getPatientsList } from "@/app/actions/patient";
-import { userId } from "@/app/actions/token";
-import { useState, useEffect } from "react";
-import AgregarPacientes from "@/app/componenetes/agregar_p_form";
-import Lista_y_Busqueda from "../Components/lista";
 import Navbar from "@/app/navBar";
+import {getPacientsList, getPatient} from "@/app/api/patient"
+import { userId } from "@/app/api/token";
+import { writeJSON } from "@/ds/writeDatadump";
+import { getSpirometriesList } from "@/app/api/spirometry";
+export default async function ingresoPaciente() {
 
-export default function IngresoPaciente() {
-  const [formA, setFormA] = useState(0);
-
-
-  
-
-  return (
-    <>
-      <Navbar/>
-      <main className="flex flex-row h-screen">
-        {/* LISTA DE PACIENTES */}
-        <Lista_y_Busqueda/>
-        {/* PREVISUALIZACION DE PACIENTES */}
-        <div className="w-7/12 bg-secondary flex justify-center ">
-          {/* {formA === 1 && <AgregarPacientes />} */}
-          <div className="h-full w-10/12 flex items-center justify-center flex-col ">
-            <p className="font-bold text-left text-3xl w-full">
-              Instrucciones
-            </p>
-            <div className="text-left ">Como usar nuestra página?</div>
-          </div>
-        </div>
-      </main>
-    </>
-  );
+    const id = await userId();
+    const patients = await getPatient(id as string);
+    writeJSON();
+        const b = await getSpirometriesList("mc82fy9hrcn489pnyrcf489n8pq23");
+    
+//     <h1>
+//     {b.map((spirometry) => (
+//         <div key={spirometry.id}>
+//             <p>{spirometry.patient}</p>
+//         </div>
+//     ))}
+// </h1> 
+    return (
+        <>
+            <Navbar />
+            <div className="flex justify-center items-center h-screen">
+                <div className=" w-1/2 h-1/2 bg-primary rounded-lg">
+                </div>
+            </div>
+        </>
+    )
 }

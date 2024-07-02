@@ -1,7 +1,7 @@
 'use client'
 import FormButton from "./form_button";
 import { useState } from "react";
-import { createPatient } from "../actions/patient";
+import { createPacient } from "../api/patient";
 
 interface PatientInput {
   name: string;
@@ -30,7 +30,7 @@ export default function AgregarPacientes() {
 
     try {
       const patientData: PatientInput = { name, extraInfo };
-      const newPatient: Patient = await createPatient(patientData);
+      const newPatient: Patient = await createPacient(patientData);
       console.log(newPatient)
 
       setSuccessMessage("Paciente creado con éxito!");

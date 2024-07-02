@@ -6,6 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 
 export async function uuid (table: TableExpression <DatabaseType, keyof DatabaseType>): Promise <string> { //genera un UUID único.
     try{
+
         let uuid = uuidv4(); //genera un UUID
 
         const idList = await db //obtiene todos los IDs de la tabla
@@ -20,6 +21,6 @@ export async function uuid (table: TableExpression <DatabaseType, keyof Database
         return uuid;
     }
     catch(e){
-        throw new Error("Error interno al generar el ID");
+        throw new Error("E");
     }
 };
