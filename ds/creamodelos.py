@@ -1,5 +1,6 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import mean_squared_error, accuracy_score
+from sklearn.model_selection import train_test_split
 import pickle
 import json
 import pandas as pd
@@ -65,10 +66,7 @@ for k, v in obs.items():
     xObs.append(list(vals.values()))
     yObs.append(v['obstruction'] / 5)
 
-xObsTrain = xObs[:int(0.8 * len(xObs))]
-yObsTrain = yObs[:int(0.8 * len(yObs))]
-xObsVal = xObs[int(0.8 * len(xObs)):]
-yObsVal = yObs[int(0.8 * len(yObs)):]
+xObsTrain, yObsTrain, xObsVal, yObsVal = train_test_split(xObs, yObs, test_size=0.25, random_state=42)
 
 modelObs = Sequential()
 modelObs.add(Dense(64, input_dim=9, activation='relu'))
