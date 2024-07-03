@@ -5,6 +5,7 @@ import { getPacientsList } from "@/app/api/patient"; // Assuming these functions
 import { Patient } from "@/app/lib/db/schema";
 import Link from "next/link";
 import {  useRouter } from "next/navigation";
+import FormButton from "@/app/componenetes/form_button";
 
 
 export default function Lista_y_Busqueda() {
@@ -32,12 +33,12 @@ export default function Lista_y_Busqueda() {
 
 
   return (
-    <div className=" flex items-center  justify-center bg-primary">
-      <div className="w-10/12 flex flex-col gap-4 items-center">
+    <div className=" flex items-center  justify-center w-full p-4">
+      <div className="w-11/12 flex flex-col gap-4 items-center">
         <p className="text-3xl font-bold text-left w-full">
           Historial de Pacientes
         </p>
-        <div className="w-full ">
+        <div className="w-full">
           <div className="mb-4">
             <input
               type="text"
@@ -49,12 +50,16 @@ export default function Lista_y_Busqueda() {
           </div>
           <div className="h-96 overflow-y-auto ">
                {patientsList.map((patient) => (
-              <div key={patient.id}>
+              <div className="bg-primary_light rounded-sm gap-10 p-2 mb-2"key={patient.id}>
                 <Link href={patient.id} onClick={NavigetoComp2} >
-                <p className="bg-secondary rounded-lg gap-6 ">{patient.name}</p>
+                <p>{patient.name}</p>
                 </Link>
               </div>
             ))} 
+          </div>
+          <div className="flex justify-center">
+            <button className="bg-secondary rounded-md px-4 py-2 w-1/2">Agregar Paciente</button>
+            
           </div>
         </div>
       </div>

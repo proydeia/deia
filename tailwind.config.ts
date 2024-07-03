@@ -9,7 +9,9 @@ const config: Config = {
   theme: {
     colors:{
       primary: 'rgb(var(--color-primary) / <alpha-value>)',
+      primary_light: 'rgb(var(--color-primary_light) / <alpha-value>)',
       secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
+      third: 'rgb(var(--color-third) / <alpha-value>)',
     }
   },
   plugins: [],
