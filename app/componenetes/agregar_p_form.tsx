@@ -11,8 +11,20 @@ interface PatientInput {
 interface Patient {
   id: string;
   name: string;
-  extraInfo: string;
+  extrainfo: string;
   medic: string;
+}
+
+async function miFunc(name:string, extraInfo:string) {
+  try {
+    const patientData: PatientInput = { name, extraInfo };
+    const newPatient: Patient = await createPacient(patientData);
+    console.log(newPatient)
+  }
+
+  catch (error) {
+    console.error("Error creating patient:", error);
+  }
 }
 
 export default function AgregarPacientes() {
@@ -22,32 +34,22 @@ export default function AgregarPacientes() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
     event.preventDefault();
 
-    setErrorMessage(null);
-    setSuccessMessage(null);
-
     try {
-      const patientData: PatientInput = { name, extraInfo };
-      const newPatient: Patient = await createPacient(patientData);
-      console.log(newPatient)
+      miFunc(name, extraInfo);
+    
+    } catch (error){
 
-      setSuccessMessage("Paciente creado con éxito!");
-      setName("");
-      setExtraInfo("");
-      console.log(name)
-      console.log(extraInfo)
-    } catch (error) {
-      console.error("Error creating patient:", error);
-      setErrorMessage("Error al crear el paciente. Intente nuevamente.");
     }
   };
 
   return (
     <div className="h-full flex flex-col justify-center items-center">
-      <form onSubmit={handleSubmit} className="w-10/12 bg-primary_light h-3/4 rounded-sm flex flex-col justify-center items-center gap-4">
-      <p className="text-2xl sm:text-3xl font-bold text-left w-11/12">Form</p>
+      <form onSubmit={handleSubmit} className="w-10/12 sm:w-full bg-primary_light h-3/4 rounded-sm flex flex-col justify-center items-center gap-4">
+        <p className="text-2xl sm:text-3xl font-bold text-left w-11/12">Form</p>
         <label htmlFor="name">
           <h1 className="text-sm font-light text-third">Nombre y Apellido</h1>
           <input

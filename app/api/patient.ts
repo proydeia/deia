@@ -87,12 +87,13 @@ export async function createPacient(patientData:pacientInput): Promise < newPati
     if(!id || await isAdmin()) throw new Error('U')
 
     try{
-        const id = await uuid("patients")
-
+        const uniqueId = await uuid("patients")
+        
+        console.log(id)
         return await db
         .insertInto("patients")
         .values({
-            id: id,
+            id: uniqueId,
             name: patientData.name,
             extrainfo: patientData.extraInfo,
             medic: id,
@@ -102,6 +103,7 @@ export async function createPacient(patientData:pacientInput): Promise < newPati
     }
 
     catch(error: unknown){
+        console.log(JSON.stringify(error))
         throw new Error('D')
     }
 }

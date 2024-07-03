@@ -1,6 +1,29 @@
-export default function Id_paciente() {
+import { GetStaticPaths } from "next";
+import { Patient } from "@/app/lib/db/schema";
+import { getPatient } from "@/app/api/patient";
+import { string } from "zod";
+import { Dispatch, SetStateAction } from "react";
+
+
+  //esta funcion obtiene el id del paciente  lo devuelve
+
+
+export default function Id_paciente({ pacienteId, pacient }: {
+  pacienteId: Dispatch<SetStateAction<string>>,
+  pacient: string
+}) {
+
+  
+
+  const handle = () => {
+    console.log("este es el id:")
+    console.log(pacient)
+  }
+
+
   return (
     <main className="w-11/12 flex flex-col justify-center items-center bg-primary_light py-4 rounded-sm">
+      {/* <button onClick={() => { handle() }}>Mostras id</button> */}
       <div className="sm:w-11/12 flex flex-col w-full overflow-y-auto h-96 gap-6">
         <div className=" w-full bg-primary flex  justify-center items-center rounded-md">
           <div className="w-full  p-4  my-2">
