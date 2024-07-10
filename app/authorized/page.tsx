@@ -1,4 +1,4 @@
-'use client'
+ 'use client'
 import Navbar from "../navBar";
 import AgregarPacientes from "../componenetes/agregar_p_form";
 import Lista_y_Busqueda from "./Components/lista";

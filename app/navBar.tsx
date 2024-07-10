@@ -1,6 +1,7 @@
 'use client'
 import Link from "next/link";
 import { useState } from "react";
+// import "logoDEIA.svg"
 
 const Navbar = () => {
     const [isClick, setisClick] = useState(false);
@@ -41,7 +42,6 @@ const Navbar = () => {
                         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                             <div className="ml-4 flex items-center space-x-4">
                                 <Link href="./login" className="block text-white hover:bg-white hover:text-black rounded-lg">Login</Link>
-                                <Link href="./authorized" className="block text-white hover:bg-white hover:text-black rounded-lg">Auth</Link>
                             </div>
                         </div>
                     </div>

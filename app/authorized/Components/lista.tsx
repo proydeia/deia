@@ -19,27 +19,22 @@ export default function Lista_y_Busqueda({ onPacientSelect, Patient }: {
     Id: string
   }
   const NavigetoComp2 = (Id: string) => {
-    // const targetRoute = '/id_paciente';
-    // router.push(targetRoute);
-    // Patient = onPacientSelect(Id)
     console.log("hola");
-    // Patient = onPatientSelect
     onPacientSelect(Id);
-
     console.log(Patient);
-  }
-  useEffect(() => {
-    (
-      async () => {
-        try {
-          const patients = await getPacientsList();
-          setPatientsList(patients);
-        }
-        catch (error: unknown) {
-          console.log(error);
-        }
-      })();
-  })
+   }
+   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const patients: Patient[] = await getPacientsList(); // Assuming getPacientsList returns Patient[]
+        setPatientsList(patients);
+      } catch (error: unknown) {
+        console.error(error);
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   //opcion 1: hacer un usestate y asignar ahi el id 
   // opcion 2: enviar todo a una pagina nueva tipo [slug] 
@@ -63,7 +58,7 @@ export default function Lista_y_Busqueda({ onPacientSelect, Patient }: {
           <div className="h-96 overflow-y-auto ">
             {patientsList.map((patient) => (
               <div className="bg-primary_light rounded-sm gap-10 p-2 mb-2" key={patient.id}>
-                <button onClick={() => NavigetoComp2(Patient = patient.id)}>
+                <button onClick={() => NavigetoComp2(patient.id)}>
                   <p>{patient.name}</p>
                 </button>
               </div>
