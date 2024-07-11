@@ -35,15 +35,20 @@ export default function Id_paciente({ pacienteId }: Props) {
   };
 
   return (
-    <main className="w-11/12 flex flex-col justify-center items-center bg-primary_light py-4 rounded-sm">
+    <main className="w-full">
+      
       {isLoading ? (
         <Instrucciones/ >
       ) : patient ? (
         <>
+        <div className="w-11/12 flex flex-col justify-center items-center bg-primary_light py-4 rounded-sm">
+
           <div className="sm:w-11/12 flex flex-col w-full overflow-y-auto h-96 gap-6">
             {/* Patient information sections here, accessing patient.property */}
+            <p>{patient.name}</p>
           </div>
           <button onClick={handle}>View details</button>
+        </div>
         </>
       ) : (
         <p>No encontramos pacientes con este ID</p>
