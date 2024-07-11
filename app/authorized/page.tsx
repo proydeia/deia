@@ -1,14 +1,14 @@
- 'use client'
+'use client'
 import Navbar from "../navBar";
 import AgregarPacientes from "../componenetes/agregar_p_form";
 import Lista_y_Busqueda from "./Components/lista";
 import Id_paciente from "./Components/id_paciente";
 import { useState } from "react";
 
-export default async function AuthorizedPage() {
+export default function AuthorizedPage() {
 
   const [state, setState] = useState("")
-  console.log("hola", state)
+  console.log("State:", state)
   return (
     <>
       <Navbar />
@@ -23,7 +23,7 @@ export default async function AuthorizedPage() {
         <p className="text-3xl font-bold text-left w-full p-6 mx-2">
           Demo de Pacientes
         </p>
-          <Id_paciente pacienteId={setState} pacient={state}/>
+          <Id_paciente pacienteId={state}/>
           <button className="bg-primary_light text-third rounded-md px-4 py-2 w-1/2 my-4">
             Agregar Espirometria
           </button>

@@ -1,7 +1,9 @@
+
 import { useState, useEffect } from "react";
 import { Patient } from "@/app/lib/db/schema";
 import { getPatient } from "@/app/api/patient";
-import { string } from "zod"; // Assuming for validation (optional)
+// Assuming for validation (optional)
+import Instrucciones from "./instrucciones";
 
 interface Props {
   pacienteId: string; // ID passed as a prop
@@ -35,7 +37,7 @@ export default function Id_paciente({ pacienteId }: Props) {
   return (
     <main className="w-11/12 flex flex-col justify-center items-center bg-primary_light py-4 rounded-sm">
       {isLoading ? (
-        <p>Loading patient information...</p>
+        <Instrucciones/ >
       ) : patient ? (
         <>
           <div className="sm:w-11/12 flex flex-col w-full overflow-y-auto h-96 gap-6">
