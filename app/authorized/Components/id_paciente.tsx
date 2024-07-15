@@ -57,6 +57,7 @@ export default function Id_paciente({ pacienteId }: Props) {
             <p>{patient.id}</p>
             {Spyrometry?.map((spirometry) => (
               <div key={spirometry.id}>
+                <p>{spirometry.date.toDateString()}</p>
                 <p>{spirometry.fev1}</p>
                 <p>{spirometry.fvc}</p>
               </div>
