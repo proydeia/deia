@@ -10,13 +10,13 @@ export default async function ingresoPaciente() {
     writeJSON();
         const b = await getSpirometriesList("mc82fy9hrcn489pnyrcf489n8pq23");
     
-//     <h1>
-//     {b.map((spirometry) => (
-//         <div key={spirometry.id}>
-//             <p>{spirometry.patient}</p>
-//         </div>
-//     ))}
-// </h1> 
+     <h1>
+     {b.map((spirometry) => (
+         <div key={spirometry.id}>
+             <p>{spirometry.patient}</p>
+         </div>
+     ))}
+ </h1> 
     return (
         <>
             <Navbar />
