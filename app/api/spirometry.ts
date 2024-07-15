@@ -45,16 +45,6 @@ export async function getSpirometriesList (patientId: string): Promise < Spirome
         throw new Error('D')
     }
 }
-//para cualquier funcion de base de datos, llamarlo en un try catch y manejar los errores
-// const a = async () => {
-//     try{
-//         return await getSpirometriesList("1")
-//     }
-//     catch(error:unknown){
-//         chekear info del error y dcidir la rta
-
-//     }
-// }
 
 
 export async function getSpirometry (spirometryId: string): Promise < Spirometry > {
@@ -111,16 +101,76 @@ export async function deleteSpirometry(spirometryId: string): Promise < DeleteRe
 
 
 
-export async function createSpirometry(spirometry: spirometryInput): Promise < NextResponse > { // "Crea" una espirometria.
+export async function createSpirometry(spirometryData: spirometryInput): Promise < newSpirometry > { // "Crea" una espirometria.
     
-    const id = await userId();
+    const id: string | null = await userId();
     if (!id || await isAdmin()) throw new Error('U');
 
-    try{
-        const analizedSpirometry:newSpirometry = await analyzeAndSaveSpirometry(spirometry);
-        if(analizedSpirometry instanceof Error) throw analizedSpirometry;
+    try{  
         
-        return NextResponse.redirect("@/spirometries")//(`@/app/authorized/paciente/espirometrias/${analizedSpirometry.id}`)
+        const obstruction:number = await axios.post("http://127.0.0.1:8000/obstruction", spirometryData)
+        .then((res:any) => {
+            return res.data.result;
+        })
+        .catch((error:unknown) => {
+            console.log(JSON.stringify(error))
+            throw new Error('O');
+        })
+
+        const obstructionai:number = await axios.post("http://127.0.0.1:8000/obstructionai", spirometryData)
+        .then((res:any) => {
+            return res.data.result;
+        })
+        .catch((error:unknown) => {
+            console.log(JSON.stringify(error))
+            throw new Error('O');
+        })
+
+        const restriction:number = await axios.post("http://127.0.0.1:8000/restriction", spirometryData)
+        .then((res:any) => {
+            return res.data.result;
+        })
+        .catch((error:unknown) => {
+            console.log(JSON.stringify(error))
+            throw new Error('R');
+        })
+
+        const restrictionai:number = await axios.post("http://127.0.0.1:8000/restrictionai", spirometryData)
+        .then((res:any) => {
+            return res.data.result;
+        })
+        .catch((error:unknown) => {
+            console.log(JSON.stringify(error))
+            throw new Error('R');
+        })
+
+        const date = moment().format("YYYY-MM-DD"); // Genera fecha actual.
+
+        const spirometryId = await uuid("spirometries"); // Genera un UUID único.	
+                
+        const spirometry: newSpirometry = {
+            ...spirometryData,
+            id:spirometryId,
+            obstruction:obstruction,
+            obstructionai:obstructionai,
+            restriction:restriction,
+            restrictionai:restrictionai,
+            date:date
+        }; 
+        
+        const spirometryDB: newSpirometry | undefined = await db //guardado en la DB 
+        .insertInto("spirometries")
+        .values(spirometry)
+        .returningAll()
+        .executeTakeFirstOrThrow();
+        
+        if(spirometryDB instanceof Error) //error handling del guardado de la data 
+        {
+            deleteSpirometry(spirometryId);
+            throw new Error('DB');
+        }
+
+        return spirometryDB;
     }
     
     catch(error:unknown){
@@ -137,21 +187,37 @@ async function analyzeAndSaveSpirometry(spirometryData: spirometryInput): Promis
         .then((res:any) => {
             return res.data.result;
         })
-        .catch((err:unknown) => {
+        .catch((error:unknown) => {
+            console.log(JSON.stringify(error))
             throw new Error('O');
         })
 
-        //callwear obstructionai
+        const obstructionai:number = await axios.post("http://127.0.0.1:8000/obstructionai", spirometryData)
+        .then((res:any) => {
+            return res.data.result;
+        })
+        .catch((error:unknown) => {
+            console.log(JSON.stringify(error))
+            throw new Error('O');
+        })
 
         const restriction:number = await axios.post("http://127.0.0.1:8000/restriction", spirometryData)
         .then((res:any) => {
             return res.data.result;
         })
-        .catch((err:unknown) => {
+        .catch((error:unknown) => {
+            console.log(JSON.stringify(error))
             throw new Error('R');
         })
 
-        //callwear restrictionai
+        const restrictionai:number = await axios.post("http://127.0.0.1:8000/restrictionai", spirometryData)
+        .then((res:any) => {
+            return res.data.result;
+        })
+        .catch((error:unknown) => {
+            console.log(JSON.stringify(error))
+            throw new Error('R');
+        })
 
         const date = moment().format("YYYY-MM-DD"); // Genera fecha actual.
 
@@ -161,7 +227,9 @@ async function analyzeAndSaveSpirometry(spirometryData: spirometryInput): Promis
             ...spirometryData,
             id:spirometryId,
             obstruction:obstruction,
+            obstructionai:obstructionai,
             restriction:restriction,
+            restrictionai:restrictionai,
             date:date
         }; 
         

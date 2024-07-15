@@ -43,7 +43,9 @@ interface patientTable {
 interface spirometryTable {
     id: string; //Primary KEY
     obstruction: number;
+    obstructionai: number;
     restriction: number;
+    restrictionai: number;
     patient: string; //Foreing KEY
     date: Date;
     fev1: number;
