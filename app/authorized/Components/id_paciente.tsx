@@ -13,7 +13,7 @@ interface Props {
 
 export default function Id_paciente({ pacienteId }: Props) {
   const [patient, setPatient] = useState<Patient | null>(null);
-  const [Spyrometry, setSpyrometry] = useState<Spirometry | null>(null);
+  const [Spyrometry, setSpyrometry] = useState<Spirometry[] | null>(null);
   const [isLoading, setIsLoading] = useState(false); // Track loading state
   useEffect(() => {
     const fetchData = async () => {
@@ -55,7 +55,13 @@ export default function Id_paciente({ pacienteId }: Props) {
             <p>{patient.name}</p>
             <p>{patient.extrainfo}</p>
             <p>{patient.id}</p>
-            <p>{Spyrometry?.id}</p>
+            {Spyrometry?.map((spirometry) => (
+              <div key={spirometry.id}>
+                <p>{spirometry.fev1}</p>
+                <p>{spirometry.fvc}</p>
+              </div>
+            
+            ))}
           </div>
           
         </div>
