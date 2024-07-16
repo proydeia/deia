@@ -40,7 +40,7 @@ export default function Lista_y_Busqueda({ onPacientSelect, Patient }: {
   return (
     <div className=" flex items-center  justify-center w-full p-4">
       <div className="w-11/12 flex flex-col gap-4 items-center">
-        <p className="text-3xl font-bold text-left w-full">
+        <p className="text-3xl font-bold text-left w-full mt-4 mb-2">
           Historial de Pacientes
         </p>
         <div className="w-full">

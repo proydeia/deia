@@ -20,11 +20,11 @@ export default function AuthorizedPage() {
 
         {/* ACA VAMOS A IR CAMBIANDO DE COMPONENTES */}
         <div className="bg-secondary  flex flex-col items-center justify-center sm:w-7/12  w-full  ">
-          <Id_paciente pacienteId={state}/>
-          {/* <AgregarPacientes /> */}
-          <button className="bg-primary_light text-third rounded-md px-4 py-2 w-1/2 my-4">
+          {/* <Id_paciente pacienteId={state}/> */}
+          <AgregarPacientes />
+          {/* <button className="bg-primary_light text-third rounded-md px-4 py-2 w-1/2 my-4">
             Agregar Espirometria
-          </button>
+          </button> */}
         </div>
       </main>
     </>

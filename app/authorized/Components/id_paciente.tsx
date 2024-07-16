@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Patient } from "@/app/lib/db/schema";
 import { getPatient } from "@/app/api/patient";
@@ -9,7 +8,6 @@ import Instrucciones from "./instrucciones";
 interface Props {
   pacienteId: string; // ID passed as a prop
 }
-
 
 export default function Id_paciente({ pacienteId }: Props) {
   const [patient, setPatient] = useState<Patient | null>(null);
@@ -22,10 +20,12 @@ export default function Id_paciente({ pacienteId }: Props) {
         const fetchedPatient: Patient = await getPatient(pacienteId); // Assuming getPatient returns a Patient
         setPatient(fetchedPatient);
         const fetchSpirometry = async () => {
-          const fetchedSpirometry: Spirometry[] = await getSpirometriesList(pacienteId);
+          const fetchedSpirometry: Spirometry[] = await getSpirometriesList(
+            pacienteId
+          );
           setSpyrometry(fetchedSpirometry);
         };
-        fetchSpirometry()
+        fetchSpirometry();
       } catch (error) {
         console.error("Error fetching patient:", error);
       } finally {
@@ -35,37 +35,27 @@ export default function Id_paciente({ pacienteId }: Props) {
 
     fetchData();
   }, [pacienteId]); // Run only when pacienteId changes
-
-  // const handle = () => {
-  //   console.log("Patient ID:", pacienteId); // Access the ID directly from props
-  //   console.log("Patient:", patient); // Access fetched patient data (if available)
-  // };
-
   return (
     <main className="w-full flex justify-center">
-      
       {isLoading ? (
-        <Instrucciones/ >
+        <Instrucciones />
       ) : patient ? (
         <>
-        <div className="w-11/12 flex flex-col justify-center items-center bg-primary_light py-4 rounded-sm">
-
-          <div className="sm:w-11/12 flex flex-col w-full overflow-y-auto h-96 gap-6">
-            {/* Patient information sections here, accessing patient.property */}
-            <p>{patient.name}</p>
-            <p>{patient.extrainfo}</p>
-            <p>{patient.id}</p>
-            {Spyrometry?.map((spirometry) => (
-              <div key={spirometry.id}>
-                <p>{spirometry.date.toDateString()}</p>
-                <p>{spirometry.fev1}</p>
-                <p>{spirometry.fvc}</p>
-              </div>
-            
-            ))}
+          <div className="w-11/12 flex flex-col justify-center items-center bg-primary_light py-4 rounded-sm">
+            <div className="sm:w-11/12 flex flex-col w-full overflow-y-auto h-96 gap-6">
+              {/* Patient information sections here, accessing patient.property */}
+              <p>{patient.name}</p>
+              <p>{patient.extrainfo}</p>
+              <p>{patient.id}</p>
+              {Spyrometry?.map((spirometry) => (
+                <div className="bg-primary p-2 rounded-sm " key={spirometry.id}>
+                  <p>Fecha de Emision: {spirometry.date.toDateString()}</p>
+                  <p>FEV1: {spirometry.fev1}</p>
+                  <p>FVC: {spirometry.fvc}</p>
+                </div>
+              ))}
+            </div>
           </div>
-          
-        </div>
         </>
       ) : (
         <p>No encontramos pacientes con este ID</p>
