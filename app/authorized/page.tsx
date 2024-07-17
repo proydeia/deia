@@ -4,6 +4,7 @@ import AgregarPacientes from "../componenetes/agregar_p_form";
 import Lista_y_Busqueda from "./Components/lista";
 import Id_paciente from "./Components/id_paciente";
 import { useState } from "react";
+import AgregarEspiro from "../componenetes/agregar_s_form";
 
 export default function AuthorizedPage() {
 
@@ -21,7 +22,8 @@ export default function AuthorizedPage() {
         {/* ACA VAMOS A IR CAMBIANDO DE COMPONENTES */}
         <div className="bg-secondary  flex flex-col items-center justify-center sm:w-7/12  w-full  ">
           {/* <Id_paciente pacienteId={state}/> */}
-          <AgregarPacientes />
+          {/* <AgregarPacientes /> */}
+          <AgregarEspiro/>
           {/* <button className="bg-primary_light text-third rounded-md px-4 py-2 w-1/2 my-4">
             Agregar Espirometria
           </button> */}
