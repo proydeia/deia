@@ -1,7 +1,7 @@
 'use client'
 import FormButton from "./form_button";
 import { useState } from "react";
-import { createPacient } from "../api/patient";
+import { createPatient } from "../api/patient";
 
 interface PatientInput {
   name: string;
@@ -18,7 +18,7 @@ interface Patient {
 async function miFunc(name:string, extraInfo:string) {
   try {
     const patientData: PatientInput = { name, extraInfo };
-    const newPatient: Patient = await createPacient(patientData);
+    const newPatient: Patient = await createPatient(patientData);
     console.log(newPatient)
   }
 
