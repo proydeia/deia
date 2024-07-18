@@ -6,6 +6,7 @@ import { getSpirometriesList } from "@/app/api/spirometry";
 import { Spirometry } from "@/app/lib/db/schema";
 import Instrucciones from "./instrucciones";
 import ByebyeButton from "./byebyeButton";
+import { set } from "zod";
 
 interface Props {
   pacienteId: string; // ID passed as a prop
@@ -29,13 +30,16 @@ export default function Id_paciente({ pacienteId }: Props) {
           setSpyrometry(fetchedSpirometry);
         };
         fetchSpirometry()
-      } catch (error) {
-        console.error("Error fetching patient:", error);
-      } finally {
-        setIsLoading(false); // Set loading state to false after fetching or error
+        } 
+        catch (error) {
+          console.error("Error fetching patient:", error);
+          setPatient(null); // Set patient to null if error
+        } 
+        finally {
+          setIsLoading(false); // Set loading state to false after fetching or error
+        }
       }
-
-      }
+      setIsLoading(false); // Set loading state to false after fetching or error
     };
 
     fetchData();
@@ -51,7 +55,11 @@ export default function Id_paciente({ pacienteId }: Props) {
       
       {isLoading ? (
         <Instrucciones/ >
-      ) : patient ? (
+      ) : !pacienteId ? (
+
+        <p>Eliga un Paciente o cree uno.</p>
+      
+      ) : patient ?(
         <>
         <div className="w-11/12 flex flex-col justify-center items-center bg-primary_light py-4 rounded-sm">
 
@@ -78,7 +86,9 @@ export default function Id_paciente({ pacienteId }: Props) {
         </div>
         </>
       ) : (
-        <p>No encontramos pacientes con este ID</p>
+
+        <p>Paciente no encontrado</p>
+        
       )}
     </main>
   );
