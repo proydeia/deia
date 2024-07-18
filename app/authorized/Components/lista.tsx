@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { getPacientsList, getPatient } from "@/app/api/patient"; // Assuming these functions return promises or async dataimport { map, string } from "zod";
+import { getPatientsList, getPatient } from "@/app/api/patient"; // Assuming these functions return promises or async dataimport { map, string } from "zod";
 import { Patient } from "@/app/lib/db/schema";
 import FormButton from "@/app/componenetes/form_button";
 import { Dispatch, SetStateAction } from "react";
@@ -24,7 +24,7 @@ export default function Lista_y_Busqueda({ onPacientSelect, Patient }: {
    useEffect(() => {
     const fetchData = async () => {
       try {
-        const patients: Patient[] = await getPacientsList(); // Assuming getPacientsList returns Patient[]
+        const patients: Patient[] = await getPatientsList(); // Assuming getPacientsList returns Patient[]
         setPatientsList(patients);
       } catch (error: unknown) {
         console.error(error);
