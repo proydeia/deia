@@ -54,11 +54,12 @@ export default function Id_paciente({ pacienteId }: Props) {
                   <p>FVC: {spirometry.fvc}</p>
                 </div>
               ))}
+              <button onClick={() => setPatient(null)}>Volver a pagina principal</button>
             </div>
           </div>
         </>
       ) : (
-        <p>No encontramos pacientes con este ID</p>
+        <p className="text-2xl sm:text-3xl font-bold text-center text-primary_light w-full mb-4 mt-4">Seleccione a un paciente idiota :)</p>
       )}
     </main>
   );

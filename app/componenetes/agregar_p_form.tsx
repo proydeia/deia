@@ -2,6 +2,7 @@
 import FormButton from "./form_button";
 import { useState } from "react";
 import { createPacient } from "../api/patient";
+import AgregarEspiro from "./agregar_s_form";
 
 interface PatientInput {
   name: string;
@@ -120,6 +121,7 @@ export default function AgregarPacientes() {
             </label>
           </div>
         </div>
+        {/* <AgregarEspiro/> */}
         <FormButton />
       </form>
     </div>
