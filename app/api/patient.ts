@@ -15,7 +15,8 @@ type pacientInput = {
 
 export async function getPatientsList(): Promise < Patient[] > {
     
-    const id: string | null = await userId();
+    const id = await userId();
+
     if (!id || await isAdmin()) throw new Error('U')
     
     try{    
@@ -28,14 +29,15 @@ export async function getPatientsList(): Promise < Patient[] > {
         .execute();        
     }
 
-    catch(errror:unknown){
+    catch(error:unknown){
+        console.log(error)
         throw new Error('D');
     }
 }
 
 export async function getPatient(patientId:string): Promise < Patient > {
     
-    const id = await userId();
+    const id = await userId();  
     
     if (!id || await isAdmin()) throw new Error('U');
     
