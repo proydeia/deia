@@ -5,6 +5,7 @@ import { getPatient } from "@/app/api/patient";
 import { getSpirometriesList } from "@/app/api/spirometry";
 import { Spirometry } from "@/app/lib/db/schema";
 import Instrucciones from "./instrucciones";
+import ByebyeButton from "./byebyeButton";
 
 interface Props {
   pacienteId: string; // ID passed as a prop
@@ -18,7 +19,9 @@ export default function Id_paciente({ pacienteId }: Props) {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true); // Set loading state to true
-      try {
+      if (pacienteId){ //Si no hay pacienteId, no se hace nada
+
+        try {
         const fetchedPatient: Patient = await getPatient(pacienteId); // Assuming getPatient returns a Patient
         setPatient(fetchedPatient);
         const fetchSpirometry = async () => {
@@ -30,6 +33,8 @@ export default function Id_paciente({ pacienteId }: Props) {
         console.error("Error fetching patient:", error);
       } finally {
         setIsLoading(false); // Set loading state to false after fetching or error
+      }
+
       }
     };
 
@@ -61,8 +66,13 @@ export default function Id_paciente({ pacienteId }: Props) {
                 <p>{spirometry.fev1}</p>
                 <p>{spirometry.fvc}</p>
               </div>
-            
             ))}
+
+            <ByebyeButton 
+              tabla={"patient"}
+              id={pacienteId}
+            />
+
           </div>
           
         </div>

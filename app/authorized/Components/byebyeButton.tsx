@@ -2,11 +2,11 @@ import { deleteSpirometry } from "@/app/api/spirometry";
 import { deletePatient } from "@/app/api/patient";
 //import { deleteMedic } from "@/app/api/admin";
 
-export default function ByebyeButton(type: string = "patient" || "spirometry" || "", id: string){
+export default function ByebyeButton({tabla = "patient" || "spirometry" || "", id}: {tabla: string, id: string}) {
 
     const erradicate = async () => {
         try {
-            switch (type) {
+            switch (tabla) {
                 case "patient":
                     await deletePatient(id);
                     break;

@@ -30,7 +30,6 @@ export async function getPatientsList(): Promise < Patient[] > {
     }
 
     catch(error:unknown){
-        console.log(error)
         throw new Error('D');
     }
 }
@@ -60,13 +59,22 @@ export async function getPatient(patientId:string): Promise < Patient > {
 
 
 
-export async function deletePatient(patientId: string): Promise < DeleteResult > {
+export async function deletePatient(patientId: string) {
     
     const id: string | null = await userId();
+
     if(!id || await isAdmin()) throw new Error('U');
     
     try{
-        return await db
+        await db
+        .deleteFrom("spirometries")
+
+        .where("spirometries.patient", "=", patientId)
+
+        .executeTakeFirstOrThrow();
+
+
+        await db
         .deleteFrom("patients")
 
         .where("patients.medic", "=", id)                   // El medico esta relacionado con el paciente
@@ -76,6 +84,7 @@ export async function deletePatient(patientId: string): Promise < DeleteResult >
     }
     
     catch(error:unknown){
+        console.log(error)
         throw new Error('D');
     }
 }
