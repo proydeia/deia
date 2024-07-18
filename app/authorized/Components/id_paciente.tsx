@@ -57,7 +57,7 @@ export default function Id_paciente({ pacienteId }: Props) {
         <Instrucciones/ >
       ) : !pacienteId ? (
 
-        <p>Eliga un Paciente o cree uno.</p>
+        <p>Elija un Paciente o cree uno.</p>
       
       ) : patient ?(
         <>
@@ -88,7 +88,7 @@ export default function Id_paciente({ pacienteId }: Props) {
       ) : (
 
         <p>Paciente no encontrado</p>
-        
+
       )}
     </main>
   );
