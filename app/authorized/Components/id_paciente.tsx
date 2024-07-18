@@ -22,19 +22,19 @@ export default function Id_paciente({ pacienteId }: Props) {
         //Si no hay pacienteId, no se hace nada
 
         try {
-        const fetchedPatient: Patient = await getPatient(pacienteId); // Assuming getPatient returns a Patient
-        setPatient(fetchedPatient);
-        const fetchSpirometry = async () => {
-          const fetchedSpirometry: Spirometry[] = await getSpirometriesList(pacienteId);
-          setSpyrometry(fetchedSpirometry);
-        };
-        fetchSpirometry()
-        } 
-        catch (error) {
+          const fetchedPatient: Patient = await getPatient(pacienteId); // Assuming getPatient returns a Patient
+          setPatient(fetchedPatient);
+          const fetchSpirometry = async () => {
+            const fetchedSpirometry: Spirometry[] = await getSpirometriesList(
+              pacienteId
+            );
+            setSpyrometry(fetchedSpirometry);
+          };
+          fetchSpirometry();
+        } catch (error) {
           console.error("Error fetching patient:", error);
           setPatient(null); // Set patient to null if error
-        } 
-        finally {
+        } finally {
           setIsLoading(false); // Set loading state to false after fetching or error
         }
       }
@@ -46,40 +46,31 @@ export default function Id_paciente({ pacienteId }: Props) {
   return (
     <main className="w-full flex justify-center">
       {isLoading ? (
-        <Instrucciones/ >
+        <Instrucciones />
       ) : !pacienteId ? (
-
         <p>Elija un Paciente o cree uno.</p>
-      
-      ) : patient ?(
+      ) : patient ? (
         <>
-        <div className="w-11/12 flex flex-col justify-center items-center bg-primary_light py-4 rounded-sm">
-
-          <div className="sm:w-11/12 flex flex-col w-full overflow-y-auto h-96 gap-6">
-            {/* Patient information sections here, accessing patient.property */}
-            <p>{patient.name}</p>
-            <p>{patient.extrainfo}</p>
-            <p>{patient.id}</p>
-            {Spyrometry?.map((spirometry) => (
-              <div key={spirometry.id}>
-                <p>{spirometry.date.toDateString()}</p>
-                <p>{spirometry.fev1}</p>
-                <p>{spirometry.fvc}</p>
-              </div>
-            ))}
-
-            <ByebyeButton 
-              tabla={"patient"}
-              id={pacienteId}
-            />
-
+          <div className="w-11/12 flex flex-col justify-center items-center bg-primary_light py-4 rounded-sm">
+            <div className="sm:w-11/12 flex flex-col w-full overflow-y-auto h-96 gap-6">
+              {/* Patient information sections here, accessing patient.property */}
+              <p>{patient.name}</p>
+              <p>{patient.extrainfo}</p>
+              <p>{patient.id}</p>
+              {Spyrometry?.map((spirometry) => (
+                <div key={spirometry.id}>
+                  <p>{spirometry.date.toDateString()}</p>
+                  <p>{spirometry.fev1}</p>
+                  <p>{spirometry.fvc}</p>
+                </div>
+              ))}
+              <button onClick={() => setPatient(null)}>Volver</button>
+              <ByebyeButton tabla={"patient"} id={pacienteId} />
+            </div>
           </div>
-        </div>
         </>
       ) : (
-
         <p>Paciente no encontrado</p>
-
       )}
     </main>
   );
