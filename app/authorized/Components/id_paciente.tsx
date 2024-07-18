@@ -4,6 +4,7 @@ import { getPatient } from "@/app/api/patient";
 import { getSpirometriesList } from "@/app/api/spirometry";
 import { Spirometry } from "@/app/lib/db/schema";
 import Instrucciones from "./instrucciones";
+import ByebyeButton from "./byebyeButton";
 
 interface Props {
   pacienteId: string; // ID passed as a prop
@@ -16,20 +17,24 @@ export default function Id_paciente({ pacienteId }: Props) {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true); // Set loading state to true
-      try {
-        const fetchedPatient: Patient = await getPatient(pacienteId); // Assuming getPatient returns a Patient
-        setPatient(fetchedPatient);
-        const fetchSpirometry = async () => {
-          const fetchedSpirometry: Spirometry[] = await getSpirometriesList(
-            pacienteId
-          );
-          setSpyrometry(fetchedSpirometry);
-        };
-        fetchSpirometry();
-      } catch (error) {
-        console.error("Error fetching patient:", error);
-      } finally {
-        setIsLoading(false); // Set loading state to false after fetching or error
+      if (pacienteId) {
+        //Si no hay pacienteId, no se hace nada
+
+        try {
+          const fetchedPatient: Patient = await getPatient(pacienteId); // Assuming getPatient returns a Patient
+          setPatient(fetchedPatient);
+          const fetchSpirometry = async () => {
+            const fetchedSpirometry: Spirometry[] = await getSpirometriesList(
+              pacienteId
+            );
+            setSpyrometry(fetchedSpirometry);
+          };
+          fetchSpirometry();
+        } catch (error) {
+          console.error("Error fetching patient:", error);
+        } finally {
+          setIsLoading(false); // Set loading state to false after fetching or error
+        }
       }
     };
 
@@ -40,7 +45,7 @@ export default function Id_paciente({ pacienteId }: Props) {
       {isLoading ? (
         <Instrucciones />
       ) : patient ? (
-        <>
+        <div>
           <div className="w-11/12 flex flex-col justify-center items-center bg-primary_light py-4 rounded-sm">
             <div className="sm:w-11/12 flex flex-col w-full overflow-y-auto h-96 gap-6">
               {/* Patient information sections here, accessing patient.property */}
@@ -48,18 +53,23 @@ export default function Id_paciente({ pacienteId }: Props) {
               <p>{patient.extrainfo}</p>
               <p>{patient.id}</p>
               {Spyrometry?.map((spirometry) => (
-                <div className="bg-primary p-2 rounded-sm " key={spirometry.id}>
-                  <p>Fecha de Emision: {spirometry.date.toDateString()}</p>
-                  <p>FEV1: {spirometry.fev1}</p>
-                  <p>FVC: {spirometry.fvc}</p>
+                <div key={spirometry.id}>
+                  <p>{spirometry.date.toDateString()}</p>
+                  <p>{spirometry.fev1}</p>
+                  <p>{spirometry.fvc}</p>
                 </div>
               ))}
-              <button onClick={() => setPatient(null)}>Volver a pagina principal</button>
+              <button onClick={() => setPatient(null)}>
+                Volver a pagina principal
+              </button>
+              <ByebyeButton tabla={"patient"} id={pacienteId} />
             </div>
           </div>
-        </>
+        </div>
       ) : (
-        <p className="text-2xl sm:text-3xl font-bold text-center text-primary_light w-full mb-4 mt-4">Seleccione a un paciente idiota :)</p>
+        <p className="text-2xl sm:text-3xl font-bold text-center text-primary_light w-full mb-4 mt-4">
+          Seleccione a un paciente idiota :)
+        </p>
       )}
     </main>
   );

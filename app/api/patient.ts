@@ -13,9 +13,10 @@ type pacientInput = {
 
 // Pacientes
 
-export async function getPacientsList(): Promise < Patient[] > {
+export async function getPatientsList(): Promise < Patient[] > {
     
-    const id: string | null = await userId();
+    const id = await userId();
+
     if (!id || await isAdmin()) throw new Error('U')
     
     try{    
@@ -28,14 +29,14 @@ export async function getPacientsList(): Promise < Patient[] > {
         .execute();        
     }
 
-    catch(errror:unknown){
+    catch(error:unknown){
         throw new Error('D');
     }
 }
 
 export async function getPatient(patientId:string): Promise < Patient > {
     
-    const id = await userId();
+    const id = await userId();  
     
     if (!id || await isAdmin()) throw new Error('U');
     
@@ -58,13 +59,22 @@ export async function getPatient(patientId:string): Promise < Patient > {
 
 
 
-export async function deletePacient(patientId: string): Promise < DeleteResult > {
+export async function deletePatient(patientId: string) {
     
     const id: string | null = await userId();
+
     if(!id || await isAdmin()) throw new Error('U');
     
     try{
-        return await db
+        await db
+        .deleteFrom("spirometries")
+
+        .where("spirometries.patient", "=", patientId)
+
+        .executeTakeFirstOrThrow();
+
+
+        await db
         .deleteFrom("patients")
 
         .where("patients.medic", "=", id)                   // El medico esta relacionado con el paciente
@@ -74,13 +84,14 @@ export async function deletePacient(patientId: string): Promise < DeleteResult >
     }
     
     catch(error:unknown){
+        console.log(error)
         throw new Error('D');
     }
 }
 
 
 
-export async function createPacient(patientData:pacientInput): Promise < newPatient > {
+export async function createPatient(patientData:pacientInput): Promise < newPatient > {
     
     const id = await userId();
     

@@ -1,7 +1,7 @@
 "use client";
 import FormButton from "./form_button";
 import { useState } from "react";
-import { createPacient } from "../api/patient";
+import { createPatient } from "../api/patient";
 import AgregarEspiro from "./agregar_s_form";
 
 interface PatientInput {
@@ -19,8 +19,7 @@ interface Patient {
 async function miFunc(name: string, extraInfo: string) {
   try {
     const patientData: PatientInput = { name, extraInfo };
-    const newPatient: Patient = await createPacient(patientData);
-    console.log(newPatient);
+    const newPatient: Patient = await createPatient(patientData);
   } catch (error) {
     console.error("Error creating patient:", error);
   }
