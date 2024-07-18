@@ -1,5 +1,5 @@
 import Navbar from "@/app/navBar";
-import {getPacientsList, getPatient} from "@/app/api/patient"
+import {getPatientsList, getPatient} from "@/app/api/patient"
 import { userId } from "@/app/api/token";
 import { writeJSON } from "@/ds/writeDatadump";
 import { getSpirometriesList } from "@/app/api/spirometry";
