@@ -142,6 +142,8 @@ export default function Testeo() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredPacientes, setFilteredPacientes] = useState<Paciente[]>([]);
+  const [Pagina, setPagina] = useState("1");
+
 
   useEffect(() => {
     setFilteredPacientes(
@@ -153,12 +155,14 @@ export default function Testeo() {
     );
   }, [searchTerm]);
 
+
+
   const listaTest = filteredPacientes.map((paciente, index) => (
     <li key={index} className="bg-primary_light p-2 rounded mb-2 shadow-sm">
       {paciente.nombre} {paciente.apellido}
     </li>
   ));
-
+console.log(Pagina)
   return (
     <>
       <Navbar />
@@ -203,6 +207,10 @@ export default function Testeo() {
             </p>
             <div className="text-left ">Como usar nuestra página?</div>
           </div>
+          <button onClick={() => setPagina("1")}>boton 1</button>
+          <button onClick={() => setPagina("2")}>boton 2</button>
+          <button onClick={() => setPagina("3")}>boton 3</button>
+          <button onClick={() => setPagina("4")}>boton 4</button>
         </div>
       </main>
     </>

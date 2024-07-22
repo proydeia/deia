@@ -5,13 +5,15 @@ import { getSpirometriesList } from "@/app/api/spirometry";
 import { Spirometry } from "@/app/lib/db/schema";
 import Instrucciones from "./instrucciones";
 import ByebyeButton from "./byebyeButton";
+import { Dispatch, SetStateAction } from "react";
 import { set } from "zod";
 
 interface Props {
   pacienteId: string; // ID passed as a prop
+  Pagina: Dispatch<SetStateAction<string>>
 }
 
-export default function Id_paciente({ pacienteId }: Props) {
+export default function Id_paciente({ pacienteId, Pagina }: Props) {
   const [patient, setPatient] = useState<Patient | null>(null);
   const [Spyrometry, setSpyrometry] = useState<Spirometry[] | null>(null);
   const [isLoading, setIsLoading] = useState(false); // Track loading state
@@ -58,13 +60,16 @@ export default function Id_paciente({ pacienteId }: Props) {
               <p>{patient.extrainfo}</p>
               <p>{patient.id}</p>
               {Spyrometry?.map((spirometry) => (
-                <div key={spirometry.id}>
-                  <p>{spirometry.date.toDateString()}</p>
-                  <p>{spirometry.fev1}</p>
-                  <p>{spirometry.fvc}</p>
+                <div className="bg-primary_light rounded-sm shadow-lg shadow-primary p-4" key={spirometry.id}>
+                  <p>Fecha: {spirometry.date.toDateString()}</p>
+                  <p>Fev1: {spirometry.fev1}</p>
+                  <p>Fvc: {spirometry.fvc}</p>
                 </div>
               ))}
-              <button onClick={() => setPatient(null)}>Volver</button>
+              <button onClick={() => 
+              Pagina("4")
+              }
+              >Volver</button>
               <ByebyeButton tabla={"patient"} id={pacienteId} />
             </div>
           </div>

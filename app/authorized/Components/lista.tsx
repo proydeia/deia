@@ -4,14 +4,17 @@ import { getPatientsList, getPatient } from "@/app/api/patient"; // Assuming the
 import { Patient } from "@/app/lib/db/schema";
 import FormButton from "@/app/componenetes/form_button";
 import { Dispatch, SetStateAction } from "react";
+import AgregarPacientes from "@/app/componenetes/agregar_p_form";
 
 
-export default function Lista_y_Busqueda({ onPacientSelect, Patient }: {
+export default function Lista_y_Busqueda({ onPacientSelect, Patient, Pagina }: {
   onPacientSelect: Dispatch<SetStateAction<string>>,
+  Pagina: Dispatch<SetStateAction<string>>,
   Patient: string
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [patientsList, setPatientsList] = useState<Patient[]>([]);
+  const [showAgregarP, setShowAgregarP] = useState(false)
 
   type Id_pac = {
     Id: string
@@ -19,6 +22,8 @@ export default function Lista_y_Busqueda({ onPacientSelect, Patient }: {
   const NavigetoComp2 = (Id: string) => {
     console.log("Clicked on:", Id)
     onPacientSelect(Id);
+    console.log(Pagina);
+    Pagina("3")
    }
   
    useEffect(() => {
@@ -34,6 +39,10 @@ export default function Lista_y_Busqueda({ onPacientSelect, Patient }: {
     fetchData();
   }, []);
 
+  const handleAgregarP = () => {
+    setShowAgregarP(true)
+    Pagina("1")
+  };
   //opcion 1: hacer un usestate y asignar ahi el id 
   // opcion 2: enviar todo a una pagina nueva tipo [slug] 
 
@@ -64,8 +73,8 @@ export default function Lista_y_Busqueda({ onPacientSelect, Patient }: {
             ))}
           </div>
           <div className="flex justify-center">
-            <button className="bg-secondary rounded-md px-4 py-2 w-1/2">Agregar Paciente</button>
-
+            <button onClick={handleAgregarP} className="bg-secondary rounded-md px-4 py-2 w-1/2">Agregar Paciente</button>
+            
           </div>
         </div>
       </div>

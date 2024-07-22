@@ -3,6 +3,7 @@ import FormButton from "./form_button";
 import { useState } from "react";
 import { createPatient } from "../api/patient";
 import AgregarEspiro from "./agregar_s_form";
+import { Dispatch, SetStateAction } from "react";
 
 interface PatientInput {
   name: string;
@@ -25,7 +26,10 @@ async function miFunc(name: string, extraInfo: string) {
   }
 }
 
-export default function AgregarPacientes() {
+interface Props {
+  Pagina: Dispatch<SetStateAction<string>>;
+}
+export default function AgregarPacientes({ Pagina }: Props) {
   const [name, setName] = useState<string>("");
   const [extraInfo, setExtraInfo] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -120,6 +124,7 @@ export default function AgregarPacientes() {
             </label>
           </div>
         </div>
+        <button onClick={() => Pagina("4")}>Volver</button>
         {/* <AgregarEspiro/> */}
         <FormButton />
       </form>
