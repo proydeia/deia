@@ -44,7 +44,7 @@ export default function AgregarPacientes({ Pagina }: Props) {
   };
 
   return (
-    <div className="h-full flex flex-col justify-center items-center w-11/12 ">
+    <div className="h-full flex flex-col justify-center items-center w-11/12 my-2">
       <p className="text-2xl sm:text-3xl font-bold text-left text-primary_light w-full mb-4 mt-4">
         Agregar Paciente
       </p>
@@ -80,7 +80,7 @@ export default function AgregarPacientes({ Pagina }: Props) {
             className="px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
           />
         </label>
-        <div className="grid-cols-2 grid w-11/12 gap-2 justify-center">
+        <div className="sm:grid-cols-2 grid-cols-1 grid w-11/12 gap-2 justify-center">
           <div>
             <label className="w-11/12">
               <h1 className="text-sm font-light text-third">
@@ -124,6 +124,7 @@ export default function AgregarPacientes({ Pagina }: Props) {
             </label>
           </div>
         </div>
+        
         <button onClick={() => Pagina("4")}>Volver</button>
         {/* <AgregarEspiro/> */}
         <FormButton />

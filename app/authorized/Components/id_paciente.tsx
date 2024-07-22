@@ -10,7 +10,7 @@ import { set } from "zod";
 
 interface Props {
   pacienteId: string; // ID passed as a prop
-  Pagina: Dispatch<SetStateAction<string>>
+  Pagina: Dispatch<SetStateAction<string>>;
 }
 
 export default function Id_paciente({ pacienteId, Pagina }: Props) {
@@ -60,16 +60,17 @@ export default function Id_paciente({ pacienteId, Pagina }: Props) {
               <p>{patient.extrainfo}</p>
               <p>{patient.id}</p>
               {Spyrometry?.map((spirometry) => (
-                <div className="bg-primary_light rounded-sm shadow-lg shadow-primary p-4" key={spirometry.id}>
+                <div
+                  className="bg-primary_light rounded-sm shadow-lg shadow-primary p-4"
+                  key={spirometry.id}
+                >
                   <p>Fecha: {spirometry.date.toDateString()}</p>
                   <p>Fev1: {spirometry.fev1}</p>
                   <p>Fvc: {spirometry.fvc}</p>
                 </div>
               ))}
-              <button onClick={() => 
-              Pagina("4")
-              }
-              >Volver</button>
+              <button onClick={() => Pagina("4")}>Volver</button>
+              <button onClick={() => Pagina("2")}>Agregar Espirometrías</button>
               <ByebyeButton tabla={"patient"} id={pacienteId} />
             </div>
           </div>

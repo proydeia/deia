@@ -65,7 +65,7 @@ export default function Lista_y_Busqueda({ onPacientSelect, Patient, Pagina }: {
           <div className="h-96 overflow-y-auto ">
             {patientsList.map((patient) => (
               <div className="bg-primary_light rounded-sm gap-10 p-2 mb-2" key={patient.id}>
-                <button onClick={() => NavigetoComp2(patient.id)}>
+                <button className="w-full flex justify-start items-start" onClick={() => NavigetoComp2(patient.id)}>
                   <p>{patient.name}</p>
                 </button>
               </div>
@@ -73,7 +73,7 @@ export default function Lista_y_Busqueda({ onPacientSelect, Patient, Pagina }: {
             ))}
           </div>
           <div className="flex justify-center">
-            <button onClick={handleAgregarP} className="bg-secondary rounded-md px-4 py-2 w-1/2">Agregar Paciente</button>
+            <button onClick={handleAgregarP} className="bg-secondary rounded-md px-4 py-2 my-4 w-1/2">Agregar Paciente</button>
             
           </div>
         </div>
