@@ -31,9 +31,9 @@ export default function ByebyeButton({tabla = "patient" || "spirometry" || "", i
     }
   
     return (
-    <div className="container">
-      <button onClick={() => erradicate()}>
-        Eliminar
+    <div className="container" >
+      <button onClick={() => erradicate()} className="bg-red p-2 rounded-sm">
+        Eliminar Paciente
       </button>
     </div>
   );

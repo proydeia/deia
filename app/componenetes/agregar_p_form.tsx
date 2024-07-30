@@ -62,16 +62,7 @@ export default function AgregarPacientes({ Pagina }: Props) {
             className="px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
           />
         </label>
-        <label htmlFor="extraInfo" className="w-11/12">
-          <h1 className="text-sm font-light text-third">Información Extra</h1>
-          <input
-            type="text"
-            id="extra"
-            value={extraInfo}
-            onChange={(e) => setExtraInfo(e.target.value)}
-            className="px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
-          />
-        </label>
+        
         <label className="w-11/12">
           <h1 className="text-sm font-light text-third">DNI</h1>
           <input
@@ -124,7 +115,16 @@ export default function AgregarPacientes({ Pagina }: Props) {
             </label>
           </div>
         </div>
-        
+        <label htmlFor="extraInfo" className="w-11/12">
+          <h1 className="text-sm font-light text-third">Información Extra</h1>
+          <input
+            type="text"
+            id="extra"
+            value={extraInfo}
+            onChange={(e) => setExtraInfo(e.target.value)}
+            className="px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
+          />
+        </label>
         <button onClick={() => Pagina("4")}>Volver</button>
         {/* <AgregarEspiro/> */}
         <FormButton />
