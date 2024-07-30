@@ -47,7 +47,7 @@ wandb.init(
 
     config={
         "layer_sizes": [64, 32, 16, 1],
-        "input_dim": 9,
+        "input_dim": 8,
         "activation_per_layer": ['relu', 'relu', 'relu', 'sigmoid'],
         "epochs": 20,
         "batch_size": 16,
@@ -70,7 +70,7 @@ for k, v in obs.items():
 xObsTrain, xObsVal, yObsTrain, yObsVal = train_test_split(xObs, yObs, test_size=0.25, random_state=42)
 
 modelObs = Sequential()
-modelObs.add(Dense(64, input_dim=9, activation='relu'))
+modelObs.add(Dense(64, input_dim=8, activation='relu'))
 modelObs.add(Dense(32, activation='relu'))
 modelObs.add(Dense(16, activation='relu'))
 modelObs.add(Dense(1, activation='sigmoid'))

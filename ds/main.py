@@ -44,7 +44,10 @@ class Spirometry(BaseModel):
     fvcpred: float
 
 class SpirometryPlus(Spirometry):
-    notasextra: str
+    edad: int
+    sexo: int
+    altura: float
+    peso: float
 
 @app.post("/obstruction")
 async def predictobs(spirometry: Spirometry):
@@ -63,7 +66,7 @@ async def predictobs(spirometry: Spirometry):
 async def predictobsai(spirometry: SpirometryPlus):
     if model1 is None:
         return {"result": -1}
-    x = [spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, *aivals(spirometry.notasextra)]
+    x = [spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso]
     res = model1.predict([x]) * 5
     return {"result": res[0]}
 
@@ -81,6 +84,6 @@ async def predictres(spirometry: Spirometry):
 async def predictresai(spirometry: SpirometryPlus):
     if model2 is None:
         return {"result": -1}
-    x = [spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, *aivals(spirometry.notasextra)]
+    x = [spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirom]
     res = model2.predict([x])
     return {"result": res[0]}
