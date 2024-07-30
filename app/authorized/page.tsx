@@ -6,6 +6,7 @@ import Id_paciente from "./Components/id_paciente";
 import { useState } from "react";
 import AgregarEspiro from "../componenetes/agregar_s_form";
 import Default from "./Components/default";
+import Ver_Mas from "./Components/mas_esp";
 
 export default function AuthorizedPage() {
   const [state, setState] = useState("");
@@ -20,7 +21,7 @@ export default function AuthorizedPage() {
         return <Id_paciente pacienteId={state} Pagina={setPagina} />;
 
       case "4":
-        return <Default />;
+        return <Ver_Mas Pagina={setPagina} />;
       default:
         return <Default/>
     }
