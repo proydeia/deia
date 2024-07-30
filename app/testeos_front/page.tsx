@@ -200,7 +200,7 @@ console.log(Pagina)
         </div>
         {/* PREVISUALIZACION DE PACIENTES */}
         <div className="w-7/12 bg-secondary flex justify-center ">
-          {formA === 1 && <AgregarPacientes />}
+          {/* {formA === 1 && <AgregarPacientes />} */}
           <div className="h-full w-10/12 flex items-center justify-center flex-col ">
             <p className="font-bold text-left text-3xl w-full">
               Instrucciones
