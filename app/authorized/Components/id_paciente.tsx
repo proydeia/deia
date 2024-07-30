@@ -83,7 +83,8 @@ export default function Id_paciente({ pacienteId, Pagina }: Props) {
                   <p>Fvc: {spirometry.fvc}</p>
                 </div>
               ))}
-              <button onClick={() => Pagina("4")}>Volver</button>
+              <button onClick={() => Pagina("4")}>Ver Mas</button>
+              <button onClick={() => Pagina("2")}>Volver</button>
               <button onClick={() => Pagina("2")}>Agregar Espirometrías</button>
               <ByebyeButton tabla={"patient"} id={pacienteId} />
             </div>
