@@ -124,7 +124,7 @@ for k, v in res.items():
     xRes.append(list(vals.values()))
     yRes.append(v['restriction'])
 
-xResTrain, xResval, yResTrain, yResval = train_test_split(xRes, yRes, test_size=0.25, random_state=42)
+xResTrain, xResval, yResTrain, yResval = train_test_split(xRes, yRes, test_size=0.25, random_state=23)
 
 modelRes = LogisticRegression(class_weight="balanced")
 modelRes.fit(np.array(xResTrain), np.array(yResTrain))
