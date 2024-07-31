@@ -1,5 +1,6 @@
 import FormButton from "./form_button";
-
+import Volver_btn from "../authorized/Components/volver_btn";
+import { Dispatch, SetStateAction } from "react";
 // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 //     event.preventDefault();
 
@@ -9,12 +10,13 @@ import FormButton from "./form_button";
 //   };
 //                                                      AGREGAR LUEGO LOS DATOS DE LAS ESPIROMETRIAS
 
-export default function AgregarEspiro() {
+export default function AgregarEspiro({Pagina}:{ Pagina: Dispatch<SetStateAction<string>> } ) {
   return (
     <main className="h-full flex flex-col justify-center items-center w-11/12 ">
       <p className="text-2xl sm:text-3xl font-bold text-left text-primary_light w-full mb-4 mt-4">
         Agregar Espirometría
       </p>
+      <Volver_btn Pagina={() => Pagina("default")}/>
       <form
         // onSubmit={handleSubmit}
         className="w-10/12 sm:w-full bg-primary_light rounded-sm flex flex-col justify-center items-center gap-4 overflow-y-auto"

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createPatient } from "../api/patient";
 import AgregarEspiro from "./agregar_s_form";
 import { Dispatch, SetStateAction } from "react";
+import Volver_btn from "../authorized/Components/volver_btn";
 
 interface PatientInput {
   name: string;
@@ -125,7 +126,7 @@ export default function AgregarPacientes({ Pagina }: Props) {
           </div>
         </div>
         
-        <button onClick={() => Pagina("4")}>Volver</button>
+        <Volver_btn Pagina={() => Pagina("default")}/>
         {/* <AgregarEspiro/> */}
         <FormButton />
       </form>

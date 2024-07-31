@@ -6,8 +6,7 @@ import { Spirometry } from "@/app/lib/db/schema";
 import Instrucciones from "./instrucciones";
 import ByebyeButton from "./byebyeButton";
 import { Dispatch, SetStateAction } from "react";
-import { set } from "zod";
-
+import Volver_btn from "./volver_btn";
 interface Props {
   pacienteId: string; // ID passed as a prop
   Pagina: Dispatch<SetStateAction<string>>;
@@ -70,7 +69,7 @@ export default function Id_paciente({ pacienteId, Pagina }: Props) {
                 </div>
               ))}
               <button onClick={() => Pagina("4")}>Ver Mas</button>
-              <button onClick={() => Pagina("2")}>Volver</button>
+              <Volver_btn Pagina={() => Pagina("default")}/>
               <button onClick={() => Pagina("2")}>Agregar Espirometrías</button>
               <ByebyeButton tabla={"patient"} id={pacienteId} />
             </div>
