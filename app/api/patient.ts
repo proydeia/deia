@@ -1,8 +1,8 @@
 "use server"
-import db, { newPatient, Patient } from "../lib/db/schema";
+import db, { Patient } from "../lib/db/schema";
 import { uuid } from "./generateId";
 import { userId, isAdmin } from "./token";
-import { DeleteResult } from "kysely";
+import {patientFormSchema, patientState} from '@/app/lib/definitions/patientCreation';
 
 // Datos del input medico
 
@@ -33,6 +33,8 @@ export async function getPatientsList(): Promise < Patient[] > {
         throw new Error('D');
     }
 }
+
+
 
 export async function getPatient(patientId:string): Promise < Patient > {
     
@@ -91,7 +93,22 @@ export async function deletePatient(patientId: string) {
 
 
 
-export async function createPatient(patientData:pacientInput): Promise < newPatient > {
+export async function createPatient(state:patientState, formData:FormData) {
+
+    const validatedFields = patientFormSchema.safeParse({
+        name: formData.get('name'),
+        extraInfo: formData.get('extraInfo'),
+        peso: formData.get('peso'),
+        altura: formData.get('altura'),
+        nacimiento: formData.get('nacimiento'),
+        sexo: formData.get('sexo'),
+      });
+      
+      if (!validatedFields.success) {
+        return {
+          errors: validatedFields.error.flatten().fieldErrors,
+        };
+      };
     
     const id = await userId();
     
@@ -100,21 +117,30 @@ export async function createPatient(patientData:pacientInput): Promise < newPati
     try{
         const uniqueId = await uuid("patients")
         
-        console.log(id)
-        return await db
+        await db
         .insertInto("patients")
         .values({
             id: uniqueId,
-            name: patientData.name,
-            extrainfo: patientData.extraInfo,
+            name: validatedFields.data.name,
+            extrainfo: validatedFields.data.extrainfo as string,
             medic: id,
+            peso: validatedFields.data.peso,
+            altura: validatedFields.data.altura,
+            sexo: validatedFields.data.sexo,
+            edad: validatedFields.data.nacimiento,
         })
         .returningAll()
         .executeTakeFirstOrThrow();
+
+        return {
+            message:'Registro creado con éxito.'
+          };
     }
 
     catch(error: unknown){
         console.log(JSON.stringify(error))
-        throw new Error('D')
+        return {
+            message:'Error al crear registro. Intente denuvo más tarde.'
+          };
     }
 }

@@ -145,15 +145,15 @@ export default function Testeo() {
   const [Pagina, setPagina] = useState("1");
 
 
-  useEffect(() => {
-    setFilteredPacientes(
-      Object.values(pacientesObj).filter(
-        (paciente) =>
-          paciente.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          paciente.apellido.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
-  }, [searchTerm]);
+  // useEffect(() => {
+  //   setFilteredPacientes(
+  //     Object.values(pacientesObj).filter(
+  //       (paciente) =>
+  //         paciente.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //         paciente.apellido.toLowerCase().includes(searchTerm.toLowerCase())
+  //     )
+  //   );
+  // }, [searchTerm]);
 
 
 
@@ -207,10 +207,10 @@ console.log(Pagina)
             </p>
             <div className="text-left ">Como usar nuestra página?</div>
           </div>
-          <button onClick={() => setPagina("1")}>boton 1</button>
+          {/* <button onClick={() => setPagina("1")}>boton 1</button>
           <button onClick={() => setPagina("2")}>boton 2</button>
           <button onClick={() => setPagina("3")}>boton 3</button>
-          <button onClick={() => setPagina("4")}>boton 4</button>
+          <button onClick={() => setPagina("4")}>boton 4</button> */}
         </div>
       </main>
     </>

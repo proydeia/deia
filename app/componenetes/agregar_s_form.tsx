@@ -21,16 +21,7 @@ export default function AgregarEspiro({Pagina}:{ Pagina: Dispatch<SetStateAction
         // onSubmit={handleSubmit}
         className="w-10/12 sm:w-full bg-primary_light rounded-sm flex flex-col justify-center items-center gap-4 overflow-y-auto"
       >
-        <label className="w-11/12">
-          <h1 className="text-sm font-light text-third mt-8">
-            Nombre del Paciente
-          </h1>
-          <input
-            type="text"
-            id="nombre"
-            className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
-          />
-        </label>
+       
         <div className="grid-cols-2 grid w-11/12 gap-2 justify-center ">
           <div>
             <label className="w-11/12">
@@ -72,26 +63,7 @@ export default function AgregarEspiro({Pagina}:{ Pagina: Dispatch<SetStateAction
               />
             </label>
           </div>
-          <div>
-            <label className="w-11/12">
-              <h1 className="text-sm font-light text-third">OBS med</h1>
-              <input
-                type="number"
-                id="obs"
-                className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
-              />
-            </label>
-          </div>
-          <div>
-            <label className="w-11/12">
-              <h1 className="text-sm font-light text-third">RES med</h1>
-              <input
-                type="number"
-                id="res"
-                className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
-              />
-            </label>
-          </div>
+          
         </div>
         <label className="w-11/12">
           <h1 className="text-sm font-light text-third">Información Extra</h1>

@@ -55,9 +55,23 @@ export default function Id_paciente({ pacienteId, Pagina }: Props) {
           <div className="w-11/12 flex flex-col justify-center items-center bg-primary_light py-4 rounded-sm">
             <div className="sm:w-11/12 flex flex-col w-full overflow-y-auto h-96 gap-6">
               {/* Patient information sections here, accessing patient.property */}
-              <p>{patient.name}</p>
-              <p>{patient.extrainfo}</p>
-              <p>{patient.id}</p>
+              <div className="bg-primary rounded-sm flex flex-col my-2 py-4 px-2">
+                <div className="flex flex-row gap-2">
+                <p className="font-bold">Nombre y Apellido:</p>
+                <p className="font-medium">{patient.name}</p>
+                </div>
+                <div className="flex flex-row gap-2">
+                <p className="font-bold">Informacion Extra:</p>
+                <p className="font-medium">{patient.extrainfo}</p>
+                </div>
+                
+                <div className="flex flex-row gap-2">
+                <p className="font-bold">Informacion Extra:</p>
+                <p className="font-medium">{patient.extrainfo}</p>
+                </div>
+                
+          
+              </div>
               {Spyrometry?.map((spirometry) => (
                 <div
                   className="bg-primary_light rounded-sm shadow-lg shadow-primary p-4"
