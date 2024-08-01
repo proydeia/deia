@@ -40,7 +40,7 @@ interface patientTable {
     medic: string; //foreing KEY
     peso: number;
     altura: number;
-    edad: Date;
+    nacimiento: Date;
     sexo: number;
 }
 
