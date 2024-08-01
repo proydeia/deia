@@ -87,7 +87,7 @@ export async function deletePatient(patientId: string) {
     }
 }
 
-export async function createPatient(state:patientState, formData:FormData): Promise<patientState> {
+export async function createPatient(state:patientState, formData:FormData) {
 
     const validatedFields = patientFormSchema.safeParse({
         name: formData.get('name'),
@@ -128,7 +128,7 @@ export async function createPatient(state:patientState, formData:FormData): Prom
 
         return {
             message:'Registro creado con éxito.'
-          };
+          }; //redirigir al menu del paciente y actualizar la lista :)
     }
 
     catch(error: unknown){
