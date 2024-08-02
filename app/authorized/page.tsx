@@ -16,7 +16,7 @@ export default function AuthorizedPage() {
       case "1":
         return <AgregarPacientes Pagina={setPagina} />;
       case "2":
-        return <AgregarEspiro Pagina={setPagina}/>;
+        return <AgregarEspiro Pagina={setPagina} id={state}/>;
       case "3":
         return <Id_paciente pacienteId={state} Pagina={setPagina} />;
 

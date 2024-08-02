@@ -3,8 +3,7 @@ import { spirometryFormSchema, spirometrieState } from "../lib/definitions/spiro
 import db, { newSpirometry, Spirometry } from "../lib/db/schema";
 import { uuid } from "./generateId";
 import { DeleteResult } from "kysely";
-import { isAdmin, userId } from "./token";
-import { date } from "zod";
+import { checkMedic } from "./token";
 const axios = require('axios');
 const moment = require('moment');
 
@@ -26,20 +25,15 @@ type spirometryInput = {
 
 export async function getSpirometriesList (patientId: string): Promise < Spirometry[] > {
     
-    const id: string | null = await userId();
-    if (!id || await isAdmin()) throw new Error('U');
+    const id = await checkMedic();
     
     try{
-        
         const spirometries = await db
         .selectFrom("spirometries")
-
         .innerJoin("patients", "spirometries.patient", "patients.id")   // Relación entre espirometria y paciente
         .innerJoin("users", "patients.medic", "users.id")               // Relación entre paciente y medico
-        
         .where("patients.medic", "=", id)                               // El medico esta relacionado con el paciente  
-        .where("spirometries.patient", "=", patientId)                  // El paciente esta relacionado con la espirometria
-        
+        .where("spirometries.patient", "=", patientId)                  // El paciente esta relacionado con la espirometria   
         .selectAll()
         .execute();                                                     // Devuelve las espirometrias; si no existen, devuelve una lista vacia.
 
@@ -53,20 +47,15 @@ export async function getSpirometriesList (patientId: string): Promise < Spirome
 
 export async function getSpirometry (spirometryId: string): Promise < Spirometry > {
     
-    const id: string | null = await userId();
-    if (!id || await isAdmin()) throw new Error("U");
+    const id = await checkMedic();
     
     try{
-
         const spirometry = await db 
         .selectFrom("spirometries")
-        
         .innerJoin("patients", "spirometries.patient", "patients.id")   // Relación entre espirometria y paciente
         .innerJoin("users", "patients.medic", "users.id")               // Relación entre paciente y medico
-
         .where("patients.medic", "=", id)                               // El medico esta relacionado con el paciente
         .where("spirometries.id", "=", spirometryId)                    // La espirometria esta relacionada con el id
-
         .selectAll()
         .executeTakeFirstOrThrow();                                     // Devuelve la espirometria; si no existe, devuelve un error.
 
@@ -80,19 +69,15 @@ export async function getSpirometry (spirometryId: string): Promise < Spirometry
 
 export async function deleteSpirometry(spirometryId: string): Promise < DeleteResult > {
     
-    const id: string | null = await userId();
-    if(!id || await isAdmin()) throw new Error('U');
+    const id = await checkMedic();
     
     try{
         return await db
         .deleteFrom("spirometries")
-
         .innerJoin("patients", "spirometries.patient", "patients.medic")
         .innerJoin("users", "patients.medic", "users.id")
-        
         .where("patients.medic", "=", id)
         .where("spirometries.id", "=", spirometryId)
-        
         .executeTakeFirstOrThrow();
     }
     
@@ -104,11 +89,7 @@ export async function deleteSpirometry(spirometryId: string): Promise < DeleteRe
 export async function createSpirometry(state: spirometrieState, formData: FormData): Promise<spirometrieState> { // "Crea" una espirometria.
     
     const validatedFields = spirometryFormSchema.safeParse({
-    id:             formData.get('id'),
-        sexo:       Number(formData.get('sexo')),
-        altura:     Number(formData.get('altura')),
-        nacimiento: new Date(formData.get('nacimiento') as string),
-        peso:       Number(formData.get('peso')),
+        id:         formData.get('id'),
         fev1:       Number(formData.get('name')),
         fev1_lln:   Number(formData.get('extraInfo')),
         fvc:        Number(formData.get('peso')),
@@ -121,27 +102,27 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
         };
     };
 
-    const id: string | null = await userId();
+    checkMedic();
 
-    if (!id || await isAdmin()) throw new Error('U');
+    try{
+        //const extraData
 
-    const spirometryData: spirometryInput = {
-        patient:    validatedFields.data.id,
-        fev1:       validatedFields.data.fev1,
-        fev1pred:   validatedFields.data.fev1_lln,
-        fvc:        validatedFields.data.fvc,
-        fvcpred:    validatedFields.data.fvc_lln,
-    }
+        const spirometryData: spirometryInput = {
+            patient:    validatedFields.data.id,
+            fev1:       validatedFields.data.fev1,
+            fev1pred:   validatedFields.data.fev1_lln,
+            fvc:        validatedFields.data.fvc,
+            fvcpred:    validatedFields.data.fvc_lln,
+        }
+    
+        const spirometryDataAi = {
+            ...spirometryData, 
+            peso:       validatedFields.data.peso,
+            altura:     validatedFields.data.altura,
+            sexo:       validatedFields.data.sexo,
+            nacimiento: validatedFields.data.nacimiento
+        };
 
-    const spirometryDataAi = {
-        ...spirometryData, 
-        peso:       validatedFields.data.peso,
-        altura:     validatedFields.data.altura,
-        sexo:       validatedFields.data.sexo,
-        nacimiento: calculateAge(validatedFields.data.nacimiento)
-    };
-
-    try{  
         
         const obstruction:number = await axios.post("http://127.0.0.1:8000/obstruction", spirometryData)
         .then((res:any) => {
@@ -152,16 +133,14 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
             throw new Error('O');
         })
 
-
-        const obstructionai:number = await axios.post("http://127.0.0.1:8000/obstructionai", spirometryDataAi)
+        const obstructionAi:number = await axios.post("http://127.0.0.1:8000/obstructionai", spirometryDataAi)
         .then((res:any) => {
             return res.data.result;
         })
         .catch((error:unknown) => {
             console.log(JSON.stringify(error))
-            throw new Error('O');
+            throw new Error('Oia');
         })
-
 
         const restriction:number = await axios.post("http://127.0.0.1:8000/restriction", spirometryData)
         .then((res:any) => {
@@ -172,28 +151,27 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
             throw new Error('R');
         })
 
-
-        const restrictionai:number = await axios.post("http://127.0.0.1:8000/restrictionai", spirometryDataAi)
+        const restrictionAi:number = await axios.post("http://127.0.0.1:8000/restrictionai", spirometryDataAi)
         .then((res:any) => {
             return res.data.result;
         })
         .catch((error:unknown) => {
             console.log(JSON.stringify(error))
-            throw new Error('R');
+            throw new Error('Ria');
         })
 
-
-        const date = moment().format("YYYY-MM-DD"); // Genera fecha actual.
-
+        
         const spirometryId = await uuid("spirometries"); // Genera un UUID único.	
+        const date = moment().format("YYYY-MM-DD"); // Genera fecha actual.
                 
+        
         const spirometry: newSpirometry = {
             ...spirometryData,
             id:             spirometryId,
             obstruction:    obstruction,
-            obstructionai:  obstructionai,
+            obstructionai:  obstructionAi,
             restriction:    restriction,
-            restrictionai:  restrictionai,
+            restrictionai:  restrictionAi,
             date:           date
         }; 
         
@@ -216,6 +194,7 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
     
     catch(error:unknown){
         console.log(error)
+        
         return {
             message: 'Error al generar registro. Intente nuevamente.'
         };

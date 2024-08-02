@@ -6,7 +6,7 @@ import { Dispatch, SetStateAction } from "react";                               
 import { useFormState } from "react-dom";
 import { createSpirometry } from "../api/spirometry";
 
-export default function AgregarEspiro({Pagina, id, altura, sexo, peso}:{ Pagina: Dispatch<SetStateAction<string>>, id: string, altura: number, sexo: number, peso: number } ) {
+export default function AgregarEspiro({Pagina, id}:{ Pagina: Dispatch<SetStateAction<string>>, id: string} ) {
   const [state, formAction] = useFormState(createSpirometry, undefined);
 
   return (
@@ -25,9 +25,6 @@ export default function AgregarEspiro({Pagina, id, altura, sexo, peso}:{ Pagina:
           <div className="grid-cols-2 grid w-11/12 gap-2 justify-center ">
             
             <input type="hidden" id="id" name="id" value={id}/>{/* esto es para pasar el ID */}
-            <input type="hidden" id="sexo" name="sexo" value={sexo}/>{/* esto es para pasar el ID */}
-            <input type="hidden" id="altura" name="altura" value={altura}/>{/* esto es para pasar el ID */}
-            <input type="hidden" id="peso" name="peso" value={peso}/>{/* esto es para pasar el ID */}
             
             <div>
             
@@ -94,6 +91,7 @@ export default function AgregarEspiro({Pagina, id, altura, sexo, peso}:{ Pagina:
             className="px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
           />
         </label> */}
+        {state?.message && <p>{state.message}</p>}
         <FormButton />
       </form>
     </main>
