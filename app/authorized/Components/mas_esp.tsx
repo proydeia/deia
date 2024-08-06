@@ -1,6 +1,9 @@
 import { Dispatch, SetStateAction } from "react";
 import Volver_btn from "./volver_btn";
-export default function Ver_Mas({ Pagina }: { Pagina: Dispatch<SetStateAction<string>> }) {
+export default function Ver_Mas({ Pagina, Page }: {
+    Pagina: Dispatch<SetStateAction<string>>
+    Page: Dispatch<SetStateAction<string>>
+}) {
     return (
         <div className="w-11/12 flex flex-col h-screen">
             <p className="text-2xl sm:text-3xl font-bold text-left text-primary_light w-full mb-4 mt-4 px-4">Datos del Diagnóstico</p>
@@ -29,7 +32,7 @@ export default function Ver_Mas({ Pagina }: { Pagina: Dispatch<SetStateAction<st
                         <p className=" md:text-lg font-bold text-xl  sm:text-2xl">54%</p>
                     </div>
                     <div className="px-2 md:px-4 md:flex-row  flex flex-col py-2  col-span-2  bg-primary">
-                        <p className= "md:text-lg sm:text-xl font-semibold text-lg">Grado de Obstruccion por IA:</p>
+                        <p className="md:text-lg sm:text-xl font-semibold text-lg">Grado de Obstruccion por IA:</p>
                         <p className=" md:text-lg font-bold text-xl  sm:text-2xl">54%</p>
                     </div>
                     <div className="px-2 md:px-4 md:flex-row  flex flex-col py-2  col-span-2  bg-primary">
@@ -49,7 +52,7 @@ export default function Ver_Mas({ Pagina }: { Pagina: Dispatch<SetStateAction<st
 
                 </div>
                 {/* <button onClick={() => Pagina("2")}>Volver</button> */}
-                <Volver_btn Pagina={() => Pagina("1")}/>
+                <Volver_btn Pagina={() => Pagina("1")} />
             </div>
         </div>
     )

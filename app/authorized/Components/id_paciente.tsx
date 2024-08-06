@@ -12,14 +12,14 @@ import Ver_Mas from "./mas_esp";
 interface Props {
   pacienteId: string; // ID passed as a prop
   Pagina: Dispatch<SetStateAction<string>>;
+  Page: Dispatch<SetStateAction<string>>;
 }
 
-export default function Id_paciente({ pacienteId, Pagina }: Props) {
+export default function Id_paciente({ pacienteId, Pagina, Page }: Props) {
   const [patient, setPatient] = useState<Patient | null>(null);
   const [Spyrometry, setSpyrometry] = useState<Spirometry[] | null>(null);
   const [isLoading, setIsLoading] = useState(false); // Track loading state
-  const [pagina, setPagina] = useState("");
-
+  
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true); // Set loading state to true
@@ -56,7 +56,9 @@ export default function Id_paciente({ pacienteId, Pagina }: Props) {
         <p>Elija un Paciente o cree uno.</p>
       ) : patient ? (
         <>
-        {/* {pagina == "1" ? <AgregarEspiro Pagina={setPagina} /> : <Ver_Mas Pagina={setPagina} />} */}
+        {/* {pagina == "1" ? <AgregarEspiro Pagina={setPagina} /> : 
+          <Ver_Mas Pagina={setPagina} />   
+      } */}
           <div className="w-11/12 flex flex-col justify-center items-center bg-primary_light py-4 rounded-sm">
             <div className="sm:w-11/12 flex flex-col w-full overflow-y-auto h-96 gap-6">
               {/* Patient information sections here, accessing patient.property */}
@@ -86,9 +88,9 @@ export default function Id_paciente({ pacienteId, Pagina }: Props) {
                   <p>Fvc: {spirometry.fvc}</p>
                 </div>
               ))}
-              <button onClick={() => setPagina("2")}>Ver Mas</button>
+              <button onClick={() => Page("1")}>Ver Mas</button>
               <Volver_btn Pagina={() => Pagina("default")} />
-              <button onClick={() => setPagina("2")}>Agregar Espirometrías</button>
+              <button onClick={() => Page("2")}>Agregar Espirometrías</button>
               <ByebyeButton tabla={"patient"} id={pacienteId} />
             </div>
           </div>

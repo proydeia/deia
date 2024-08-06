@@ -118,7 +118,7 @@ export default function AgregarPacientes({ Pagina }: Props) {
             </label>
           </div>
         </div>
-        <button onClick={() => Pagina("4")}>Volver</button>
+        <button onClick={() => Pagina("1")}>Volver</button>
         {/* <AgregarEspiro/> */}
         <FormButton />
       </form>

@@ -10,18 +10,21 @@ import { Dispatch, SetStateAction } from "react";
 //   };
 //                                                      AGREGAR LUEGO LOS DATOS DE LAS ESPIROMETRIAS
 
-export default function AgregarEspiro({Pagina}:{ Pagina: Dispatch<SetStateAction<string>> } ) {
+export default function AgregarEspiro({ Pagina, Page }: {
+  Pagina: Dispatch<SetStateAction<string>>
+  Page: Dispatch<SetStateAction<string>>
+}) {
   return (
     <main className="h-full flex flex-col justify-center items-center w-11/12 ">
       <p className="text-2xl sm:text-3xl font-bold text-left text-primary_light w-full mb-4 mt-4">
         Agregar Espirometría
       </p>
-      <Volver_btn Pagina={() => Pagina("default")}/>
+      <Volver_btn Pagina={() => Pagina("default")} />
       <form
         // onSubmit={handleSubmit}
         className="w-10/12 sm:w-full bg-primary_light rounded-sm flex flex-col justify-center items-center gap-4 overflow-y-auto"
       >
-       
+
         <div className="grid-cols-2 grid w-11/12 gap-2 justify-center ">
           <div>
             <label className="w-11/12">
@@ -63,7 +66,7 @@ export default function AgregarEspiro({Pagina}:{ Pagina: Dispatch<SetStateAction
               />
             </label>
           </div>
-          
+
         </div>
         <label className="w-11/12">
           <h1 className="text-sm font-light text-third">Información Extra</h1>
