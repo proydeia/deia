@@ -23,7 +23,7 @@ export default function Lista_y_Busqueda({ onPacientSelect, Patient, Pagina }: {
     console.log("Clicked on:", Id)
     onPacientSelect(Id);
     console.log(Pagina);
-    Pagina("3")
+    Pagina("2")
    }
   
    useEffect(() => {
