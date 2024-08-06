@@ -1,6 +1,6 @@
 Flask
 flask-restful
-fastapi
+fastapi[standard]
 python-dotenv
 scikit-learn
 tensorflow

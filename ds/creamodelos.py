@@ -49,8 +49,8 @@ wandb.init(
         "layer_sizes": [64, 32, 16, 1],
         "input_dim": 8,
         "activation_per_layer": ['relu', 'relu', 'relu', 'sigmoid'],
-        "epochs": 20,
-        "batch_size": 16,
+        "epochs": 50,
+        "batch_size": 8,
     }
 )
 
@@ -75,7 +75,7 @@ modelObs.add(Dense(32, activation='relu'))
 modelObs.add(Dense(16, activation='relu'))
 modelObs.add(Dense(1, activation='sigmoid'))
 modelObs.compile(loss='mean_squared_error', optimizer=Adam())
-modelObs.fit(pd.DataFrame(xObsTrain), pd.DataFrame(yObsTrain), epochs=20, batch_size=16, validation_data=(pd.DataFrame(xObsVal), pd.DataFrame(yObsVal)), callbacks=wandb_callbacks)
+modelObs.fit(pd.DataFrame(xObsTrain), pd.DataFrame(yObsTrain), epochs=50, batch_size=8, validation_data=(pd.DataFrame(xObsVal), pd.DataFrame(yObsVal)), callbacks=wandb_callbacks)
 wandb.log({'mean_squared_error': mean_squared_error(yObsVal, modelObs.predict(pd.DataFrame(xObsVal)))})
 
 wandb.finish()
