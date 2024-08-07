@@ -1,12 +1,40 @@
 import { Dispatch, SetStateAction } from "react";
 import Volver_btn from "./volver_btn";
+import Image from "next/image";
 export default function Ver_Mas({ Pagina, Page }: {
     Pagina: Dispatch<SetStateAction<string>>
     Page: Dispatch<SetStateAction<string>>
 }) {
     return (
         <div className="w-11/12 flex flex-col h-screen">
-            <p className="text-2xl sm:text-3xl font-bold text-left text-primary_light w-full mb-4 mt-4 px-4">Datos del Diagnóstico</p>
+            <div className="flex flex-row flex-direction-row-reverse justify-between gap-6 w-full">
+
+                <p className="text-2xl sm:text-3xl font-bold text-left text-primary_light w-full mb-4 mt-4">
+                    Datos Extra
+                </p>
+                <div className="flex flex-row items-center justify-center">
+                    <button onClick={() => Page("1")}>
+                        <Image
+                            src="/flexa_back.png"
+                            alt="Flecha"
+                            layout="fixed"
+                            width={30}
+                            height={30}
+                        />
+                    </button>
+                    <button onClick={() => Pagina("1")} className=" px-4 h-2/3">
+                        <Image
+                            src="/cruz_back.png"
+                            alt="Mi imagen"
+                            layout="fixed"
+                            width={30}
+                            height={30}
+                        />
+                    </button>
+                </div>
+            </div>
+
+            {/* <p className="text-2xl sm:text-3xl font-bold text-left text-primary_light w-full mb-4 mt-4 px-4">Datos del Diagnóstico</p> */}
 
             <div className=" flex flex-col gap-4 justify-center items-center bg-primary_light py-4 rounded-sm h-4/5">
                 <p className="text-xl sm:text-2xl font-bold text-left w-full mb-2 mt-4 px-4">Fecha: 32893884398</p>
@@ -52,7 +80,8 @@ export default function Ver_Mas({ Pagina, Page }: {
 
                 </div>
                 {/* <button onClick={() => Pagina("2")}>Volver</button> */}
-                <Volver_btn Pagina={() => Pagina("1")} />
+                {/* <Volver_btn Pagina={() => Pagina("1")} /> */}
+                <button onClick={() => Page("1")} className="bg-secondary px-8 py-2 rounded-md hover:bg-primary">Volver</button>
             </div>
         </div>
     )
