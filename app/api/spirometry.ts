@@ -90,6 +90,12 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
     
     const validatedFields = spirometryFormSchema.safeParse({
         id:         formData.get('id'),
+        
+        sexo:       Number(formData.get('sexo')),
+        altura:     Number(formData.get('altura')),
+        peso:       Number(formData.get('peso')),
+        nacimiento: new Date(formData.get('nacimiento') as string),
+
         fev1:       Number(formData.get('name')),
         fev1_lln:   Number(formData.get('extraInfo')),
         fvc:        Number(formData.get('peso')),
@@ -120,7 +126,7 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
             peso:       validatedFields.data.peso,
             altura:     validatedFields.data.altura,
             sexo:       validatedFields.data.sexo,
-            nacimiento: validatedFields.data.nacimiento
+            edad: calculateAge(validatedFields.data.nacimiento)
         };
 
         
