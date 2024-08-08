@@ -1,29 +1,21 @@
+"use client";
 import Navbar from "@/app/navBar";
-import {getPatientsList, getPatient} from "@/app/api/patient"
-import { userId } from "@/app/api/token";
-import { writeJSON } from "@/ds/writeDatadump";
-import { getSpirometriesList } from "@/app/api/spirometry";
-export default async function ingresoPaciente() {
-
-    const id = await userId();
-    const patients = await getPatient(id as string);
-    writeJSON();
-        const b = await getSpirometriesList("mc82fy9hrcn489pnyrcf489n8pq23");
-    
-     <h1>
-     {b.map((spirometry) => (
-         <div key={spirometry.id}>
-             <p>{spirometry.patient}</p>
-         </div>
-     ))}
- </h1> 
+import { useFormState } from "react-dom";
+import { createSpirometry } from "@/app/api/spirometry";
+export default function ingresoPaciente() {
+    const [state, actions] = useFormState(createSpirometry, undefined);
     return (
-        <>
-            <Navbar />
-            <div className="flex justify-center items-center h-screen">
-                <div className=" w-1/2 h-1/2 bg-primary rounded-lg">
-                </div>
-            </div>
-        </>
+        <form action={actions}>
+            <input type="hidden" name="id" id="id" value={"6669c549-fc97-4016-ab02-45c4b464a500"} />
+            <input type="number" step={1} name="sexo" id="sexo"  />
+            <input type="number" step={.1} name="altura" id="altura" />
+            <input type="number" step={.1} name="peso" id="peso" />
+            <input type="date" name="nacimiento" id="nacimiento"/>
+            <input type="number" step={.1} name="fev1" id="fev1" />
+            <input type="number" step={.1} name="fev1_lln" id="fev1_lln" />
+            <input type="number" step={.1} name="fvc" id="fvc" />
+            <input type="number" step={.1} name="fvc_lln" id="fvc_lln" />
+            <input type="submit"/>
+        </form>
     )
 }

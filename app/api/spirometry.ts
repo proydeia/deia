@@ -10,15 +10,15 @@ const moment = require('moment');
 // Datos del input medico
 
 type spirometryInput = {
-    patient: string;
-    //peso: number;
-    //sexo: number;
-    //altura: number;
-    //nacimiento: number;
-    fev1: number;
-    fev1pred: number;
-    fvc: number;
-    fvcpred: number;
+    id:         string;
+    peso:       number;
+    sexo:       number;
+    altura:     number;
+    nacimiento: Date;
+    fev1:       number;
+    fev1_lln:   number;
+    fvc:        number;
+    fvc_lln:    number;
 }
 
 // Espirometrias
@@ -90,16 +90,14 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
     
     const validatedFields = spirometryFormSchema.safeParse({
         id:         formData.get('id'),
-        
         sexo:       Number(formData.get('sexo')),
         altura:     Number(formData.get('altura')),
         peso:       Number(formData.get('peso')),
         nacimiento: new Date(formData.get('nacimiento') as string),
-
-        fev1:       Number(formData.get('name')),
-        fev1_lln:   Number(formData.get('extraInfo')),
-        fvc:        Number(formData.get('peso')),
-        fvc_lln:    Number(formData.get('altura')),
+        fev1:       Number(formData.get('fev1')),
+        fev1_lln:   Number(formData.get('fev1_lln')),
+        fvc:        Number(formData.get('fvc')),
+        fvc_lln:    Number(formData.get('fvc_lln')),
     });
 
     if (!validatedFields.success) {
@@ -110,101 +108,106 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
 
     checkMedic();
 
+
     try{
-        //const extraData
 
-        const spirometryData: spirometryInput = {
-            patient:    validatedFields.data.id,
-            fev1:       validatedFields.data.fev1,
-            fev1pred:   validatedFields.data.fev1_lln,
-            fvc:        validatedFields.data.fvc,
-            fvcpred:    validatedFields.data.fvc_lln,
-        }
-    
-        const spirometryDataAi = {
-            ...spirometryData, 
-            peso:       validatedFields.data.peso,
-            altura:     validatedFields.data.altura,
-            sexo:       validatedFields.data.sexo,
-            edad: calculateAge(validatedFields.data.nacimiento)
-        };
-
+        loadSpirometry(validatedFields.data);
         
-        const obstruction:number = await axios.post("http://127.0.0.1:8000/obstruction", spirometryData)
-        .then((res:any) => {
-            return res.data.result;
-        })
-        .catch((error:unknown) => {
-            console.log(JSON.stringify(error))
-            throw new Error('O');
-        })
-
-        const obstructionAi:number = await axios.post("http://127.0.0.1:8000/obstructionai", spirometryDataAi)
-        .then((res:any) => {
-            return res.data.result;
-        })
-        .catch((error:unknown) => {
-            console.log(JSON.stringify(error))
-            throw new Error('Oia');
-        })
-
-        const restriction:number = await axios.post("http://127.0.0.1:8000/restriction", spirometryData)
-        .then((res:any) => {
-            return res.data.result;
-        })
-        .catch((error:unknown) => {
-            console.log(JSON.stringify(error))
-            throw new Error('R');
-        })
-
-        const restrictionAi:number = await axios.post("http://127.0.0.1:8000/restrictionai", spirometryDataAi)
-        .then((res:any) => {
-            return res.data.result;
-        })
-        .catch((error:unknown) => {
-            console.log(JSON.stringify(error))
-            throw new Error('Ria');
-        })
-
-        
-        const spirometryId = await uuid("spirometries"); // Genera un UUID único.	
-        const date = moment().format("YYYY-MM-DD"); // Genera fecha actual.
-                
-        
-        const spirometry: newSpirometry = {
-            ...spirometryData,
-            id:             spirometryId,
-            obstruction:    obstruction,
-            obstructionai:  obstructionAi,
-            restriction:    restriction,
-            restrictionai:  restrictionAi,
-            date:           date
-        }; 
-        
-        const spirometryDB: newSpirometry | undefined = await db //guardado en la DB 
-        .insertInto("spirometries")
-        .values(spirometry)
-        .returningAll()
-        .executeTakeFirstOrThrow();
-        
-        if(spirometryDB instanceof Error) //error handling del guardado de la data 
-        {
-            deleteSpirometry(spirometryId);
-            throw new Error('DB');
-        }
-
         return {
             message:'Registro creado con exito'
         };
     }
-    
     catch(error:unknown){
-        console.log(error)
-        
+        console.log(error)   
         return {
             message: 'Error al generar registro. Intente nuevamente.'
         };
     }
+}
+
+async function loadSpirometry(data:spirometryInput){
+
+    const spirometryData = {
+        patient:    data.id,
+        fev1:       data.fev1,
+        fev1pred:   data.fev1_lln,
+        fvc:        data.fvc,
+        fvcpred:    data.fvc_lln,
+    }
+
+    const spirometryDataAi = {
+        ...spirometryData, 
+        peso:       data.peso,
+        altura:     data.altura,
+        sexo:       data.sexo,
+        edad:       calculateAge(data.nacimiento)
+    };
+
+    
+    const obstruction:number = await axios.post("http://127.0.0.1:8000/obstruction", spirometryData)
+    .then((res:any) => {
+        return res.data.result;
+    })
+    .catch((error:unknown) => {
+        console.log(JSON.stringify(error))
+        throw new Error('O');
+    })
+
+    const obstructionAi:number = await axios.post("http://127.0.0.1:8000/obstructionai", spirometryDataAi)
+    .then((res:any) => {
+        return res.data.result;
+    })
+    .catch((error:unknown) => {
+        console.log(JSON.stringify(error))
+        throw new Error('Oia');
+    })
+
+    const restriction:number = await axios.post("http://127.0.0.1:8000/restriction", spirometryData)
+    .then((res:any) => {
+        return res.data.result;
+    })
+    .catch((error:unknown) => {
+        console.log(JSON.stringify(error))
+        throw new Error('R');
+    })
+
+    const restrictionAi:number = await axios.post("http://127.0.0.1:8000/restrictionai", spirometryDataAi)
+    .then((res:any) => {
+        return res.data.result;
+    })
+    .catch((error:unknown) => {
+        console.log(JSON.stringify(error))
+        throw new Error('Ria');
+    })
+
+    
+    const spirometryId = await uuid("spirometries"); // Genera un UUID único.	
+    const date = moment().format("YYYY-MM-DD"); // Genera fecha actual.
+            
+    
+    const spirometry: newSpirometry = {
+        ...spirometryData,
+        id:             spirometryId,
+        obstruction:    obstruction,
+        obstructionia:  obstructionAi,
+        restriction:    restriction,
+        restrictionai:  restrictionAi,
+        date:           date
+    }; 
+    
+    const spirometryDB: newSpirometry = await db //guardado en la DB 
+    .insertInto("spirometries")
+    .values(spirometry)
+    .returningAll()
+    .executeTakeFirstOrThrow();
+    
+    if(spirometryDB instanceof Error) //error handling del guardado de la data 
+    {
+        deleteSpirometry(spirometryId);
+        throw new Error('DB');
+    }
+
+    return
 }
 
 function calculateAge(birthdate: Date): number {
