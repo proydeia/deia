@@ -1,9 +1,7 @@
 Flask
 flask-restful
-fastapi
-google-generativeai
+fastapi[standard]
 python-dotenv
-pickle
 scikit-learn
 tensorflow
 numpy

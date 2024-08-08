@@ -1,12 +1,9 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-import google.generativeai as genai
-from sklearn.linear_model import LinearRegression
-import keras
-import numpy as np
 import pickle
-from convert import aivals
 import os
+import numpy as np
+import pandas as pd
 
 app = FastAPI()
 model1_path = 'ds/modelObs.pkl'
@@ -44,7 +41,11 @@ class Spirometry(BaseModel):
     fvcpred: float
 
 class SpirometryPlus(Spirometry):
-    notasextra: str
+    edad: int
+    #0F 1M
+    sexo: int
+    altura: float
+    peso: float
 
 @app.post("/obstruction")
 async def predictobs(spirometry: Spirometry):
@@ -63,9 +64,11 @@ async def predictobs(spirometry: Spirometry):
 async def predictobsai(spirometry: SpirometryPlus):
     if model1 is None:
         return {"result": -1}
-    x = [spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, *aivals(spirometry.notasextra)]
-    res = model1.predict([x]) * 5
-    return {"result": res[0]}
+    x = np.array([[spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso]])
+    #x = pd.DataFrame(x)
+    res = model1.predict(x) * 5
+    print(res)
+    return {"result": str(res[0][0])}
 
 @app.post("/restriction")
 async def predictres(spirometry: Spirometry):
@@ -81,6 +84,6 @@ async def predictres(spirometry: Spirometry):
 async def predictresai(spirometry: SpirometryPlus):
     if model2 is None:
         return {"result": -1}
-    x = [spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, *aivals(spirometry.notasextra)]
+    x = np.array([[spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso]])
     res = model2.predict([x])
-    return {"result": res[0]}
+    return {"result": str(res[0][0])}
