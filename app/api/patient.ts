@@ -1,30 +1,19 @@
 "use server"
-import db, { newPatient, Patient } from "../lib/db/schema";
+import db, { Patient } from "../lib/db/schema";
 import { uuid } from "./generateId";
-import { userId, isAdmin } from "./token";
-import { DeleteResult } from "kysely";
-
-// Datos del input medico
-
-type pacientInput = {
-    name: string;
-    extraInfo: string;
-}
+import { checkMedic } from "./token";
+import {patientFormSchema, patientState} from '@/app/lib/definitions/patientCreation';
 
 // Pacientes
 
 export async function getPatientsList(): Promise < Patient[] > {
     
-    const id = await userId();
-
-    if (!id || await isAdmin()) throw new Error('U')
+    const id = await checkMedic();
     
     try{    
         return await db
         .selectFrom("patients")
-
         .where("patients.medic", "=", id)                   // El medico esta relacionado con el paciente
-        
         .selectAll()
         .execute();        
     }
@@ -36,18 +25,13 @@ export async function getPatientsList(): Promise < Patient[] > {
 
 export async function getPatient(patientId:string): Promise < Patient > {
     
-    const id = await userId();  
-    
-    if (!id || await isAdmin()) throw new Error('U');
+    const id = await checkMedic();
     
     try{
-        
         return await db
         .selectFrom("patients")
-        
         .where("patients.medic", "=", id)                   // El medico esta relacionado con el paciente
         .where("patients.id", "=", patientId)               // El paciente esta relacionado con el id
-        
         .selectAll()
         .executeTakeFirstOrThrow();
     }
@@ -57,64 +41,85 @@ export async function getPatient(patientId:string): Promise < Patient > {
     }
 }
 
-
-
-export async function deletePatient(patientId: string) {
+export async function deletePatient(patientId: string) { //agregar el estado al boton (form) y que muestre el message
     
-    const id: string | null = await userId();
-
-    if(!id || await isAdmin()) throw new Error('U');
+    const id = await checkMedic();
     
     try{
         await db
         .deleteFrom("spirometries")
-
         .where("spirometries.patient", "=", patientId)
-
         .executeTakeFirstOrThrow();
-
 
         await db
         .deleteFrom("patients")
-
         .where("patients.medic", "=", id)                   // El medico esta relacionado con el paciente
         .where("patients.id", "=", patientId) 
-        
         .executeTakeFirstOrThrow();
+
+        return {
+            message:'Registro eliminado con éxito.'
+        }
     }
     
     catch(error:unknown){
-        console.log(error)
         throw new Error('D');
+        return {
+            message:'Error al eliminar registro. Intente denuvo más tarde.'
+        }
     }
 }
 
+export async function createPatient(state:patientState, formData:FormData) {
 
+    const validatedFields = patientFormSchema.safeParse({
+        name:       formData.get('name'),
+        extrainfo:  formData.get('extraInfo'),
+        peso:       Number(formData.get('peso')),
+        altura:     Number(formData.get('altura')),
+        sexo:       Number(formData.get('sexo')),
+        nacimiento: new Date(formData.get('nacimiento') as string),
+    });
 
-export async function createPatient(patientData:pacientInput): Promise < newPatient > {
+    if (!validatedFields.success) {
+        return {
+          errors: validatedFields.error.flatten().fieldErrors,
+        };
+    };
+
     
-    const id = await userId();
-    
-    if(!id || await isAdmin()) throw new Error('U')
+    const id = await checkMedic();
+
 
     try{
+
         const uniqueId = await uuid("patients")
         
-        console.log(id)
-        return await db
+        await db
         .insertInto("patients")
         .values({
-            id: uniqueId,
-            name: patientData.name,
-            extrainfo: patientData.extraInfo,
-            medic: id,
+            id:         uniqueId,
+            medic:      id,
+            name:       validatedFields.data.name,
+            peso:       validatedFields.data.peso,
+            altura:     validatedFields.data.altura,
+            sexo:       validatedFields.data.sexo,
+            nacimiento: validatedFields.data.nacimiento,
+            extrainfo:  validatedFields.data.extrainfo as string,
         })
         .returningAll()
         .executeTakeFirstOrThrow();
+
+        return {
+            message:'Registro creado con éxito.'
+        };
     }
 
     catch(error: unknown){
-        console.log(JSON.stringify(error))
-        throw new Error('D')
+        console.log(error);
+
+        return {
+            message:'Error al crear registro. Intente denuvo más tarde.'
+          };
     }
 }

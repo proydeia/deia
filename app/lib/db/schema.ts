@@ -36,8 +36,12 @@ interface userTable {
 interface patientTable {
     id: string; //Primary KEY
     name: string;
-    extrainfo: string;
+    extrainfo: string | undefined;
     medic: string; //foreing KEY
+    peso: number;
+    altura: number;
+    nacimiento: Date;
+    sexo: number;
 }
 
 interface spirometryTable {

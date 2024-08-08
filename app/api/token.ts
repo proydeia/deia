@@ -19,3 +19,9 @@ export const userId = async (): Promise <string | null> => { //devuelve el id de
     const id:string = session?.user?.id as string;
     return id || null;
 }
+
+export async function checkMedic() {
+    const id: string | null = await userId();
+    if(!id || await isAdmin()) throw new Error('U');
+    return id
+} 
