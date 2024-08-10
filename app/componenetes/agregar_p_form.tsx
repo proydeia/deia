@@ -61,7 +61,6 @@ export default function AgregarPacientes({ Pagina }: Props) {
               type="date"
               id="nacimiento"
               name="nacimiento"
-              required
               className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
           />
             {state?.errors?.nacimiento && <p>{state.errors.nacimiento}</p>}
@@ -75,7 +74,6 @@ export default function AgregarPacientes({ Pagina }: Props) {
             step={0.01}
             id="altura"
             name="altura"
-            required
             className="px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
           />
             {state?.errors?.altura && <p>{state.errors.altura}</p>}
@@ -90,7 +88,6 @@ export default function AgregarPacientes({ Pagina }: Props) {
                 step={0.01}
                 id="peso"
                 name="peso"
-                required
                 className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
               />
             {state?.errors?.peso && <p>{state.errors.peso}</p>}
@@ -104,7 +101,6 @@ export default function AgregarPacientes({ Pagina }: Props) {
                 type="number" //poner boton tipo radial para elegir entre femenino y masculino. Valores 0 y 1 respectivamente.
                 id="sexo"
                 name="sexo"
-                required
                 className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
               />
             {state?.errors?.sexo && <p>{state.errors.sexo}</p>}
@@ -117,18 +113,18 @@ export default function AgregarPacientes({ Pagina }: Props) {
                 type="text"
                 id="extraInfo"
                 name="extrainfo"
-                required
                 className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
               />
-            {state?.errors?.extrainfo && <p>{state.errors.extrainfo}</p>}
+            {state?.errors?.extraInfo && <p>{state.errors.extraInfo}</p>}
             </label>
           </div>
         </div>
-        <button onClick={() => Pagina("4")}>Volver</button>
+        <button onClick={() => Pagina("1")}>Volver</button>
         {/* <AgregarEspiro/> */}
         <FormButton />
       </form>
       {state?.message && <p>{state.message}</p>}
     </div>
+    
   );
 }

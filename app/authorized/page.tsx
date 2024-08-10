@@ -7,26 +7,25 @@ import { useState } from "react";
 import AgregarEspiro from "../componenetes/agregar_s_form";
 import Default from "./Components/default";
 import Ver_Mas from "./Components/mas_esp";
+import Paciente from "./Components/paciente";
 
 export default function AuthorizedPage() {
-  const [state, setState] = useState("");
-  const [Pagina, setPagina] = useState("0");
+  const [Pagina, setPagina] = useState("1");
+
+  console.log("Estado:" + Pagina)
   const PaginaComponente = () => {
     switch (Pagina) {
       case "1":
-        return <AgregarPacientes Pagina={setPagina} />;
+        return <Default />
+        
       case "2":
-        return <AgregarEspiro Pagina={setPagina}/>;
-      case "3":
-        return <Id_paciente pacienteId={state} Pagina={setPagina} />;
+        return <AgregarPacientes Pagina={setPagina} />;
 
-      case "4":
-        return <Ver_Mas Pagina={setPagina} />;
       default:
-        return <Default/>
+        return <Paciente pacienteId={Pagina} Pagina={setPagina} />;
     }
   };
-  console.log("State:", state);
+  
   return (
     <>
       <Navbar />
@@ -34,8 +33,6 @@ export default function AuthorizedPage() {
         {/* LISTA DE PACIENTES */}
         <div className="sm:w-5/12 w-full flex items-center justify-center bg-primary">
           <Lista_y_Busqueda
-            onPacientSelect={setState}
-            Patient={state}
             Pagina={setPagina}
           />
         </div>
