@@ -1,8 +1,7 @@
 "use client";
-import Navbar from "@/app/navBar";
 import { useFormState } from "react-dom";
 import { createSpirometry } from "@/app/api/spirometry";
-export default function ingresoPaciente() {
+export default function IngresoPaciente() {
     const [state, actions] = useFormState(createSpirometry, undefined);
     return (
         <form action={actions}>
