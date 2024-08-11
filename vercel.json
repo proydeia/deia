@@ -3,9 +3,11 @@
       {
           "src": "ds/main.py",
           "use": "@vercel/python",
-          "start":{
-            "command": "fastapi run ../ds/main.py --reload"
-          }
+          "config":{
+            "start":{
+                "command": "fastapi run ../ds/main.py --reload"
+            }
+         }
       },
       {
           "src": "app",
