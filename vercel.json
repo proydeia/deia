@@ -1,15 +1,15 @@
 {
-    "devCommand": "fastapi run ../ds/main.py --reload",
+    "devCommand": "start cmd /k npm run dev cd ds fastapi run ../ds/main.py --reload cd ../",
     "builds": [
       {
-        "src": "ds/main.py",
+        "src": "/",
         "use": "@vercel/python"
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "ds/main.py"
+        "dest": "/"
       }
     ]
   }
