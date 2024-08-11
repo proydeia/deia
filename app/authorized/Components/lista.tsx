@@ -1,24 +1,18 @@
 
 import { useEffect, useState } from "react";
-import { getPatientsList, getPatient } from "@/app/api/patient"; // Assuming these functions return promises or async dataimport { map, string } from "zod";
-import { Patient } from "@/app/lib/db/schema";
-import FormButton from "@/app/componenetes/form_button";
+import { getPatientsList } from "@/app/api/patient"; // Assuming these functions return promises or async dataimport { map, string } from "zod";
+import { Patient } from "@/app/lib/dbSchema/schema";
 import { Dispatch, SetStateAction } from "react";
-import AgregarPacientes from "@/app/componenetes/agregar_p_form";
 
 
-export default function Lista_y_Busqueda({ onPacientSelect, Patient, Pagina }: {
+export default function Lista_y_Busqueda({ onPacientSelect, Pagina }: {
   onPacientSelect: Dispatch<SetStateAction<string>>,
   Pagina: Dispatch<SetStateAction<string>>,
   Patient: string
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [patientsList, setPatientsList] = useState<Patient[]>([]);
-  const [showAgregarP, setShowAgregarP] = useState(false)
 
-  type Id_pac = {
-    Id: string
-  }
   const NavigetoComp2 = (Id: string) => {
     console.log("Clicked on:", Id)
     onPacientSelect(Id);
@@ -40,7 +34,6 @@ export default function Lista_y_Busqueda({ onPacientSelect, Patient, Pagina }: {
   }, []);
 
   const handleAgregarP = () => {
-    setShowAgregarP(true)
     Pagina("1")
   };
   //opcion 1: hacer un usestate y asignar ahi el id 

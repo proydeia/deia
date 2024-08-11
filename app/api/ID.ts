@@ -1,5 +1,5 @@
 import { TableExpression } from "kysely";
-import db, { DatabaseType } from "../lib/db/schema";
+import db, { DatabaseType } from "../lib/dbSchema/schema";
 const { v4: uuidv4 } = require('uuid');
 
 // ID

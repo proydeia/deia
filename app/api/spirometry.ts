@@ -1,9 +1,10 @@
 "use server"
-import { spirometryFormSchema, spirometrieState } from "../lib/definitions/spirometryCreation";
-import db, { newSpirometry, Spirometry } from "../lib/db/schema";
-import { uuid } from "./generateId";
+
+import { spirometryFormSchema, spirometrieState } from "../lib/formsDefinitions/spirometryFormDefinition";
+import db, { newSpirometry, Spirometry } from "../lib/dbSchema/schema";
+import { uuid } from "./ID";
 import { DeleteResult } from "kysely";
-import { checkMedic } from "./token";
+import { checkMedic } from "./userData";
 const axios = require('axios');
 const moment = require('moment');
 

@@ -1,8 +1,8 @@
 "use server"
-import db, { Patient } from "../lib/db/schema";
-import { uuid } from "./generateId";
-import { checkMedic } from "./token";
-import {patientFormSchema, patientState} from '@/app/lib/definitions/patientCreation';
+import db, { Patient } from "../lib/dbSchema/schema";
+import { uuid } from "./ID";
+import { checkMedic } from "./userData";
+import {patientFormSchema, patientState} from '@/app/lib/formsDefinitions/patientFormDefinition';
 
 // Pacientes
 
