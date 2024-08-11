@@ -1,11 +1,25 @@
 {
     "builds": [
       {
-        "src": "package.json",
-        "use": "@vercel/node",
-        "config": {
-          "script": "npm run dev"
-        }
+          "src": "ds/main.py",
+          "use": "@vercel/python",
+          "start":{
+            "command": "fastapi run ../ds/main.py --reload"
+          }
+      },
+      {
+          "src": "app",
+          "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "ds/main.py"
+      },
+      {
+        "src": "/",
+        "dest": "app"
       }
     ]
   }
