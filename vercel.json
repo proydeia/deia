@@ -1,0 +1,28 @@
+{
+    "builds": [
+        {
+            "src": "/ds/main.py",
+            "use": "@vercel/python",
+            "config": {
+                "start": "uvicorn api.index:app --reload"
+            }
+        },
+        {
+            "src": "frontend/package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "start": "npm run dev"
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "/ds/main.py"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "frontend/$1"
+        }
+    ]
+}
