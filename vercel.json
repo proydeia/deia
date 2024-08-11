@@ -1,0 +1,15 @@
+{
+    "devCommand": "fastapi run ../ds/main.py --reload",
+    "builds": [
+      {
+        "src": "ds/main.py",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "ds/main.py"
+      }
+    ]
+  }
