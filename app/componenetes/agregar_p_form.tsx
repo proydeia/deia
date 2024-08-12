@@ -50,35 +50,35 @@ export default function AgregarPacientes({ Pagina }: Props) {
             onChange={(e) => setName(e.target.value)}
             required
             className="px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
-            />
-            {state?.errors?.name && <p>{state.errors.name}</p>}
+          />
+          {state?.errors?.name && <p>{state.errors.name}</p>}
         </label>
         <label className="w-11/12">
           <h1 className="text-sm font-light text-third">
-              Fecha de Nacimiento
+            Fecha de Nacimiento
           </h1>
           <input
-              type="date"
-              id="nacimiento"
-              name="nacimiento"
-              className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
+            type="date"
+            id="nacimiento"
+            name="nacimiento"
+            className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
           />
-            {state?.errors?.nacimiento && <p>{state.errors.nacimiento}</p>}
+          {state?.errors?.nacimiento && <p>{state.errors.nacimiento}</p>}
         </label>
         <div className="sm:grid-cols-2 grid-cols-1 grid w-11/12 gap-2 justify-center">
           <div>
-          <label className="w-11/12">
-          <h1 className="text-sm font-light text-third">Altura</h1>
-          <input
-            type="number"
-            step={0.01}
-            id="altura"
-            name="altura"
-            className="px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
-          />
-            {state?.errors?.altura && <p>{state.errors.altura}</p>}
+            <label className="w-11/12">
+              <h1 className="text-sm font-light text-third">Altura</h1>
+              <input
+                type="number"
+                step={0.01}
+                id="altura"
+                name="altura"
+                className="px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
+              />
+              {state?.errors?.altura && <p>{state.errors.altura}</p>}
 
-        </label>
+            </label>
           </div>
           <div>
             <label className="w-11/12">
@@ -90,20 +90,32 @@ export default function AgregarPacientes({ Pagina }: Props) {
                 name="peso"
                 className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
               />
-            {state?.errors?.peso && <p>{state.errors.peso}</p>}
+              {state?.errors?.peso && <p>{state.errors.peso}</p>}
 
             </label>
           </div>
           <div>
             <label className="w-11/12">
               <h1 className="text-sm font-light text-third">Sexo Biologico</h1>
-              <input
-                type="number" //poner boton tipo radial para elegir entre femenino y masculino. Valores 0 y 1 respectivamente.
-                id="sexo"
-                name="sexo"
-                className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
-              />
-            {state?.errors?.sexo && <p>{state.errors.sexo}</p>}
+              <div>
+                <h1 className="text-sm font-light text-third">Femenino</h1>
+                <input
+                  type="radio" //poner boton tipo radial para elegir entre femenino y masculino. Valores 0 y 1 respectivamente.
+                  id="sexo"
+                  name="fem"
+                  className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
+                />
+              </div>
+              <div>
+                <h1 className="text-sm font-light text-third">Masculino</h1>
+                <input
+                  type="radio" //poner boton tipo radial para elegir entre femenino y masculino. Valores 0 y 1 respectivamente.
+                  id="sexo"
+                  name="masc"
+                  className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
+                />
+              </div>
+              {state?.errors?.sexo && <p>{state.errors.sexo}</p>}
             </label>
           </div>
           <div>
@@ -115,7 +127,7 @@ export default function AgregarPacientes({ Pagina }: Props) {
                 name="extrainfo"
                 className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
               />
-            {state?.errors?.extrainfo && <p>{state.errors.extrainfo}</p>}
+              {state?.errors?.extrainfo && <p>{state.errors.extrainfo}</p>}
             </label>
           </div>
         </div>
@@ -125,6 +137,6 @@ export default function AgregarPacientes({ Pagina }: Props) {
       </form>
       {state?.message && <p>{state.message}</p>}
     </div>
-    
+
   );
 }

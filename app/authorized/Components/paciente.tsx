@@ -19,7 +19,7 @@ export default function Paciente({ pacienteId, Pagina }: {
                 return <AgregarEspiro Pagina={Pagina} Page={setPage} />;
 
             default:
-                return <Ver_Mas Pagina={Pagina} Page={setPage} />;
+                return <Ver_Mas Pagina={Pagina} Page={setPage} pacienteId={pacienteId} />;
         }
     }
 

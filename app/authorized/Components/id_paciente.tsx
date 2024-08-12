@@ -14,9 +14,9 @@ interface Props {
 }
 interface SpirometryButtonProps {
   onClick: () => void;
-  SpiroData: Spirometry; // Pass SpiroData as a prop
+  // SpiroData: Spirometry; // Pass SpiroData as a prop
 }
-const VerMasButton = ({ onClick, SpiroData }: SpirometryButtonProps) => {
+const VerMasButton = ({ onClick }: SpirometryButtonProps) => {
   return (
     <button
       className="bg-primary_light rounded-sm h-1/2 p-2 ml-auto"
@@ -137,7 +137,7 @@ export default function Id_paciente({ pacienteId, Pagina, Page }: Props) {
                     <p>Obstrucción: {spirometry.obstructionia}</p>
                     <p>Restricción: {spirometry.restrictionai}</p>
                   </div>
-                  <VerMasButton onClick={() => Page("3")} SpiroData={spirometry}/>
+                  <VerMasButton onClick={() => Page("3")} />
                 </div>
               ))}
               <button onClick={() => Page("2")}>Agregar Espirometrías</button>
