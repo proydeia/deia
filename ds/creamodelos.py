@@ -1,5 +1,6 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import mean_squared_error, accuracy_score
+from sklearn.model_selection import train_test_split
 import pickle
 import json
 import pandas as pd
@@ -9,10 +10,11 @@ from keras.optimizers import Adam
 import wandb
 from wandb.integration.keras import WandbMetricsLogger #, WandbModelCheckpoint
 import os
+import numpy as np
 
 def CompareKerasModels(model1, model2, valDataX, valDataY):
-    score1 = mean_squared_error(valDataY, model1.predict(valDataX))
-    score2 = mean_squared_error(valDataY, model2.predict(valDataX))
+    score1 = mean_squared_error(valDataY, model1.predict(pd.DataFrame(valDataX)))
+    score2 = mean_squared_error(valDataY, model2.predict(pd.DataFrame(valDataX)))
     return score1, score2
 
 def CompareLogisticModels(model1, model2, valDataX, valDataY):
@@ -45,10 +47,10 @@ wandb.init(
 
     config={
         "layer_sizes": [64, 32, 16, 1],
-        "input_dim": 9,
+        "input_dim": 8,
         "activation_per_layer": ['relu', 'relu', 'relu', 'sigmoid'],
-        "epochs": 20,
-        "batch_size": 16,
+        "epochs": 50,
+        "batch_size": 8,
     }
 )
 
@@ -65,19 +67,16 @@ for k, v in obs.items():
     xObs.append(list(vals.values()))
     yObs.append(v['obstruction'] / 5)
 
-xObsTrain = xObs[:int(0.8 * len(xObs))]
-yObsTrain = yObs[:int(0.8 * len(yObs))]
-xObsVal = xObs[int(0.8 * len(xObs)):]
-yObsVal = yObs[int(0.8 * len(yObs)):]
+xObsTrain, xObsVal, yObsTrain, yObsVal = train_test_split(xObs, yObs, test_size=0.25, random_state=42)
 
 modelObs = Sequential()
-modelObs.add(Dense(64, input_dim=9, activation='relu'))
+modelObs.add(Dense(64, input_dim=8, activation='relu'))
 modelObs.add(Dense(32, activation='relu'))
 modelObs.add(Dense(16, activation='relu'))
 modelObs.add(Dense(1, activation='sigmoid'))
 modelObs.compile(loss='mean_squared_error', optimizer=Adam())
-modelObs.fit(pd.DataFrame(xObsTrain), pd.DataFrame(yObsTrain), epochs=20, batch_size=16, validation_data=(pd.DataFrame(xObsVal), pd.DataFrame(yObsVal)), callbacks=wandb_callbacks)
-wandb.log({'mean_squared_error': mean_squared_error(yObsVal, modelObs.predict(xObsVal))})
+modelObs.fit(pd.DataFrame(xObsTrain), pd.DataFrame(yObsTrain), epochs=50, batch_size=8, validation_data=(pd.DataFrame(xObsVal), pd.DataFrame(yObsVal)), callbacks=wandb_callbacks)
+wandb.log({'mean_squared_error': mean_squared_error(yObsVal, modelObs.predict(pd.DataFrame(xObsVal)))})
 
 wandb.finish()
 
@@ -93,12 +92,29 @@ if os.path.exists('ds/modelObs.pkl'):
         else:
             print('Old model is better or equal.')
 else:
-    print(mean_squared_error(yObsVal, modelObs.predict(xObsVal)))
+    #print(mean_squared_error(yObsVal, modelObs.predict(xObsVal)))
     with open('ds/modelObs.pkl', 'wb') as j:
         pickle.dump(modelObs, j)
     print('Models created and saved.')
 
 ### Restriction model
+
+currRun = 1
+model_type = 'restriction'
+architecture = 'logistic'
+for run in runs:
+    if f'{model_type} - {architecture}' in run.name:
+        currRun += 1
+
+wandb.init(
+    project="deia",
+    name=f'{model_type} - {architecture} - {currRun}',
+)
+
+wandb_callbacks = [
+    WandbMetricsLogger(),
+    #WandbModelCheckpoint(filepath="my_model_{epoch:02d}.5"),
+]
 
 xRes = []
 yRes = []
@@ -108,13 +124,13 @@ for k, v in res.items():
     xRes.append(list(vals.values()))
     yRes.append(v['restriction'])
 
-xResTrain = xRes[:int(0.8 * len(xRes))]
-yResTrain = yRes[:int(0.8 * len(yRes))]
-xResval = xRes[int(0.8 * len(xRes)):]
-yResval = yRes[int(0.8 * len(yRes)):]
+xResTrain, xResval, yResTrain, yResval = train_test_split(xRes, yRes, test_size=0.25, random_state=23)
 
 modelRes = LogisticRegression(class_weight="balanced")
-modelRes.fit(xResTrain, yResTrain)
+modelRes.fit(np.array(xResTrain), np.array(yResTrain))
+wandb.log({'accuracy': accuracy_score(yResval, modelRes.predict(xResval)), "valPredAttempt": list(modelRes.predict(xResval)), "valTrue": yResval})
+
+wandb.finish()
 
 if os.path.exists('ds/modelRes.pkl'):
     with open('ds/modelRes.pkl', 'rb') as f:
