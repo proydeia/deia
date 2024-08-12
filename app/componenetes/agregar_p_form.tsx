@@ -48,6 +48,7 @@ export default function AgregarPacientes({ Pagina }: Props) {
             name="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
             className="px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
             />
             {state?.errors?.name && <p>{state.errors.name}</p>}
@@ -118,11 +119,12 @@ export default function AgregarPacientes({ Pagina }: Props) {
             </label>
           </div>
         </div>
-        <button onClick={() => Pagina("4")}>Volver</button>
+        <button onClick={() => Pagina("1")}>Volver</button>
         {/* <AgregarEspiro/> */}
         <FormButton />
       </form>
       {state?.message && <p>{state.message}</p>}
     </div>
+    
   );
 }

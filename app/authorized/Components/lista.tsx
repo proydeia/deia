@@ -7,10 +7,8 @@ import { Dispatch, SetStateAction } from "react";
 import AgregarPacientes from "@/app/componenetes/agregar_p_form";
 
 
-export default function Lista_y_Busqueda({ onPacientSelect, Patient, Pagina }: {
-  onPacientSelect: Dispatch<SetStateAction<string>>,
+export default function Lista_y_Busqueda({Pagina }: {
   Pagina: Dispatch<SetStateAction<string>>,
-  Patient: string
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [patientsList, setPatientsList] = useState<Patient[]>([]);
@@ -21,9 +19,8 @@ export default function Lista_y_Busqueda({ onPacientSelect, Patient, Pagina }: {
   }
   const NavigetoComp2 = (Id: string) => {
     console.log("Clicked on:", Id)
-    onPacientSelect(Id);
     console.log(Pagina);
-    Pagina("3")
+    Pagina(Id)
    }
   
    useEffect(() => {
@@ -41,7 +38,7 @@ export default function Lista_y_Busqueda({ onPacientSelect, Patient, Pagina }: {
 
   const handleAgregarP = () => {
     setShowAgregarP(true)
-    Pagina("1")
+    Pagina("2")
   };
   //opcion 1: hacer un usestate y asignar ahi el id 
   // opcion 2: enviar todo a una pagina nueva tipo [slug] 

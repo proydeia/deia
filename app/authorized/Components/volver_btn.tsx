@@ -14,8 +14,6 @@ const Volver_btn = ({ Pagina }: PaginaProps) => {
             setPag("3");
           } else if (pag === "3") {
             setPag("default");
-          } else {
-            setPag("3");
           }
         Pagina(pag);
     }
