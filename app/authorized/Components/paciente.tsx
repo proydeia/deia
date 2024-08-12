@@ -16,7 +16,7 @@ export default function Paciente({ pacienteId, Pagina }: {
                 return <Id_paciente pacienteId={pacienteId} Pagina={Pagina} Page={setPage} />;
 
             case "2":
-                return <AgregarEspiro Pagina={Pagina} Page={setPage} />;
+                return <AgregarEspiro Pagina={Pagina} id={pacienteId} Page={setPage} />;
 
             default:
                 return <Ver_Mas Pagina={Pagina} Page={setPage} pacienteId={pacienteId} />;

@@ -95,24 +95,24 @@ export default function AgregarPacientes({ Pagina }: Props) {
             </label>
           </div>
           <div>
-            <label className="w-11/12">
+            <label className="w-11/12 ">
               <h1 className="text-sm font-light text-third">Sexo Biologico</h1>
-              <div>
+              <div className="flex items-center justify-between">
                 <h1 className="text-sm font-light text-third">Femenino</h1>
                 <input
                   type="radio" //poner boton tipo radial para elegir entre femenino y masculino. Valores 0 y 1 respectivamente.
                   id="sexo"
-                  name="fem"
-                  className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
+                  name="sexo"
+                  className=" w-4 h-4  bg-third border-third focus:ring-primary_light focus:ring-2"
                 />
               </div>
-              <div>
+              <div className="flex items-center justify-between">
                 <h1 className="text-sm font-light text-third">Masculino</h1>
                 <input
                   type="radio" //poner boton tipo radial para elegir entre femenino y masculino. Valores 0 y 1 respectivamente.
                   id="sexo"
-                  name="masc"
-                  className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
+                  name="sexo"
+                  className=" w-4 h-4  bg-third border-third focus:ring-primary_light focus:ring-2"
                 />
               </div>
               {state?.errors?.sexo && <p>{state.errors.sexo}</p>}
