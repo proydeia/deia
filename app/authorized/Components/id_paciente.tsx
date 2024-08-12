@@ -134,7 +134,7 @@ export default function Id_paciente({ pacienteId, Pagina, Page }: Props) {
                     <p>Fecha: {spirometry.date.toDateString()}</p>
                     <p>Fev1: {spirometry.fev1}</p>
                     <p>Fvc: {spirometry.fvc}</p>
-                    <p>Obstrucción: {spirometry.obstructionai}</p>
+                    <p>Obstrucción: {spirometry.obstructionia}</p>
                     <p>Restricción: {spirometry.restrictionai}</p>
                   </div>
                   <VerMasButton onClick={() => Page("3")} SpiroData={spirometry}/>
