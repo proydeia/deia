@@ -77,7 +77,7 @@ export async function createPatient(state:patientState, formData:FormData) {
         extrainfo:  formData.get('extraInfo'),
         peso:       Number(formData.get('peso')),
         altura:     Number(formData.get('altura')),
-        sexo:       Number(formData.get('sexo')),
+        sexo:       Number(formData.get('sexo')) - 1,
         nacimiento: new Date(formData.get('nacimiento') as string),
     });
 

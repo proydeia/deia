@@ -4,8 +4,6 @@ import { useState } from "react";
 import { createPatient } from "../api/patient";
 import { Dispatch, SetStateAction } from "react";
 import { useFormState } from "react-dom";
-import AgregarEspiro from "./agregar_s_form";
-import Volver_btn from "../authorized/Components/volver_btn";
 import Image from "next/image";
 
 interface PatientInput {
@@ -59,7 +57,6 @@ export default function AgregarPacientes({ Pagina }: Props) {
             name="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            required
             className="px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
           />
           {state?.errors?.name && <p>{state.errors.name}</p>}
@@ -110,9 +107,10 @@ export default function AgregarPacientes({ Pagina }: Props) {
                 </h1>
                 <input
                   type="radio" //poner boton tipo radial para elegir entre femenino y masculino. Valores 0 y 1 respectivamente.
-                  id="fem"
+                  id="sexo"
                   name="sexo"
                   className="mr-2 px-3 rounded-sm bg-primary w-4 h-4 border-third focus:ring-primary_light focus:ring-2"
+                  value={2}
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -121,13 +119,14 @@ export default function AgregarPacientes({ Pagina }: Props) {
                 </h1>
                 <input
                   type="radio" //poner boton tipo radial para elegir entre femenino y masculino. Valores 0 y 1 respectivamente.
-                  id="masc"
+                  id="sexo"
                   name="sexo"
                   className="mr-2 px-3 rounded-sm bg-primary w-4 h-4   border-third focus:ring-primary_light focus:ring-2"
+                  value={1}
                 />
               </div>
-              {state?.errors?.sexo && <p>{state.errors.sexo}</p>}
             </div>
+              {state?.errors?.sexo && <p>{state.errors.sexo}</p>}
           </div>
           <div>
             <label className="w-11/12">

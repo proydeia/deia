@@ -31,7 +31,7 @@ export default function Lista_y_Busqueda({Pagina }: {
   }, []);
 
   const handleAgregarP = () => {
-    Pagina("1")
+    Pagina("2")
   };
   //opcion 1: hacer un usestate y asignar ahi el id 
   // opcion 2: enviar todo a una pagina nueva tipo [slug] 

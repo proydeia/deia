@@ -1,7 +1,6 @@
 
 "use client";
 import FormButton from "./form_button";
-import Volver_btn from "../authorized/Components/volver_btn";
 import { Dispatch, SetStateAction } from "react";                                                     //AGREGAR LUEGO LOS DATOS DE LAS ESPIROMETRIAS
 import { useFormState } from "react-dom";
 import { createSpirometry } from "../api/spirometry";
@@ -57,6 +56,7 @@ export default function AgregarEspiro({Pagina, id, Page}:{ Pagina: Dispatch<SetS
                   type="number"
                   id="fev1"
                   name="fev1"
+                  step={.1}
                   className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
                 />
             
@@ -71,6 +71,7 @@ export default function AgregarEspiro({Pagina, id, Page}:{ Pagina: Dispatch<SetS
                 type="number"
                 id="fev1_lln"
                 name="fev1_lln"
+                step={.1}
                 className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
               />
 
@@ -85,6 +86,7 @@ export default function AgregarEspiro({Pagina, id, Page}:{ Pagina: Dispatch<SetS
                 type="number"
                 id="fvc"
                 name="fvc"
+                step={.1}
                 className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
               />
 
@@ -97,7 +99,9 @@ export default function AgregarEspiro({Pagina, id, Page}:{ Pagina: Dispatch<SetS
               <h1 className="text-sm font-light text-third">FVC LLN</h1>
               <input
                 type="number"
-                id="fvc_lln"
+                id="fvc_lln" 
+                name="fvc_lln" 
+                step={.1}
                 className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
               />
 

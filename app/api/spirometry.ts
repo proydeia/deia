@@ -121,7 +121,7 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
         };
     }
     catch(error:unknown){
-        console.log(123, error)   
+        console.log(error)   
         return {
             message: 'Error al generar registro. Intente nuevamente.'
         };
@@ -144,7 +144,6 @@ async function loadSpirometry(data:spirometryInput){
         altura:     data.altura,
         peso:       data.peso,
     };
-
     
     const obstruction:number = await axios.post(`${URL}/obstruction`, spirometryData)
     .then((res:any) => {
