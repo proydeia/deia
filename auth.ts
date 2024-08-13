@@ -1,7 +1,7 @@
 import NextAuth, { User } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './auth.config';
-import { login, hash } from './app/lib/db/schema';
+import { login, hash } from './app/lib/dbSchema/schema';
 
 
 //extend the auth.config object with the login and logout functions

@@ -1,4 +1,4 @@
-import db, { Spirometry } from "@/app/lib/db/schema";
+import db, { Spirometry } from "@/app/lib/dbSchema/schema";
 import { readFileSync, writeFileSync } from 'fs';
 
 export async function writeJSON() {

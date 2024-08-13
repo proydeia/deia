@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { Session, User } from "next-auth";
+import { Session } from "next-auth";
 
 
 export const getSession = async (): Promise <Session | null> => { //devuelve la session del usuario, si existe.
@@ -9,11 +9,9 @@ export const getSession = async (): Promise <Session | null> => { //devuelve la 
     return session as Session;
 }
 
-export const isAdmin = async (): Promise <boolean | null> => { //devuelve si el usuario es admin o no, si está en sessión.
+export const isAdmin = async (): Promise <boolean | null | undefined > => { //devuelve si el usuario es admin o no, si está en sessión.
     const session = await getSession();
-    const adm = session?.user?.admin;
-
-    return adm || null;
+    return session?.user?.admin;
 }
 
 export const userId = async (): Promise <string | null> => { //devuelve el id del usuario, si está en sessión. 

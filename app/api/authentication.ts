@@ -1,7 +1,7 @@
 "use server"
 import { signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
-import { LoginState, SignupFormSchema } from '@/app/lib/definitions/loginFormDefinition';
+import { LoginState, SignupFormSchema } from '@/app/lib/formsDefinitions/loginFormDefinition';
 
  
 export async function authenticate(state: LoginState,  formData: FormData) {
