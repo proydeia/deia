@@ -5,19 +5,16 @@ import { Patient } from "@/app/lib/dbSchema/schema";
 import { Dispatch, SetStateAction } from "react";
 
 
-export default function Lista_y_Busqueda({ onPacientSelect, Pagina }: {
-  onPacientSelect: Dispatch<SetStateAction<string>>,
+export default function Lista_y_Busqueda({Pagina }: {
   Pagina: Dispatch<SetStateAction<string>>,
-  Patient: string
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [patientsList, setPatientsList] = useState<Patient[]>([]);
 
   const NavigetoComp2 = (Id: string) => {
     console.log("Clicked on:", Id)
-    onPacientSelect(Id);
     console.log(Pagina);
-    Pagina("3")
+    Pagina(Id)
    }
   
    useEffect(() => {

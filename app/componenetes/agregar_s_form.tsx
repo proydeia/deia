@@ -5,24 +5,47 @@ import Volver_btn from "../authorized/Components/volver_btn";
 import { Dispatch, SetStateAction } from "react";                                                     //AGREGAR LUEGO LOS DATOS DE LAS ESPIROMETRIAS
 import { useFormState } from "react-dom";
 import { createSpirometry } from "../api/spirometry";
-
-export default function AgregarEspiro({Pagina, id}:{ Pagina: Dispatch<SetStateAction<string>>, id: string} ) {
+import Image from "next/image";
+export default function AgregarEspiro({Pagina, id, Page}:{ Pagina: Dispatch<SetStateAction<string>>, id: string, Page: Dispatch<SetStateAction<string>>} ) {
   const [state, formAction] = useFormState(createSpirometry, undefined);
 
   return (
     <main className="h-full flex flex-col justify-center items-center w-11/12 ">
-        <p className="text-2xl sm:text-3xl font-bold text-left text-primary_light w-full mb-4 mt-4">
-          Agregar Espirometría
-        </p>
+      <div className="flex flex-row flex-direction-row-reverse justify-between gap-6 w-full">
 
-        <Volver_btn Pagina={() => Pagina("default")}/>
+          <p className="text-2xl sm:text-3xl font-bold text-left text-primary_light w-full mb-4 mt-4">
+            Agregar Espirometría
+          </p>
+
+          <div className="flex flex-row items-center justify-center">
+          <button onClick={() => Pagina("1")}>
+            <Image
+              src="/flexa_back.png"
+              alt="Flecha"
+              layout="fixed"
+              width={30}
+              height={30}
+            />
+          </button>
+          <button onClick={() => Pagina("1")} className=" px-4 h-2/3">
+            <Image
+              src="/cruz_back.png"
+              alt="Mi imagen"
+              layout="fixed"
+              width={30}
+              height={30}
+            />
+          </button>
+        </div>
+      </div>
+      {/* <Volver_btn Pagina={() => Pagina("default")} /> */}
       
         <form
           action={formAction}
           className="w-10/12 sm:w-full bg-primary_light rounded-sm flex flex-col justify-center items-center gap-4 overflow-y-auto"
         >
-       
-          <div className="grid-cols-2 grid w-11/12 gap-2 justify-center ">
+
+          <div className="grid-cols-2 grid w-11/12 gap-2 justify-center mt-4">
             
             <input type="hidden" id="id" name="id" value={id}/>{/* esto es para pasar el ID */}
             
@@ -81,7 +104,7 @@ export default function AgregarEspiro({Pagina, id}:{ Pagina: Dispatch<SetStateAc
               {state?.errors?.fvc_lln && <p>{state.errors.fvc_lln}</p>}
             </label>
           </div>
-          
+
         </div>
         {/* <label className="w-11/12">
           <h1 className="text-sm font-light text-third">Información Extra</h1>
@@ -93,6 +116,7 @@ export default function AgregarEspiro({Pagina, id}:{ Pagina: Dispatch<SetStateAc
         </label> */}
         {state?.message && <p>{state.message}</p>}
         <FormButton />
+
       </form>
     </main>
   );

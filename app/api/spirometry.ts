@@ -5,10 +5,14 @@ import db, { newSpirometry, Spirometry } from "../lib/dbSchema/schema";
 import { uuid } from "./ID";
 import { DeleteResult } from "kysely";
 import { checkMedic } from "./userData";
+import { env } from "process";
 const axios = require('axios');
 const moment = require('moment');
 
 // Datos del input medico
+
+axios.defaults.withCredentials = true
+const URL = process.env.URL
 
 type spirometryInput = {
     id:         string;
@@ -88,7 +92,6 @@ export async function deleteSpirometry(spirometryId: string): Promise < DeleteRe
 }
 
 export async function createSpirometry(state: spirometrieState, formData: FormData): Promise<spirometrieState> { // "Crea" una espirometria.
-    
     const validatedFields = spirometryFormSchema.safeParse({
         id:         formData.get('id'),
         sexo:       Number(formData.get('sexo')),
@@ -111,15 +114,14 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
 
 
     try{
-
         loadSpirometry(validatedFields.data);
-        
+
         return {
             message:'Registro creado con exito'
         };
     }
     catch(error:unknown){
-        console.log(error)   
+        console.log(123, error)   
         return {
             message: 'Error al generar registro. Intente nuevamente.'
         };
@@ -129,7 +131,6 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
 async function loadSpirometry(data:spirometryInput){
 
     const spirometryData = {
-        patient:    data.id,
         fev1:       data.fev1,
         fev1pred:   data.fev1_lln,
         fvc:        data.fvc,
@@ -138,23 +139,23 @@ async function loadSpirometry(data:spirometryInput){
 
     const spirometryDataAi = {
         ...spirometryData, 
-        peso:       data.peso,
-        altura:     data.altura,
         sexo:       data.sexo,
-        edad:       calculateAge(data.nacimiento)
+        edad:       calculateAge(data.nacimiento),
+        altura:     data.altura,
+        peso:       data.peso,
     };
 
     
-    const obstruction:number = await axios.post("http://127.0.0.1:8000/obstruction", spirometryData)
+    const obstruction:number = await axios.post(`${URL}/obstruction`, spirometryData)
     .then((res:any) => {
         return res.data.result;
     })
     .catch((error:unknown) => {
-        console.log(JSON.stringify(error))
+        console.error(JSON.stringify(error))
         throw new Error('O');
     })
 
-    const obstructionAi:number = await axios.post("http://127.0.0.1:8000/obstructionai", spirometryDataAi)
+    const obstructionAi:number = await axios.post(`${URL}/obstructionai`, spirometryDataAi)
     .then((res:any) => {
         return res.data.result;
     })
@@ -163,7 +164,7 @@ async function loadSpirometry(data:spirometryInput){
         throw new Error('Oia');
     })
 
-    const restriction:number = await axios.post("http://127.0.0.1:8000/restriction", spirometryData)
+    const restriction:number = await axios.post(`${URL}/restriction`, spirometryData)
     .then((res:any) => {
         return res.data.result;
     })
@@ -172,7 +173,7 @@ async function loadSpirometry(data:spirometryInput){
         throw new Error('R');
     })
 
-    const restrictionAi:number = await axios.post("http://127.0.0.1:8000/restrictionai", spirometryDataAi)
+    const restrictionAi:number = await axios.post(`${URL}/restrictionai`, spirometryDataAi)
     .then((res:any) => {
         return res.data.result;
     })
@@ -187,6 +188,7 @@ async function loadSpirometry(data:spirometryInput){
             
     
     const spirometry: newSpirometry = {
+        patient:        data.id,
         ...spirometryData,
         id:             spirometryId,
         obstruction:    obstruction,
