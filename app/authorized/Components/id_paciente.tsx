@@ -105,7 +105,7 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
               <div className="bg-primary rounded-sm flex flex-col my-2 py-4 px-2">
                 <div className="flex flex-row gap-2 px-2">
                   <p className="font-bold">Nombre y Apellido:</p>
-                  <p className="font-medium">{patient.name}</p>
+                  <p className="font-medium">{patient.id}</p>
                 </div>
                 <div className="flex flex-row gap-2 px-2">
                   <p className="font-bold">Informacion Extra:</p>
@@ -144,7 +144,7 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
                 >
                   <div className="flex-grow">
                     <p>Fecha: {spirometry.date.toDateString()}</p>
-                    <p>Obstrucción: {spirometry.obstructionia}</p>
+                    <p>Obstrucción: {spirometry.id}</p>
                     <p>Restricción: {spirometry.restrictionai}</p>
                   </div>
                   <VerMasButton Id={ spirometry.id} Espiro_id={NavigetoVer_Mas}/>
