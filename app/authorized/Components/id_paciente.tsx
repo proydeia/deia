@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { Patient } from "@/app/lib/db/schema";
+import { Patient } from "@/app/lib/dbSchema/schema";
 import { getPatient } from "@/app/api/patient";
 import { getSpirometriesList } from "@/app/api/spirometry";
-import { Spirometry } from "@/app/lib/db/schema";
+import { Spirometry } from "@/app/lib/dbSchema/schema";
 import Instrucciones from "./instrucciones";
 import ByebyeButton from "./byebyeButton";
 import { Dispatch, SetStateAction } from "react";

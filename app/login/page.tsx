@@ -1,7 +1,7 @@
 'use client';
 import Navbar from "../navBar";
 import { useFormState } from "react-dom";
-import { authenticate } from "../api/loginAuth";
+import { authenticate } from "../api/authentication";
 import FormButton from "../componenetes/form_button";
 
 export default function LoginPage() {
