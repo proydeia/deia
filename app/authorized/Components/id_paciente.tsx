@@ -11,34 +11,24 @@ interface Props {
   pacienteId: string; // ID passed as a prop
   Pagina: Dispatch<SetStateAction<string>>;
   Page: Dispatch<SetStateAction<string>>;
+  Espiro: Dispatch<SetStateAction<string>>;
 }
 interface SpirometryButtonProps {
-  onClick: () => void;
+  Espiro_id: Function;
+  Id: string;
   // SpiroData: Spirometry; // Pass SpiroData as a prop
 }
-const VerMasButton = ({ onClick }: SpirometryButtonProps) => {
-  return (
-    <button
-      className="bg-primary_light rounded-sm h-1/2 p-2 ml-auto"
-      onClick={onClick}
-      
-    >
-      Ver Mas
-    </button>
-  );
-};
 
-export default function Id_paciente({ pacienteId, Pagina, Page }: Props) {
+export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props) {
   const [patient, setPatient] = useState<Patient | null>(null);
   const [Spyrometry, setSpyrometry] = useState<Spirometry[] | null>(null);
   const [isLoading, setIsLoading] = useState(false); // Track loading state
-
+  
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true); // Set loading state to true
       if (pacienteId) {
         //Si no hay pacienteId, no se hace nada
-
         try {
           const fetchedPatient: Patient = await getPatient(pacienteId); // Assuming getPatient returns a Patient
           setPatient(fetchedPatient);
@@ -58,9 +48,30 @@ export default function Id_paciente({ pacienteId, Pagina, Page }: Props) {
       }
       setIsLoading(false); // Set loading state to false after fetching or error
     };
-
+    
     fetchData();
   }, [pacienteId]); // Run only when pacienteId changes
+  
+  const VerMasButton = ({ Id, Espiro_id }: SpirometryButtonProps) => {
+    console.log("este es el id :" + Id)
+    console.log("este es el espiro :" + Espiro_id)
+    return (
+      <button
+        className="bg-primary_light rounded-sm h-1/2 p-2 ml-auto"
+        onClick={() => Espiro_id()}
+      >
+        Ver Mas
+      </button>
+    );
+  };
+  const NavigetoVer_Mas = (Id: string) => {
+    Id = "173cf573-5aaa-4fa8-9a98-eaa1e43ef8ec" //este el el id de una espirometria de un paciente
+    // es una prueba
+    console.log("Clicked on:", Id)
+     Page("3")
+    Espiro(Id)
+   }
+
   return (
     <main className="w-full flex justify-center">
       {isLoading ? (
@@ -125,23 +136,26 @@ export default function Id_paciente({ pacienteId, Pagina, Page }: Props) {
                   <p className="font-medium">{patient.nacimiento.toDateString()}</p>
                 </div>
               </div>
-              {Spyrometry?.map((spirometry) => (
+              {Spyrometry?.map((spirometry) => 
+              (
                 <div
-                  className="bg-primary rounded-sm p-4 flex flex-row items-center"
-                  key={spirometry.id}
+                className="bg-primary rounded-sm p-4 flex flex-row items-center"
+                key={spirometry.id}
                 >
                   <div className="flex-grow">
                     <p>Fecha: {spirometry.date.toDateString()}</p>
-                    <p>Fev1: {spirometry.fev1}</p>
-                    <p>Fvc: {spirometry.fvc}</p>
                     <p>Obstrucción: {spirometry.obstructionia}</p>
                     <p>Restricción: {spirometry.restrictionai}</p>
                   </div>
-                  <VerMasButton onClick={() => Page("3")} />
+                  <VerMasButton Id={ spirometry.id} Espiro_id={NavigetoVer_Mas}/>
+                  {/* <button onClick={() => Espiro(spirometry.id)}>Pasar Id</button> */}
                 </div>
               ))}
-              <button onClick={() => Page("2")}>Agregar Espirometrías</button>
+              <div className="flex flex-row w-full justify-center  items-center">
+
               <ByebyeButton tabla={"patient"} id={pacienteId} />
+              <button className="bg-secondary text-md p-2 ml-2 rounded-sm" onClick={() => Page("2")}>Agregar Espirometrías</button>
+              </div>
             </div>
           </div>
         </div>

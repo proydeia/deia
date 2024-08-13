@@ -10,16 +10,18 @@ export default function Paciente({ pacienteId, Pagina }: {
 }) {
 
     const [Page, setPage] = useState("1");
+    const [Espiro, setEspiro] = useState("");
+    // console.log("Id espiro "+Espiro)
     const Patient_Page = () => {
         switch (Page) {
             case "1":
-                return <Id_paciente pacienteId={pacienteId} Pagina={Pagina} Page={setPage} />;
+                return <Id_paciente pacienteId={pacienteId} Pagina={Pagina} Page={setPage} Espiro={setEspiro} />;
 
             case "2":
                 return <AgregarEspiro Pagina={Pagina} id={pacienteId} Page={setPage} />;
 
             default:
-                return <Ver_Mas Pagina={Pagina} Page={setPage} pacienteId={pacienteId} />;
+                return <Ver_Mas Pagina={Pagina} Page={setPage} pacienteId={pacienteId} EspiroId={Espiro}/>;
         }
     }
 
