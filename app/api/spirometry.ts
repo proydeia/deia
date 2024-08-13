@@ -58,9 +58,9 @@ export async function getSpirometry (spirometryId: string): Promise < Spirometry
     try{
         const spirometry = await db 
         .selectFrom("spirometries")
-        .innerJoin("patients", "spirometries.patient", "patients.id")   // Relación entre espirometria y paciente
-        .innerJoin("users", "patients.medic", "users.id")               // Relación entre paciente y medico
-        .where("patients.medic", "=", id)                               // El medico esta relacionado con el paciente
+        //.innerJoin("patients", "spirometries.patient", "patients.id")   // Relación entre espirometria y paciente
+        //.innerJoin("users", "patients.medic", "users.id")               // Relación entre paciente y medico
+        //.where("patients.medic", "=", id)                               // El medico esta relacionado con el paciente
         .where("spirometries.id", "=", spirometryId)                    // La espirometria esta relacionada con el id
         .selectAll()
         .executeTakeFirstOrThrow();                                     // Devuelve la espirometria; si no existe, devuelve un error.
@@ -80,9 +80,9 @@ export async function deleteSpirometry(spirometryId: string): Promise < DeleteRe
     try{
         return await db
         .deleteFrom("spirometries")
-        .innerJoin("patients", "spirometries.patient", "patients.medic")
-        .innerJoin("users", "patients.medic", "users.id")
-        .where("patients.medic", "=", id)
+        //.innerJoin("patients", "spirometries.patient", "patients.medic")
+        //.innerJoin("users", "patients.medic", "users.id")
+        //.where("patients.medic", "=", id)
         .where("spirometries.id", "=", spirometryId)
         .executeTakeFirstOrThrow();
     }

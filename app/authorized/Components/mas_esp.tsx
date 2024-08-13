@@ -16,17 +16,15 @@ export default function Ver_Mas({
   EspiroId: string;
   pacienteId: string;
 }) {
-  const [spyrometry, setSpyrometry] = useState<Spirometry[] | null>(null);
+  const [spyrometry, setSpyrometry] = useState<Spirometry | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       if (EspiroId) {
         try {
+          const fetchedSpirometry: Spirometry = await getSpirometry(EspiroId);
           const fetchSpirometry = async () => {
-            const fetchedSpirometry: Spirometry = await getSpirometry(
-                (EspiroId)
-            );
             //terminar de arreglar esto a primera hora
             setSpyrometry(fetchedSpirometry);
           };
@@ -81,37 +79,37 @@ console.log("Este es el objeto"+EspiroId)
       {/* <p className="text-2xl sm:text-3xl font-bold text-left text-primary_light w-full mb-4 mt-4 px-4">Datos del Diagnóstico</p> */}
       {isLoading ? (
           <p>Cargando...</p>
-        ) : spyrometry && spyrometry.length > 0 ? (
+        ) : spyrometry ? (
           <>
             {/* Datos de la espirometría */}
-            {spyrometry.map((spirometry, index) => (
-               <div key={index} className=" flex flex-col gap-4 justify-center items-center bg-primary_light py-4 rounded-sm h-4/5">
+            
+               <div  className=" flex flex-col gap-4 justify-center items-center bg-primary_light py-4 rounded-sm h-4/5">
                <p className="text-xl sm:text-2xl font-bold text-left w-full mb-2 mt-4 px-4">
-                 {spirometry.date.toDateString() || "No spirometry data"}
+                 {spyrometry.date.toDateString() || "No spirometry data"}
                </p>
                <div className="grid grid-cols-4 p-4 gap-4 justify-center overflow-y-auto h-96">
                  <div className="p-4  sm:p-8 w- max-h-10 sm:col-span-1  col-span-2 bg-primary flex flex-col gap-2 justify-center items-center">
                    <p className="font-semibold text-sm text-center">FEV1:</p>
                    <p className="font-extrabold">
-                     {spirometry.fev1 || "No spirometry data"}
+                     {spyrometry.fev1 || "No spirometry data"}
                    </p>
                  </div>
                  <div className="p-4  sm:p-8 w- max-h-10 sm:col-span-1  col-span-2 bg-primary flex flex-col gap-2 justify-center items-center">
                    <p className="font-semibold text-sm">FEV1 LLN:</p>
                    <p className="font-extrabold text-lg">
-                     {spirometry.fev1pred || "No spirometry data"}
+                     {spyrometry.fev1pred || "No spirometry data"}
                    </p>
                  </div>
                  <div className="p-4  sm:p-8 w- max-h-10 sm:col-span-1  col-span-2 bg-primary flex flex-col gap-2 justify-center items-center">
                    <p className="font-semibold text-sm">FVC:</p>
                    <p className="font-extrabold text-lg">
-                     {spirometry.fvc|| "No spirometry data"}
+                     {spyrometry.fvc|| "No spirometry data"}
                    </p>
                  </div>
                  <div className="p-4  sm:p-8 w- max-h-10 sm:col-span-1  col-span-2 bg-primary flex flex-col gap-2 justify-center items-center">
                    <p className="font-semibold text-sm">FVC LLN:</p>
                    <p className="font-extrabold text-lg">
-                     {spirometry.fvcpred || "No spirometry data"}
+                     {spyrometry.fvcpred || "No spirometry data"}
                    </p>
                  </div>
                  <div className="px-2 md:px-4 md:flex-row  flex flex-col py-2  col-span-4  bg-primary justify-between">
@@ -119,7 +117,7 @@ console.log("Este es el objeto"+EspiroId)
                      Grado de Obstruccion por Análisis:
                    </p>
                    <p className=" g font-extrabold text-xl  sm:text-2xl">
-                     {spirometry.obstruction || "No spirometry data"}
+                     {spyrometry.obstruction || "No spirometry data"}
                    </p>
                  </div>
                  <div className="px-2 md:px-4 md:flex-row  flex flex-col py-2  col-span-4  bg-primary justify-between">
@@ -127,26 +125,26 @@ console.log("Este es el objeto"+EspiroId)
                      Grado de Obstruccion por IA:
                    </p>
                    <p className=" g font-extrabold text-xl  sm:text-2xl">
-                     {spirometry.obstructionia || "No spirometry data"}
+                     {spyrometry.obstructionia || "No spirometry data"}
                    </p>
                  </div>
                  <div className="px-2 md:px-4 md:flex-row  flex flex-col py-2  col-span-4  bg-primary justify-between">
                    <p className="md:text-lg sm:text-xl font-semibold text-lg">
-                     Obstrucción según el Análisis:{spirometry.restriction}
+                     Obstrucción según el Análisis:{spyrometry.restriction}
                    </p>
                    <p className=" font-bextraold text-xl  sm:text-2xl">
-                     {spirometry.obstructionia > 0 ? (
-                       <p>Hay Obstrucción</p>
+                     {spyrometry.obstructionia > 0 ? (
+                       <p>Si</p>
                      ) : (
-                       <p>No Hay Obstrucción</p>
+                       <p>No</p>
                      )}
                    </p>
                  </div>
                  <div className="px-2 md:px-4 md:flex-row  flex flex-col py-2  col-span-4  bg-primary justify-between">
                    <p className="md:text-lg sm:text-xl font-semibold text-lg">
-                     Probabilidad de que haya restriccion :{spirometry.restrictionai}
+                     Probabilidad de que haya restriccion :{spyrometry.restrictionai}
                    </p>
-                   <p className=" font-bextraold text-xl  sm:text-2xl">{spirometry.restrictionai> 0 ? (
+                   <p className=" font-bextraold text-xl  sm:text-2xl">{spyrometry.restrictionai> 0 ? (
                        <p>Si</p>
                      ) : (
                        <p>No</p>
@@ -166,7 +164,7 @@ console.log("Este es el objeto"+EspiroId)
                  </div>
                </div> 
             </div>
-            ))}
+            
             </>
         ) :(
             <p>No hay datos</p>
