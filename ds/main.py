@@ -6,18 +6,16 @@ import numpy as np
 import pandas as pd
 
 app = FastAPI()
-model1_path = 'ds/modelObs.pkl'
-model2_path = 'ds/modelRes.pkl'
+model1_path = 'ds\modelObs.pkl'
+model2_path = 'ds\modelRes.pkl'
+model1 = None
+model2 = None
 
 if os.path.exists(model1_path):
     model1 = pickle.load(open(model1_path, 'rb'))
-else:
-    model1 = None
 
 if os.path.exists(model2_path):
     model2 = pickle.load(open(model2_path, 'rb'))
-else:
-    model2 = None
 
 @app.get("/")
 async def root():
@@ -84,6 +82,6 @@ async def predictres(spirometry: Spirometry):
 async def predictresai(spirometry: SpirometryPlus):
     if model2 is None:
         return {"result": -1}
-    x = np.array([[spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso]])
+    x = np.array([spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso])
     res = model2.predict([x])
     return {"result": str(res[0][0])}
