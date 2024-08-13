@@ -1,9 +1,9 @@
 fastapi==0.112.0
 fastapi-cli==0.0.5
-python-dotenv
+python-dotenv==1.0.1
 scikit-learn==1.4.2
 tensorflow==2.16.1
-numpy
-pandas
-weave
+numpy==1.26.4
+pandas==2.2.2
+weave==0.50.14
 wandb==0.17.3
