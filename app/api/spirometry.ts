@@ -12,7 +12,7 @@ const moment = require('moment');
 // Datos del input medico
 
 axios.defaults.withCredentials = true
-const URL = env.URL
+const URL = process.env.URL
 
 type spirometryInput = {
     id:         string;
@@ -92,7 +92,6 @@ export async function deleteSpirometry(spirometryId: string): Promise < DeleteRe
 }
 
 export async function createSpirometry(state: spirometrieState, formData: FormData): Promise<spirometrieState> { // "Crea" una espirometria.
-    
     const validatedFields = spirometryFormSchema.safeParse({
         id:         formData.get('id'),
         sexo:       Number(formData.get('sexo')),
