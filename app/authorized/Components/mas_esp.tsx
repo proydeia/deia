@@ -1,10 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
-import Volver_btn from "./volver_btn";
 import Image from "next/image";
-import { Spirometry } from "@/app/lib/db/schema";
+import { Spirometry } from "@/app/lib/dbSchema/schema";
 import { useState, useEffect } from "react";
-import { Patient } from "@/app/lib/db/schema";
-import { getSpirometriesList, getSpirometry } from "@/app/api/spirometry";
+import { getSpirometry } from "@/app/api/spirometry";
 export default function Ver_Mas({
   Pagina,
   Page,
@@ -16,7 +14,7 @@ export default function Ver_Mas({
   EspiroId: string;
   pacienteId: string;
 }) {
-  const [spyrometry, setSpyrometry] = useState<Spirometry[] | null>(null);
+  const [spyrometry, setSpyrometry] = useState<Spirometry | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const fetchData = async () => {

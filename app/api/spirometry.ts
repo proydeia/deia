@@ -35,12 +35,12 @@ export async function getSpirometriesList (patientId: string): Promise < Spirome
     try{
         const spirometries = await db
         .selectFrom("spirometries")
-        //.innerJoin("patients", "spirometries.patient", "patients.id")   // Relación entre espirometria y paciente
-        //.innerJoin("users", "patients.medic", "users.id")               // Relación entre paciente y medico
-        //.where("patients.medic", "=", medic)                               // El medico esta relacionado con el paciente  
-        .where("spirometries.patient", "=", patientId)                  // El paciente esta relacionado con la espirometria   
+        //.innerJoin("patients", "spirometries.patient", "patients.id")     // Relación entre espirometria y paciente
+        //.innerJoin("users", "patients.medic", "users.id")                 // Relación entre paciente y medico
+        //.where("patients.medic", "=", medic)                              // El medico esta relacionado con el paciente  
+        .where("spirometries.patient", "=", patientId)                      // El paciente esta relacionado con la espirometria   
         .selectAll()
-        .execute();                                                     // Devuelve las espirometrias; si no existen, devuelve una lista vacia.
+        .execute();                                                         // Devuelve las espirometrias; si no existen, devuelve una lista vacia.
 
         console.log(JSON.stringify(spirometries))
         return spirometries;
