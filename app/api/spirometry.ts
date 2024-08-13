@@ -115,6 +115,8 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
 
 
     try{
+        console.log(URL)
+
         loadSpirometry(validatedFields.data);
 
         return {
