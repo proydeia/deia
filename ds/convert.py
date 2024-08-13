@@ -11,11 +11,11 @@ def obj_to_json(obj, path):
         json.dump(obj, f)
     
 nombreDumpDB = 'datadump'
-obj = json_to_obj(f'ds/{nombreDumpDB}.json')
+obj = json_to_obj(f'C:/Users/48110679/Desktop/git/deia/ds/{nombreDumpDB}.json')
 nombreJsonObstruccion = 'obs'
-obsJson = json_to_obj(f'ds/{nombreJsonObstruccion}.json')
+obsJson = json_to_obj(f'C:/Users/48110679/Desktop/git/deia/ds/{nombreJsonObstruccion}.json')
 nombreJsonRestriccion = 'res'
-resJson = json_to_obj(f'ds/{nombreJsonRestriccion}.json')
+resJson = json_to_obj(f'C:/Users/48110679/Desktop/git/deia/ds/{nombreJsonRestriccion}.json')
 
 dumpAHacer = False
 

@@ -49,19 +49,3 @@ Content-Type: application/json
     "altura": 172,
     "peso": 83.5
 }
-
-###
-
-POST http://localhost:8000/restrictionai
-Content-Type: application/json
-
-{
-    "fev1": 1.2,
-    "fev1pred": 1.5,
-    "fvc": 2.3,
-    "fvcpred": 2.5,
-    "edad": 18,
-    "sexo": 1,
-    "altura": 172,
-    "peso": 83.5
-}

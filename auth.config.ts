@@ -1,20 +1,31 @@
-import type { NextAuthConfig } from 'next-auth';
+import type { NextAuthConfig, DefaultSession } from 'next-auth';
 import { NextResponse } from 'next/server';
- 
-export const authConfig = {
 
+declare module "next-auth" {
+  interface Session {
+    user: {
+      address: string,
+      admin: boolean | null,
+    } & DefaultSession["user"]
+  }
+}
+
+export const authConfig = {
   secret: "vncuwipehwcvuwcvnweui938ry8", //cambiar a proccess.env.AUTH_SECRET
   
   pages: {
     signIn: '/login',
   },
   
-  session: {strategy: 'jwt'},
+  session: {
+    strategy: 'jwt'
+  },
   
   callbacks: {
 
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
+
       const isOnAuthorized = nextUrl.pathname.startsWith('/authorized');
       const isOnLogin = nextUrl.pathname.startsWith('/login');
       
@@ -27,19 +38,26 @@ export const authConfig = {
       }
 
       return true;
-  },
+    },
 
-  jwt({token, user}) {
-    return {...token, ...user};
-  },
+    jwt({token, user}) {
+      if (user) {
+        return {...token, ...user};
+      }
+      return token;
+    },
 
-  async session({session, token}) {
-    session.userId = token.id as string;
-    session.user.id = token.id as string;
-    return session;
-  },
-},
+    async session({ session, token }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          ...token,
+        }
+      
+      };
+    },
 
+  },
   providers: [],
-  
 } satisfies NextAuthConfig;

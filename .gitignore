@@ -39,3 +39,16 @@ next-env.d.ts
 *.env
 wandb/
 .venv/
+
+idea/
+.vscode/
+__pycache__/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+docs/_build/
+dist/
+venv/
+.vercel
+.venv
