@@ -68,11 +68,13 @@ async def predictobsGLI(spirometry: SpirometryPlus):
     predictionsFraction = get_fev1_fvc_pred(spirometry.sexo, spirometry.edad, spirometry.altura)
 
     if spirometry.fev1 / spirometry.fvc < predictionsFraction["LLN"]:
-        z = ((predictionsFEV1["LLN"] - spirometry.fev1) / predictionsFEV1["S"])
+        z = (-(np.abs(predictionsFEV1["LLN"] - spirometry.fev1)) / predictionsFEV1["S"])
 
-        if z > -2.5: return {"result": 1}
-        elif z > -4: return {"result": 2}
-        else: return {"result": 3} 
+        if z > -1.645: return {"result": 1} #Normal
+        elif z > -2.5: return {"result": 2} #Mild
+        elif z > -4: return {"result": 3} #Moderate
+        else: return {"result": 4} #Severe
+    return {"result": 0}
 
     
 @app.post("/obstructionai")
@@ -102,7 +104,8 @@ async def predictresgli(spirometry: SpirometryPlus):
 
     if spirometry.fev1 / spirometry.fvc >= predictionsFraction["LLN"]:
         if spirometry.fvc < predictionsFVC["LLN"]: return {"result": 1}
-        else: return {"result": 0}
+    
+    return {"result": 0}
     
 @app.post("/restrictionai")
 async def predictresai(spirometry: SpirometryPlus):
