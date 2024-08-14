@@ -74,8 +74,7 @@ async def predictobsGLI(spirometry: SpirometryPlus):
         elif z > -2.5: return {"result": 2} #Mild
         elif z > -4: return {"result": 3} #Moderate
         else: return {"result": 4} #Severe
-    return {"result": 0}
-
+    return {"result": 0} #Nada
     
 @app.post("/obstructionai")
 async def predictobsai(spirometry: SpirometryPlus):
