@@ -35,14 +35,13 @@ export async function getSpirometriesList (patientId: string): Promise < Spirome
     try{
         const spirometries = await db
         .selectFrom("spirometries")
-        //.innerJoin("patients", "spirometries.patient", "patients.id")   // Relación entre espirometria y paciente
-        //.innerJoin("users", "patients.medic", "users.id")               // Relación entre paciente y medico
-        //.where("patients.medic", "=", medic)                               // El medico esta relacionado con el paciente  
-        .where("spirometries.patient", "=", patientId)                  // El paciente esta relacionado con la espirometria   
+        //.innerJoin("patients", "spirometries.patient", "patients.id")     // Relación entre espirometria y paciente
+        //.innerJoin("users", "patients.medic", "users.id")                 // Relación entre paciente y medico
+        //.where("patients.medic", "=", medic)                              // El medico esta relacionado con el paciente  
+        .where("spirometries.patient", "=", patientId)                      // El paciente esta relacionado con la espirometria   
         .selectAll()
-        .execute();                                                     // Devuelve las espirometrias; si no existen, devuelve una lista vacia.
+        .execute();                                                         // Devuelve las espirometrias; si no existen, devuelve una lista vacia.
 
-        console.log(JSON.stringify(spirometries))
         return spirometries;
     }
 
@@ -58,9 +57,9 @@ export async function getSpirometry (spirometryId: string): Promise < Spirometry
     try{
         const spirometry = await db 
         .selectFrom("spirometries")
-        .innerJoin("patients", "spirometries.patient", "patients.id")   // Relación entre espirometria y paciente
-        .innerJoin("users", "patients.medic", "users.id")               // Relación entre paciente y medico
-        .where("patients.medic", "=", id)                               // El medico esta relacionado con el paciente
+        //.innerJoin("patients", "spirometries.patient", "patients.id")   // Relación entre espirometria y paciente
+        //.innerJoin("users", "patients.medic", "users.id")               // Relación entre paciente y medico
+        //.where("patients.medic", "=", id)                               // El medico esta relacionado con el paciente
         .where("spirometries.id", "=", spirometryId)                    // La espirometria esta relacionada con el id
         .selectAll()
         .executeTakeFirstOrThrow();                                     // Devuelve la espirometria; si no existe, devuelve un error.
@@ -80,9 +79,9 @@ export async function deleteSpirometry(spirometryId: string): Promise < DeleteRe
     try{
         return await db
         .deleteFrom("spirometries")
-        .innerJoin("patients", "spirometries.patient", "patients.medic")
-        .innerJoin("users", "patients.medic", "users.id")
-        .where("patients.medic", "=", id)
+        //.innerJoin("patients", "spirometries.patient", "patients.medic")
+        //.innerJoin("users", "patients.medic", "users.id")
+        //.where("patients.medic", "=", id)
         .where("spirometries.id", "=", spirometryId)
         .executeTakeFirstOrThrow();
     }
@@ -115,6 +114,7 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
 
 
     try{
+
         loadSpirometry(validatedFields.data);
 
         return {
@@ -131,86 +131,101 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
 
 async function loadSpirometry(data:spirometryInput){
 
-    const spirometryData = {
-        fev1:       data.fev1,
-        fev1pred:   data.fev1_lln,
-        fvc:        data.fvc,
-        fvcpred:    data.fvc_lln,
+    try{
+
+        const spirometryData = {
+            fev1:       data.fev1,
+            fev1pred:   data.fev1_lln,
+            fvc:        data.fvc,
+            fvcpred:    data.fvc_lln,
+        }
+    
+        const spirometryDataAi = {
+            ...spirometryData, 
+            sexo:       data.sexo,
+            edad:       calculateAge(data.nacimiento),
+            altura:     data.altura,
+            peso:       data.peso,
+        };
+        
+        const obstruction:number = await axios.post(`${URL}/obstruction`, spirometryData)
+        .then((res:any) => {
+            return res.data.result;
+        })
+        .catch((error:unknown) => {
+            console.error(JSON.stringify(error))
+            throw new Error('O');
+        })
+    
+        console.log(obstruction)
+    
+        const obstructionAi:number = await axios.post(`${URL}/obstructionai`, spirometryDataAi)
+        .then((res:any) => {
+            return res.data.result;
+        })
+        .catch((error:unknown) => {
+            console.log(JSON.stringify(error))
+            throw new Error('Oia');
+        })
+    
+        console.log(obstructionAi)
+    
+        const restriction:number = await axios.post(`${URL}/restriction`, spirometryData)
+        .then((res:any) => {
+            return res.data.result;
+        })
+        .catch((error:unknown) => {
+            console.log(JSON.stringify(error))
+            throw new Error('R');
+        })
+    
+        console.log(restriction)
+    
+        const restrictionAi:number = await axios.post(`${URL}/restrictionai`, spirometryDataAi)
+        .then((res:any) => {
+            return res.data.result;
+        })
+        .catch((error:unknown) => {
+            console.log(JSON.stringify(error))
+            throw new Error('Ria');
+        })
+    
+        console.log(restrictionAi)
+        
+        const spirometryId = await uuid("spirometries"); // Genera un UUID único.	
+        const date = moment().format("YYYY-MM-DD"); // Genera fecha actual.
+                
+        
+        const spirometry: newSpirometry = {
+            patient:        data.id,
+            ...spirometryData,
+            id:             spirometryId,
+            obstruction:    obstruction,
+            obstructionia:  obstructionAi,
+            restriction:    restriction,
+            restrictionai:  restrictionAi,
+            date:           date
+        }; 
+        
+        const spirometryDB: newSpirometry = await db //guardado en la DB 
+        .insertInto("spirometries")
+        .values(spirometry)
+        .returningAll()
+        .executeTakeFirstOrThrow();
+        
+        if(spirometryDB instanceof Error) //error handling del guardado de la data 
+        {
+            deleteSpirometry(spirometryId);
+            throw new Error('DB');
+        }
+    
+        return
+
     }
-
-    const spirometryDataAi = {
-        ...spirometryData, 
-        sexo:       data.sexo,
-        edad:       calculateAge(data.nacimiento),
-        altura:     data.altura,
-        peso:       data.peso,
-    };
-    
-    const obstruction:number = await axios.post(`${URL}/obstruction`, spirometryData)
-    .then((res:any) => {
-        return res.data.result;
-    })
-    .catch((error:unknown) => {
-        console.error(JSON.stringify(error))
-        throw new Error('O');
-    })
-
-    const obstructionAi:number = await axios.post(`${URL}/obstructionai`, spirometryDataAi)
-    .then((res:any) => {
-        return res.data.result;
-    })
-    .catch((error:unknown) => {
-        console.log(JSON.stringify(error))
-        throw new Error('Oia');
-    })
-
-    const restriction:number = await axios.post(`${URL}/restriction`, spirometryData)
-    .then((res:any) => {
-        return res.data.result;
-    })
-    .catch((error:unknown) => {
-        console.log(JSON.stringify(error))
-        throw new Error('R');
-    })
-
-    const restrictionAi:number = await axios.post(`${URL}/restrictionai`, spirometryDataAi)
-    .then((res:any) => {
-        return res.data.result;
-    })
-    .catch((error:unknown) => {
-        console.log(JSON.stringify(error))
-        throw new Error('Ria');
-    })
-
-    
-    const spirometryId = await uuid("spirometries"); // Genera un UUID único.	
-    const date = moment().format("YYYY-MM-DD"); // Genera fecha actual.
-            
-    
-    const spirometry: newSpirometry = {
-        patient:        data.id,
-        ...spirometryData,
-        id:             spirometryId,
-        obstruction:    obstruction,
-        obstructionia:  obstructionAi,
-        restriction:    restriction,
-        restrictionai:  restrictionAi,
-        date:           date
-    }; 
-    
-    const spirometryDB: newSpirometry = await db //guardado en la DB 
-    .insertInto("spirometries")
-    .values(spirometry)
-    .returningAll()
-    .executeTakeFirstOrThrow();
-    
-    if(spirometryDB instanceof Error) //error handling del guardado de la data 
-    {
-        deleteSpirometry(spirometryId);
-        throw new Error('DB');
+    catch(error:unknown){
+        console.log(error)
+        throw new Error('D');
     }
-
-    return
 }
 
 function calculateAge(birthdate: Date): number {
