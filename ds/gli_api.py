@@ -161,7 +161,3 @@ def get_fev1_fvc_pred(sex, age, height):
     }
 
     return res
-
-print(get_fev1_pred(1, 20.15, 170))
-print(get_fvc_pred(1, 20.15, 170))
-print(get_fev1_fvc_pred(1, 20.15, 170))
