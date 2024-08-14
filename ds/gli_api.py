@@ -48,8 +48,18 @@ def get_match(lookup, age, value):
     filtered_df = lookup[lookup['Age'] == age]
 
     if filtered_df.empty:
-        return None
-    
+        df1 = lookup[lookup['Age'] == quarter_round(age)]
+        df2 = lookup[lookup['Age'] == quarter_round(age) + 0.25]
+        if value == 'Lspline':
+            #Interpolation of Lspline for age
+            return df1['Lspline'].values[0] + ((df2['Lspline'].values[0] - df1['Lspline'].values[0]) * (age - quarter_round(age)))
+        elif value == "Mspline":
+            #Interpolation of Mspline for age
+            return df1['Mspline'].values[0] + ((df2['Mspline'].values[0] - df1['Mspline'].values[0]) * (age - quarter_round(age)))
+        elif value == "Sspline":
+            #Interpolation of Sspline for age
+            return df1['Sspline'].values[0] + ((df2['Sspline'].values[0] - df1['Sspline'].values[0]) * (age - quarter_round(age)))    
+
     if value == 'Lspline':
         return filtered_df['Lspline'].values[0]
     elif value == "Mspline":
@@ -60,7 +70,6 @@ def get_match(lookup, age, value):
     return None
 
 def get_fev1_pred(sex, age, height):
-    real_age = quarter_round(age)
     lookup = None
     msl = None
     L = 0
@@ -79,8 +88,8 @@ def get_fev1_pred(sex, age, height):
 
         L = msl.at[2, 'L']
 
-    M = np.exp(msl.at[2, 'M'] + (msl.at[3, 'M'] * np.log(height)) + (msl.at[4, 'M'] * np.log(age)) + get_match(lookup, real_age, 'Mspline'))
-    S = np.exp(msl.at[2, 'S'] + (msl.at[4, 'S'] * np.log(age)) + get_match(lookup, real_age, 'Sspline'))
+    M = np.exp(msl.at[2, 'M'] + (msl.at[3, 'M'] * np.log(height)) + (msl.at[4, 'M'] * np.log(age)) + get_match(lookup, age, 'Mspline'))
+    S = np.exp(msl.at[2, 'S'] + (msl.at[4, 'S'] * np.log(age)) + get_match(lookup, age, 'Sspline'))
     LLN = np.exp((np.log(1 - 1.645 * L * S) / L) + np.log(M))
 
     res = {
@@ -93,7 +102,6 @@ def get_fev1_pred(sex, age, height):
     return res
     
 def get_fvc_pred(sex, age, height):
-    real_age = quarter_round(age)
     lookup = None
     msl = None
     L = 0
@@ -109,8 +117,8 @@ def get_fvc_pred(sex, age, height):
         msl = fvcfemale_msl
 
     L = msl.at[2, 'L']
-    M = np.exp(msl.at[2, 'M'] + (msl.at[3, 'M'] * np.log(height)) + (msl.at[4, 'M'] * np.log(age)) + get_match(lookup, real_age, 'Mspline'))
-    S = np.exp(msl.at[2, 'S'] + (msl.at[4, 'S'] * np.log(age)) + get_match(lookup, real_age, 'Sspline'))
+    M = np.exp(msl.at[2, 'M'] + (msl.at[3, 'M'] * np.log(height)) + (msl.at[4, 'M'] * np.log(age)) + get_match(lookup, age, 'Mspline'))
+    S = np.exp(msl.at[2, 'S'] + (msl.at[4, 'S'] * np.log(age)) + get_match(lookup, age, 'Sspline'))
     LLN = np.exp((np.log(1 - 1.645 * L * S) / L) + np.log(M))
 
     res = {
@@ -123,7 +131,6 @@ def get_fvc_pred(sex, age, height):
     return res
 
 def get_fev1_fvc_pred(sex, age, height):
-    real_age = quarter_round(age)
     lookup = None
     msl = None
     L = 0
@@ -135,15 +142,15 @@ def get_fev1_fvc_pred(sex, age, height):
         lookup = fev1fvcfemale_lookup
         msl = fev1fvcfemale_msl
 
-        L = msl.at[2, 'L'] + (msl.at[4, 'L'] * np.log(age)) + get_match(lookup, real_age, 'Lspline')
+        L = msl.at[2, 'L'] + (msl.at[4, 'L'] * np.log(age)) + get_match(lookup, age, 'Lspline')
     else:
         lookup = fev1fvcmale_lookup
         msl = fev1fvcmale_msl
 
         L = msl.at[2, 'L'] + (msl.at[4, 'L'] * np.log(age))
 
-    M = np.exp(msl.at[2, 'M'] + (msl.at[3, 'M'] * np.log(height)) + (msl.at[4, 'M'] * np.log(age)) + get_match(lookup, real_age, 'Mspline'))
-    S = np.exp(msl.at[2, 'S'] + (msl.at[4, 'S'] * np.log(age)) + get_match(lookup, real_age, 'Sspline'))
+    M = np.exp(msl.at[2, 'M'] + (msl.at[3, 'M'] * np.log(height)) + (msl.at[4, 'M'] * np.log(age)) + get_match(lookup, age, 'Mspline'))
+    S = np.exp(msl.at[2, 'S'] + (msl.at[4, 'S'] * np.log(age)) + get_match(lookup, age, 'Sspline'))
     LLN = np.exp((np.log(1 - (1.645 * L * S)) / L) + np.log(M))
 
     res = {
@@ -155,6 +162,6 @@ def get_fev1_fvc_pred(sex, age, height):
 
     return res
 
-print(get_fev1_pred(1, 20, 170))
-print(get_fvc_pred(1, 20, 170))
-print(get_fev1_fvc_pred(1, 20, 170))
+print(get_fev1_pred(1, 20.15, 170))
+print(get_fvc_pred(1, 20.15, 170))
+print(get_fev1_fvc_pred(1, 20.15, 170))
