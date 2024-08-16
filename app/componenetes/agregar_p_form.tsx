@@ -74,7 +74,7 @@ export default function AgregarPacientes({ Pagina }: Props) {
         <div className="sm:grid-cols-2 grid-cols-1 grid w-11/12 gap-2 justify-center">
           <div>
             <label className="w-11/12">
-              <h1 className="text-sm font-light text-third">Altura</h1>
+              <h1 className="text-sm font-light text-third">Altura (cm)</h1>
               <input
                 type="number"
                 step={0.01}
@@ -101,28 +101,28 @@ export default function AgregarPacientes({ Pagina }: Props) {
           <div>
             <h1 className="text-sm font-light text-third">Sexo Biologico</h1>
             <div className="w-full rounded-sm border-0 border-b-2 border-secondary focus:outline-none bg-primary">
-              <div className="flex items-center justify-between ">
-                <h1 className="text-sm font-light text-third ml-2 ">
-                  Femenino
-                </h1>
-                <input
-                  type="radio" //poner boton tipo radial para elegir entre femenino y masculino. Valores 0 y 1 respectivamente.
-                  id="sexo"
-                  name="sexo"
-                  className="mr-2 px-3 rounded-sm bg-primary w-4 h-4 border-third focus:ring-primary_light focus:ring-2"
-                  value={2}
-                />
-              </div>
               <div className="flex items-center justify-between">
                 <h1 className="text-sm font-light text-third ml-2 ">
                   Masculino
                 </h1>
                 <input
                   type="radio" //poner boton tipo radial para elegir entre femenino y masculino. Valores 0 y 1 respectivamente.
-                  id="sexo"
+                  id="male"
                   name="sexo"
                   className="mr-2 px-3 rounded-sm bg-primary w-4 h-4   border-third focus:ring-primary_light focus:ring-2"
                   value={1}
+                />
+              </div>
+              <div className="flex items-center justify-between ">
+                <h1 className="text-sm font-light text-third ml-2 ">
+                  Femenino
+                </h1>
+                <input
+                  type="radio" //poner boton tipo radial para elegir entre femenino y masculino. Valores 0 y 1 respectivamente.
+                  id="female"
+                  name="sexo"
+                  className="mr-2 px-3 rounded-sm bg-primary w-4 h-4 border-third focus:ring-primary_light focus:ring-2"
+                  value={0}
                 />
               </div>
             </div>

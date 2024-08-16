@@ -26,9 +26,9 @@ export const patientFormSchema = z.object({
   .min(1, {message:'Ingresar una valor válida'}),
 
   sexo: z
-  .number({message:'Elegir una de las opciones'})
-  .min(1, {message:'Elegir una de las opciones'})
-  .max(2, {message:'Elegir una de las opciones'}),
+  .number({message:'Ingresar un valor numerico'})
+  .min(-1, {message:'Ingresar un valor válido'})
+  .max(1, {message:'Ingresar un valor válido'})
 })
  
 export type patientState =

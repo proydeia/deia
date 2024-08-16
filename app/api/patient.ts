@@ -63,7 +63,6 @@ export async function deletePatient(patientId: string) { //agregar el estado al 
     }
     
     catch(error:unknown){
-        throw new Error('D');
         return {
             message:'Error al eliminar registro. Intente denuvo más tarde.'
         }
@@ -77,7 +76,7 @@ export async function createPatient(state:patientState, formData:FormData) {
         extrainfo:  formData.get('extraInfo'),
         peso:       Number(formData.get('peso')),
         altura:     Number(formData.get('altura')),
-        sexo:       Number(formData.get('sexo')) - 1,
+        sexo:       Number(formData.get('sexo')),
         nacimiento: new Date(formData.get('nacimiento') as string),
     });
 
@@ -86,16 +85,14 @@ export async function createPatient(state:patientState, formData:FormData) {
           errors: validatedFields.error.flatten().fieldErrors,
         };
     };
-
     
     const id = await checkMedic();
-
 
     try{
 
         const uniqueId = await uuid("patients")
         
-        await db
+        const newUser = await db
         .insertInto("patients")
         .values({
             id:         uniqueId,
@@ -111,13 +108,12 @@ export async function createPatient(state:patientState, formData:FormData) {
         .executeTakeFirstOrThrow();
 
         return {
-            message:'Registro creado con éxito.'
+            message:'Registro creado con éxito.',
+            user: newUser
         };
     }
 
     catch(error: unknown){
-        console.log(error);
-
         return {
             message:'Error al crear registro. Intente denuvo más tarde.'
           };

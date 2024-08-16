@@ -115,7 +115,7 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
 
     try{
 
-        loadSpirometry(validatedFields.data);
+        await loadSpirometry(validatedFields.data);
 
         return {
             message:'Registro creado con exito'
