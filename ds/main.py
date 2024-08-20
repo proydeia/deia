@@ -6,8 +6,8 @@ import numpy as np
 import pandas as pd
 
 app = FastAPI()
-model1_path = './modelObs.pkl'
-model2_path = './modelRes.pkl'
+model1_path = '../modelObs.pkl'
+model2_path = '../modelRes.pkl'
 model1 = None
 model2 = None
 
