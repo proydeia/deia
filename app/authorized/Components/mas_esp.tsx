@@ -123,15 +123,15 @@ console.log("Este es el objeto"+EspiroId)
                      Grado de Obstruccion por IA:
                    </p>
                    <p className=" g font-extrabold text-xl  sm:text-2xl">
-                     {spyrometry.obstructionia || "No spirometry data"}
+                     {spyrometry.obstructionai || "No spirometry data"}
                    </p>
                  </div>
                  <div className="px-2 md:px-4 md:flex-row  flex flex-col py-2  col-span-4  bg-primary justify-between">
                    <p className="md:text-lg sm:text-xl font-semibold text-lg">
-                     Obstrucción según el Análisis:{spyrometry.restriction}
+                     Restricción según el Análisis:
                    </p>
                    <p className=" font-bextraold text-xl  sm:text-2xl">
-                     {spyrometry.obstructionia > 0 ? (
+                     {spyrometry.restrictionai > 0 ? (
                        <p>Si</p>
                      ) : (
                        <p>No</p>

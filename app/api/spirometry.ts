@@ -201,7 +201,7 @@ async function loadSpirometry(data:spirometryInput){
             ...spirometryData,
             id:             spirometryId,
             obstruction:    obstruction,
-            obstructionia:  obstructionAi,
+            obstructionai:  obstructionAi,
             restriction:    restriction,
             restrictionai:  restrictionAi,
             date:           date
