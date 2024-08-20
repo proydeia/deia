@@ -145,12 +145,14 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
                     <p>Restricción: {spirometry.restrictionai}</p>
                   </div>
                   <VerMasButton Id={spirometry.id} Espiro_id={NavigetoVer_Mas} />
+                  
                   {/* <button onClick={() => Espiro(spirometry.id)}>Pasar Id</button> */}
                 </div>
               ))}
               <div className="flex flex-row w-full justify-center  items-center">
 
                 <ByebyeButton tabla={"patient"} id={pacienteId} />
+
                 <button className="bg-secondary text-md p-2 ml-2 rounded-sm" onClick={() => Page("2")}>Agregar Espirometrías</button>
               </div>
             </div>
