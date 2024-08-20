@@ -84,4 +84,4 @@ async def predictresai(spirometry: SpirometryPlus):
         return {"result": -1}
     x = np.array([spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso])
     res = model2.predict([x])
-    return {"result": str(res[0][0])}
+    return {"result": str(res[0])}
