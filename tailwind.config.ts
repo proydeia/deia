@@ -15,6 +15,8 @@ const config: Config = {
       red: 'rgb(var(--color-red) / <alpha-value>)',
     }
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-animated')
+  ],
 };
 export default config;

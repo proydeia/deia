@@ -80,15 +80,12 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
         <p>Elija un Paciente o cree uno.</p>
       ) : patient ? (
         <div className="flex flex-col w-11/12 justify-center items-center">
-          {/* {pagina == "1" ? <AgregarEspiro Pagina={setPagina} /> : 
-          <Ver_Mas Pagina={setPagina} />   
-      } */}
           <div className="flex flex-row flex-direction-row-reverse justify-between gap-6 w-full">
             <p className="text-2xl sm:text-3xl font-bold text-left text-primary_light w-full mb-4 mt-4">
               {patient.name}
             </p>
             <div className="flex flex-row items-center justify-center">
-              <button onClick={() => Pagina("1")} className=" px-4 h-2/3">
+              <button onClick={() => Pagina("1")} className=" px-4 h-2/3 hover:animate-spin animate-once animate-ease-linear animate-normal">
                 <Image
                   src="/cruz_back.png"
                   alt="Mi imagen"
