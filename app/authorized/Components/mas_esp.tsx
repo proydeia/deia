@@ -160,11 +160,7 @@ export default function Ver_Mas({
                 <p className="font-bold text-lg sm:text-xl">Información Extra:</p>
                 <p className="sm:text-xl font-medium text-lg">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                  enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                  reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                  nulla pariatur.{" "}
+                  eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
                 </p>
               </div>
             </div>

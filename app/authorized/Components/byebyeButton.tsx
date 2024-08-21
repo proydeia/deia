@@ -4,23 +4,30 @@ import { useState } from "react";
 //import { deleteMedic } from "@/app/api/admin";
 
 export default function ByebyeButton({ tabla = "patient" || "spirometry" || "", id }: { tabla: string, id: string }) {
-    const [Persona, setPersona] = useState("");
+    const Persona = () =>{
+    switch (tabla){
+        case "patient":
+            return "Paciente"
+        case "spirometry":
+            return "Espirometria"
+        default:
+            return "Médico"
+    }
+    
+    }
     const erradicate = async () => {
         try {
             switch (tabla) {
                 case "patient":
                     await deletePatient(id);
-                    setPersona("Paciente");
                     break;
 
                 case "spirometry":
                     await deleteSpirometry(id);
-                    setPersona("Espirometría");
                     break;
 
                 case "medic":
                     //await deleteMedic(id);
-                    setPersona("Médico");
                     break;
                 default:
                     throw new Error("Invalid type");
@@ -37,7 +44,7 @@ export default function ByebyeButton({ tabla = "patient" || "spirometry" || "", 
     return (
         <div className="container" >
             <button onClick={() => erradicate()} className="bg-red p-2 ml-2 rounded-sm ">
-                Eliminar {Persona}
+                Eliminar {Persona()}
             </button>
         </div>
     );
