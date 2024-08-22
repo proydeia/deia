@@ -122,7 +122,7 @@ export default function Ver_Mas({
                   Grado de Obstruccion por Análisis:
                 </p>
                 <p className=" g font-extrabold text-xl  sm:text-2xl">
-                  {spyrometry.obstruction || "No spirometry data"}
+                  {spyrometry.obstruction !== undefined || spyrometry.obstruction === Number(0) ? (spyrometry.obstruction) : ("No spirometry data")}
                 </p>
               </div>
               <div className="px-2 md:px-4 md:flex-row  flex flex-col py-2  col-span-4  bg-primary justify-between">
@@ -135,10 +135,10 @@ export default function Ver_Mas({
               </div>
               <div className="px-2 md:px-4 md:flex-row  flex flex-col py-2  col-span-4  bg-primary justify-between">
                 <p className="md:text-lg sm:text-xl font-semibold text-lg">
-                  Restricción según el Análisis:
+                  Posible restricción según el Análisis:
                 </p>
                 <p className=" font-bextraold text-xl  sm:text-2xl">
-                  {spyrometry.restrictionai > 0 ? (
+                  {spyrometry.restriction > 0 ? (
                     <p>Si</p>
                   ) : (
                     <p>No</p>
@@ -147,7 +147,7 @@ export default function Ver_Mas({
               </div>
               <div className="px-2 md:px-4 md:flex-row  flex flex-col py-2  col-span-4  bg-primary justify-between">
                 <p className="md:text-lg sm:text-xl font-semibold text-lg">
-                  Probabilidad de que haya restriccion :{spyrometry.restrictionai}
+                  Posible restricción por IA:
                 </p>
                 <p className=" font-bextraold text-xl  sm:text-2xl">{spyrometry.restrictionai > 0 ? (
                   <p>Si</p>
