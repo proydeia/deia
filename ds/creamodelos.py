@@ -7,8 +7,6 @@ import pandas as pd
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.optimizers import Adam
-import wandb
-from wandb.integration.keras import WandbMetricsLogger #, WandbModelCheckpoint
 import os
 import numpy as np
 
@@ -23,62 +21,31 @@ def CompareLogisticModels(model1, model2, valDataX, valDataY):
     return score1, score2
 
 obs = None
-with open('ds/obs.json') as f:
+with open('ds/obsgli.json') as f:
     obs = json.load(f)
 
 res = None
-with open('ds/res.json') as f:
+with open('ds/resgli.json') as f:
     res = json.load(f)
 
 ### Obstruction model
 
-api = wandb.Api()
-runs = api.runs(path="proydeia/deia")
-currRun = 1
-model_type = 'obstruction'
-architecture = 'dense'
-for run in runs:
-    if f'{model_type} - {architecture}' in run.name:
-        currRun += 1
-
-wandb.init(
-    project="deia",
-    name=f'{model_type} - {architecture} - {currRun}',
-
-    config={
-        "layer_sizes": [64, 32, 16, 1],
-        "input_dim": 8,
-        "activation_per_layer": ['relu', 'relu', 'relu', 'sigmoid'],
-        "epochs": 50,
-        "batch_size": 8,
-    }
-)
-
-wandb_callbacks = [
-    WandbMetricsLogger(),
-    #WandbModelCheckpoint(filepath="my_model_{epoch:02d}.5"),
-]
-
 xObs = []
 yObs = []
-for k, v in obs.items():
-    vals = v.copy()
-    del vals['obstruction']
-    xObs.append(list(vals.values()))
-    yObs.append(v['obstruction'] / 5)
+for item in obs:
+    yObs.append(item['Obstruction'] / 4)
+    del item['Obstruction']
+    xObs.append(list(item.values()))
 
 xObsTrain, xObsVal, yObsTrain, yObsVal = train_test_split(xObs, yObs, test_size=0.25, random_state=42)
 
 modelObs = Sequential()
-modelObs.add(Dense(64, input_dim=8, activation='relu'))
+modelObs.add(Dense(64, activation='relu'))
 modelObs.add(Dense(32, activation='relu'))
 modelObs.add(Dense(16, activation='relu'))
 modelObs.add(Dense(1, activation='sigmoid'))
 modelObs.compile(loss='mean_squared_error', optimizer=Adam())
-modelObs.fit(pd.DataFrame(xObsTrain), pd.DataFrame(yObsTrain), epochs=50, batch_size=8, validation_data=(pd.DataFrame(xObsVal), pd.DataFrame(yObsVal)), callbacks=wandb_callbacks)
-wandb.log({'mean_squared_error': mean_squared_error(yObsVal, modelObs.predict(pd.DataFrame(xObsVal)))})
-
-wandb.finish()
+modelObs.fit(pd.DataFrame(xObsTrain), pd.DataFrame(yObsTrain), epochs=25, batch_size=16, validation_data=(pd.DataFrame(xObsVal), pd.DataFrame(yObsVal)))
 
 if os.path.exists('ds/modelObs.pkl'):
     with open('ds/modelObs.pkl', 'rb') as f:
@@ -99,38 +66,17 @@ else:
 
 ### Restriction model
 
-currRun = 1
-model_type = 'restriction'
-architecture = 'logistic'
-for run in runs:
-    if f'{model_type} - {architecture}' in run.name:
-        currRun += 1
-
-wandb.init(
-    project="deia",
-    name=f'{model_type} - {architecture} - {currRun}',
-)
-
-wandb_callbacks = [
-    WandbMetricsLogger(),
-    #WandbModelCheckpoint(filepath="my_model_{epoch:02d}.5"),
-]
-
 xRes = []
 yRes = []
-for k, v in res.items():
-    vals = v.copy()
-    del vals['restriction']
-    xRes.append(list(vals.values()))
-    yRes.append(v['restriction'])
+for item in res:
+    yRes.append(item['Restriction'])
+    del item['Restriction']
+    xRes.append(list(item.values()))
 
-xResTrain, xResval, yResTrain, yResval = train_test_split(xRes, yRes, test_size=0.25, random_state=23)
+xResTrain, xResval, yResTrain, yResval = train_test_split(xRes, yRes, test_size=0.25, random_state=42)
 
 modelRes = LogisticRegression(class_weight="balanced")
 modelRes.fit(np.array(xResTrain), np.array(yResTrain))
-wandb.log({'accuracy': accuracy_score(yResval, modelRes.predict(xResval)), "valPredAttempt": list(modelRes.predict(xResval)), "valTrue": yResval})
-
-wandb.finish()
 
 if os.path.exists('ds/modelRes.pkl'):
     with open('ds/modelRes.pkl', 'rb') as f:
