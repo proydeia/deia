@@ -161,3 +161,19 @@ def get_fev1_fvc_pred(sex, age, height):
     }
 
     return res
+
+def predictobsGLI(fev1, fvc, fev1lln, fev1s, fractionlln):
+    if fev1 / fvc < fractionlln:
+        z = (-(np.abs(fev1lln - fev1)) / fev1s)
+
+        if z > -1.645: return 1 #Normal
+        elif z > -2.5: return 2 #Mild
+        elif z > -4: return 3 #Moderate
+        else: return 4 #Severe
+    return 0 #Nada
+
+def predictresgli(fev1, fvc, fractionlln, fvclln):
+    if fev1 / fvc >= fractionlln:
+        if fvc < fvclln: return 1
+    
+    return 0
