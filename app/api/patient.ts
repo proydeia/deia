@@ -100,7 +100,7 @@ export async function createPatient(state:patientState, formData:FormData) {
             name:       validatedFields.data.name,
             peso:       validatedFields.data.peso,
             altura:     validatedFields.data.altura,
-            sexo:       validatedFields.data.sexo,
+            sexo:       validatedFields.data.sexo   -   1,
             nacimiento: validatedFields.data.nacimiento,
             extrainfo:  validatedFields.data.extrainfo as string,
         })

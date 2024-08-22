@@ -110,7 +110,7 @@ export default function AgregarPacientes({ Pagina }: Props) {
                   id="male"
                   name="sexo"
                   className="mr-2 px-3 rounded-sm bg-primary w-4 h-4   border-third focus:ring-primary_light focus:ring-2"
-                  value={1}
+                  value={2}
                 />
               </div>
               <div className="flex items-center justify-between ">
@@ -122,7 +122,7 @@ export default function AgregarPacientes({ Pagina }: Props) {
                   id="female"
                   name="sexo"
                   className="mr-2 px-3 rounded-sm bg-primary w-4 h-4 border-third focus:ring-primary_light focus:ring-2"
-                  value={0}
+                  value={1}
                 />
               </div>
             </div>

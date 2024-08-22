@@ -114,9 +114,7 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
 
 
     try{
-
         await loadSpirometry(validatedFields.data);
-
         return {
             message:'Registro creado con exito'
         };
@@ -150,6 +148,7 @@ async function loadSpirometry(data:spirometryInput){
         
         const obstruction:number = await axios.post(`${URL}/obstruction`, spirometryData)
         .then((res:any) => {
+            if(res.data.result === -1) throw new Error('Render 500');
             return res.data.result;
         })
         .catch((error:unknown) => {
@@ -161,6 +160,7 @@ async function loadSpirometry(data:spirometryInput){
     
         const obstructionAi:number = await axios.post(`${URL}/obstructionai`, spirometryDataAi)
         .then((res:any) => {
+            if(res.data.result === -1) throw new Error('Render 500');
             return res.data.result;
         })
         .catch((error:unknown) => {
@@ -172,6 +172,7 @@ async function loadSpirometry(data:spirometryInput){
     
         const restriction:number = await axios.post(`${URL}/restriction`, spirometryData)
         .then((res:any) => {
+            if(res.data.result === -1) throw new Error('Render 500');
             return res.data.result;
         })
         .catch((error:unknown) => {
@@ -183,6 +184,7 @@ async function loadSpirometry(data:spirometryInput){
     
         const restrictionAi:number = await axios.post(`${URL}/restrictionai`, spirometryDataAi)
         .then((res:any) => {
+            if(res.data.result === -1) throw new Error('Render 500');
             return res.data.result;
         })
         .catch((error:unknown) => {
