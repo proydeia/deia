@@ -57,7 +57,7 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
     console.log("este es el espiro :" + Espiro_id)
     return (
       <button
-        className="bg-primary_light rounded-sm h-1/2 p-2 ml-auto"
+        className="bg-primary_light rounded-sm h-11/12 p-2 ml-auto"
         onClick={() => Espiro_id(Id)}
       >
         Ver Mas
@@ -85,7 +85,7 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
               {patient.name}
             </p>
             <div className="flex flex-row items-center justify-center">
-              <button onClick={() => Pagina("1")} className=" px-4 h-2/3 hover:animate-spin animate-once animate-ease-linear animate-normal">
+              <button onClick={() => Pagina("1")} className=" px-4 h-2/3 hover:animate-spin animate-duration-100 animate-once animate-ease-in-out animate-normal">
                 <Image
                   src="/cruz_back.png"
                   alt="Mi imagen"
@@ -97,8 +97,7 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
             </div>
           </div>
           <div className="w-11/12 flex flex-col justify-center items-center bg-primary_light py-4 rounded-sm">
-            <div className="sm:w-11/12 flex flex-col w-full overflow-y-auto h-96 gap-6">
-              {/* Patient information sections here, accessing patient.property */}
+            <div className="sm:w-11/12 flex flex-col w-full overflow-y-auto h-96 gap-6 ">
               <div className="bg-primary rounded-sm flex flex-col my-2 py-4 px-2">
                 <div className="flex flex-row gap-2 px-2">
                   <p className="font-bold">Nombre y Apellido:</p>
@@ -141,16 +140,26 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
                 >
                   <div className="flex-grow">
                     <p>Fecha: {spirometry.date.toDateString()}</p>
-                    <p>Obstrucción: {spirometry.obstruction}</p>
-                    <p>Restricción: {spirometry.restrictionai}</p>
+
+                    <p>
+                      {spirometry.obstruction >= 0 && spirometry.restriction <= 0 ? (
+                        `Obstrucción: ${spirometry.obstruction}`
+                      ) : spirometry.restriction >= 0 && spirometry.obstruction <= 0 ? (
+                        `Restricción: ${spirometry.restriction}`
+                      ) : (
+                        "No hay obstrucción ni restricción"
+                      )}
+                    </p>
                   </div>
                   <VerMasButton Id={spirometry.id} Espiro_id={NavigetoVer_Mas} />
+
                   {/* <button onClick={() => Espiro(spirometry.id)}>Pasar Id</button> */}
                 </div>
               ))}
               <div className="flex flex-row w-full justify-center  items-center">
 
                 <ByebyeButton tabla={"patient"} id={pacienteId} />
+
                 <button className="bg-secondary text-md p-2 ml-2 rounded-sm" onClick={() => Page("2")}>Agregar Espirometrías</button>
               </div>
             </div>
