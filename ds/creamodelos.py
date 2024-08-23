@@ -4,9 +4,9 @@ from sklearn.model_selection import train_test_split
 import pickle
 import json
 import pandas as pd
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.optimizers import Adam
+from keras.src.models import Sequential
+from keras.src.layers import Dense
+from keras.src.optimizers import Adam
 import os
 import numpy as np
 
