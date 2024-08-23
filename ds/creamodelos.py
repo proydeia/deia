@@ -4,9 +4,9 @@ from sklearn.model_selection import train_test_split
 import pickle
 import json
 import pandas as pd
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.optimizers import Adam
+from keras.src.models import Sequential
+from keras.src.layers import Dense
+from keras.src.optimizers import Adam
 import wandb
 from wandb.integration.keras import WandbMetricsLogger #, WandbModelCheckpoint
 import os
@@ -65,7 +65,7 @@ for k, v in obs.items():
     vals = v.copy()
     del vals['obstruction']
     xObs.append(list(vals.values()))
-    yObs.append(v['obstruction'] / 5)
+    yObs.append(v['obstruction'] / 4)
 
 xObsTrain, xObsVal, yObsTrain, yObsVal = train_test_split(xObs, yObs, test_size=0.25, random_state=42)
 

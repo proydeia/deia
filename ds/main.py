@@ -3,7 +3,6 @@ from pydantic import BaseModel
 import pickle
 import os
 import numpy as np
-import pandas as pd
 
 app = FastAPI()
 model1_path = './ds/modelObs.pkl'
@@ -64,9 +63,9 @@ async def predictobsai(spirometry: SpirometryPlus):
         return {"result": -1}
     x = np.array([[spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso]])
     #x = pd.DataFrame(x)
-    res = model1.predict(x) * 5
+    res = model1.predict(x)
     print(res)
-    return {"result": str(res[0][0])}
+    return {"result": str(res[0][0] * 4)}
 
 @app.post("/restriction")
 async def predictres(spirometry: Spirometry):
