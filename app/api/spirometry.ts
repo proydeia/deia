@@ -196,7 +196,8 @@ async function loadSpirometry(data:spirometryInput){
         const spirometryId = await uuid("spirometries"); // Genera un UUID único.	
         var date = new Date; // Genera fecha actual.
         console.log(date)
-
+        date.setDate(date.getDate() + 1); // Ajusta la hora a la de Uruguay.
+        console.log(date)
         
         const spirometry: newSpirometry = {
             patient:        data.id,
