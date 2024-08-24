@@ -5,7 +5,6 @@ import db, { newSpirometry, Spirometry } from "../lib/dbSchema/schema";
 import { uuid } from "./ID";
 import { DeleteResult } from "kysely";
 import { checkMedic } from "./userData";
-import { env } from "process";
 const axios = require('axios');
 const moment = require('moment');
 
@@ -195,8 +194,8 @@ async function loadSpirometry(data:spirometryInput){
         console.log(restrictionAi)
         
         const spirometryId = await uuid("spirometries"); // Genera un UUID único.	
-        const date = moment().format("YYYY-MM-DD"); // Genera fecha actual.
-                
+        var date = new Date; // Genera fecha actual.
+
         
         const spirometry: newSpirometry = {
             patient:        data.id,
