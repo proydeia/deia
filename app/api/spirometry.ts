@@ -195,6 +195,7 @@ async function loadSpirometry(data:spirometryInput){
         
         const spirometryId = await uuid("spirometries"); // Genera un UUID único.	
         var date = new Date; // Genera fecha actual.
+        console.log(date)
 
         
         const spirometry: newSpirometry = {
