@@ -154,9 +154,7 @@ async function loadSpirometry(data:spirometryInput){
             console.error(JSON.stringify(error))
             throw new Error('O');
         })
-    
-        console.log(obstruction)
-    
+        
         const obstructionAi:number = await axios.post(`${URL}/obstructionai`, spirometryDataAi)
         .then((res:any) => {
             if(res.data.result === -1) throw new Error('Render 500');
@@ -166,9 +164,7 @@ async function loadSpirometry(data:spirometryInput){
             console.log(JSON.stringify(error))
             throw new Error('Oia');
         })
-    
-        console.log(obstructionAi)
-    
+        
         const restriction:number = await axios.post(`${URL}/restriction`, spirometryData)
         .then((res:any) => {
             if(res.data.result === -1) throw new Error('Render 500');
@@ -178,9 +174,7 @@ async function loadSpirometry(data:spirometryInput){
             console.log(JSON.stringify(error))
             throw new Error('R');
         })
-    
-        console.log(restriction)
-    
+        
         const restrictionAi:number = await axios.post(`${URL}/restrictionai`, spirometryDataAi)
         .then((res:any) => {
             if(res.data.result === -1) throw new Error('Render 500');
@@ -190,12 +184,9 @@ async function loadSpirometry(data:spirometryInput){
             console.log(JSON.stringify(error))
             throw new Error('Ria');
         })
-    
-        console.log(restrictionAi)
-        
+            
         const spirometryId = await uuid("spirometries"); // Genera un UUID único.	
         var date = new Date; // Genera fecha actual.
-        console.log(date)
         date.setDate(date.getDate() + 1); // Ajusta la hora a la de Uruguay.
         console.log(date)
         
