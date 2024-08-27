@@ -5,6 +5,7 @@ import db, { newSpirometry, Spirometry } from "../lib/dbSchema/schema";
 import { uuid } from "./ID";
 import { DeleteResult } from "kysely";
 import { checkMedic } from "./userData";
+import { getSession } from "next-auth/react";
 const axios = require('axios');
 const moment = require('moment');
 
@@ -28,7 +29,6 @@ type spirometryInput = {
 // Espirometrias
 
 export async function getSpirometriesList (patientId: string): Promise < Spirometry[] > {
-    
     const medic = await checkMedic();
     
     try{

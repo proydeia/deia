@@ -89,7 +89,7 @@ export default function Ver_Mas({
                 {spyrometry.date.toDateString() || "No spirometry data"}
               </div>
               <div className="justify-center pr-4">
-                <ByebyeButton tabla={"spirometry"} id={pacienteId} />
+                <ByebyeButton tabla={"spirometry"} id={spyrometry.id} />
               </div>
             </div>
             <div className="grid grid-cols-4 p-4 gap-4 justify-center overflow-y-auto h-96">

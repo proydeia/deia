@@ -120,7 +120,12 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
 
                 <div className="flex flex-row gap-2 px-2">
                   <p className="font-bold">Sexo:</p>
-                  <p className="font-medium">{patient.sexo}</p>
+                  {patient.sexo == 1?(
+                    <p>Masculino</p>
+                  ): (
+                    <p>Femenino</p>
+                  )}
+                  {/* <p className="font-medium">{patient.sexo}</p> */}
                 </div>
 
                 <div className="flex flex-row gap-2 px-2">

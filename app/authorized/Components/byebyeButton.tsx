@@ -34,7 +34,8 @@ export default function ByebyeButton({ tabla = "patient" || "spirometry" || "", 
             }
         }
         catch (error: unknown) {
-            alert("Error eliminando el paciente");
+            console.log(JSON.stringify(error))
+            //alert("Error eliminando el paciente");
             return;
         }
         //mostrar lo que sea que haya que mostrar; recomiendo hacerlo bajo los propios casos del switch.

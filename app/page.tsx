@@ -1,11 +1,12 @@
-import Navbar from "./navBar";
 import Image from "next/image";
 
+import { getSession } from "./api/userData";
+
 export default function Home() {
+  const session = getSession(); 
   return (
     <main>
-      <Navbar/>
-      <section className="hero-section flex justify-around items-center mt-4 scroll-smooth h-screen">
+      <section className="hero-section flex justify-around items-center mt-4  h-screen">
         <Image
           src="/Frame9.png"
           alt="Mi imagen"

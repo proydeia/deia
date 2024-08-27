@@ -1,15 +1,35 @@
-"use client";
+"use server";
 import Link from "next/link";
-import { useState } from "react";
+//import { useEffect, useState } from "react";
 import Image from "next/image";
-// import "logoDEIA.svg"
+import { getSession } from "./api/userData";
+import { Session } from "next-auth";
+import { auth } from "@/auth";
+import Logout from "./authorized/Components/logOut_button";
 
-const Navbar = () => {
-  const [isClick, setisClick] = useState(false);
+export default async function Navbar() {
+  // const [isClick, setisClick] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [username, setUsername] = useState("");
+  // const [session, setSession] = useState<Session | null>(null);
 
-  const toggleNavBar = (): void => {
-    setisClick(!isClick);
-  };
+  // const toggleNavBar = (): void => {
+  //   setisClick(!isClick);
+  // };
+
+  //  useEffect(() => {
+  //    const fetchSession = async () => {
+  //     const sesion = async() => await getSession()
+  //     // const session = await auth();
+  //     console.log("Esta es la sesion:  " + sesion);
+  //     setSession(session);
+  //   };
+
+  //    fetchSession();
+  //  }, []);
+
+  const session = await auth();
+  console.log("Esta es la sesion:  " + session);
 
   return (
     <>
@@ -31,21 +51,26 @@ const Navbar = () => {
               </div>
             </div>
             <div className="hidden md:block">
-              <div className="ml-4 flex items-center px-4 py-3 rounded-md  space-x-4 bg-secondary">
-                <Link
-                  href="./login"
-                  className="text-white hover:bg-white hover:text-primary rounded-lg"
-                >
-                  Login
-                </Link>
+              <div className=" flex items-center justify-center px-4 py-2  rounded-md  space-x-4 ">
+                {session ? (
+                  <Logout/>
+                ) : (
+                  <Link
+                    href="./login"
+                    className="text-white hover:bg-white hover:text-primary rounded-lg"
+                  >
+                    Login
+                  </Link>
+
+                )}
               </div>
             </div>
-            <div className="md:hidden flex items-center">
+            {/* <div className="md:hidden flex items-center">
               <button
                 className="inline-flex items-center justify-center p-2 rounded-md text-white md:text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                 onClick={toggleNavBar}
-              >
-                {isClick ? (
+              > */}
+            {/* {isClick ? (
                   <div className="bg-red-400">Logo1</div>
                 ) : (
                   <div className="bg-green-600">Logo2</div>
@@ -53,8 +78,8 @@ const Navbar = () => {
               </button>
             </div>
           </div>
-        </div>
-        {isClick && (
+         </div> */}
+            {/* {isClick && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               <div className="ml-4 flex items-center space-x-4">
@@ -67,10 +92,10 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
+          </div>
+        </div>
       </nav>
     </>
   );
 };
-
-export default Navbar;

@@ -1,4 +1,5 @@
-export default function Default() {
+import { getSession } from "next-auth/react"
+export default async function Default() {
     return (
         <main>
             <div className="w-full h-screen flex flex-col justify-center items-center">

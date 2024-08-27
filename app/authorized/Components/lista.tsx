@@ -4,6 +4,8 @@ import { getPatientsList } from "@/app/api/patient"; // Assuming these functions
 import { Patient } from "@/app/lib/dbSchema/schema";
 import { Dispatch, SetStateAction } from "react";
 
+import { getSession } from "next-auth/react";
+
 
 export default function Lista_y_Busqueda({Pagina }: {
   Pagina: Dispatch<SetStateAction<string>>,

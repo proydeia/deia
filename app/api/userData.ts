@@ -4,8 +4,6 @@ import { Session } from "next-auth";
 
 export const getSession = async (): Promise <Session | null> => { //devuelve la session del usuario, si existe.
     const session = await auth();
-    if(!session) return null;
-
     return session as Session;
 }
 
