@@ -17,7 +17,7 @@ export default function AgregarEspiro({Pagina, id, Page}:{ Pagina: Dispatch<SetS
           </p>
 
           <div className="flex flex-row items-center justify-center">
-          <button onClick={() => Pagina("1")}>
+          <button onClick={() => Page("1")}>
             <Image
               src="/flexa_back.png"
               alt="Flecha"
@@ -37,7 +37,6 @@ export default function AgregarEspiro({Pagina, id, Page}:{ Pagina: Dispatch<SetS
           </button>
         </div>
       </div>
-      {/* <Volver_btn Pagina={() => Pagina("default")} /> */}
       
         <form
           action={formAction}

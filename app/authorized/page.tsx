@@ -1,17 +1,13 @@
 "use client";
 import AgregarPacientes from "../componenetes/agregar_p_form";
 import Lista_y_Busqueda from "./Components/lista";
-import Id_paciente from "./Components/id_paciente";
 import { useState } from "react";
-import AgregarEspiro from "../componenetes/agregar_s_form";
 import Default from "./Components/default";
-import Ver_Mas from "./Components/mas_esp";
 import Paciente from "./Components/paciente";
 
 export default function AuthorizedPage() {
   const [Pagina, setPagina] = useState("1");
 
-  console.log("Estado:" + Pagina)
   const PaginaComponente = () => {
     switch (Pagina) {
       case "1":

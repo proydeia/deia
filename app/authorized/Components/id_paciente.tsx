@@ -7,6 +7,7 @@ import Instrucciones from "./instrucciones";
 import ByebyeButton from "./byebyeButton";
 import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
+import Paciente from "./paciente";
 interface Props {
   pacienteId: string; // ID passed as a prop
   Pagina: Dispatch<SetStateAction<string>>;
@@ -25,6 +26,7 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
   const [isLoading, setIsLoading] = useState(false); // Track loading state
 
   useEffect(() => {
+
     const fetchData = async () => {
       setIsLoading(true); // Set loading state to true
       if (pacienteId) {
@@ -53,8 +55,6 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
   }, [pacienteId]); // Run only when pacienteId changes
 
   const VerMasButton = ({ Id, Espiro_id }: SpirometryButtonProps) => {
-    console.log("este es el id :" + Id)
-    console.log("este es el espiro :" + Espiro_id)
     return (
       <button
         className="bg-primary_light rounded-sm h-11/12 p-2 ml-auto"
@@ -67,7 +67,6 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
   const NavigetoVer_Mas = (Id: string) => {
     // Id = "173cf573-5aaa-4fa8-9a98-eaa1e43ef8ec" //este el el id de una espirometria de un paciente
     // es una prueba
-    console.log("Clicked on:", Id)
     Page("3")
     Espiro(Id)
   }

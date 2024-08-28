@@ -39,14 +39,9 @@ export default function Ver_Mas({
     fetchData();
   }, [EspiroId]);
 
-  useEffect(() => {
-    console.log("Este es el    " + EspiroId);
-  }, [EspiroId]);
-
   //espiroId es un string, que se utiliza para hacer la query a la db
   //En id_paciente no se estarian pasando correctamente los datos, y por eso no podemos hacer una query
 
-  console.log("Este es el objeto" + EspiroId)
   return (
     <div className="w-11/12 flex flex-col h-screen">
       <div className="flex flex-row flex-direction-row-reverse justify-between gap-6 w-full">
