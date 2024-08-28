@@ -1,4 +1,4 @@
-import { getSession } from "next-auth/react"
+"use client";
 export default async function Default() {
     return (
         <main>
