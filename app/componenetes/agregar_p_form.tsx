@@ -143,9 +143,9 @@ export default function AgregarPacientes({ Pagina }: Props) {
         </div>
         {/* <button onClick={() => Pagina("1")}>Volver</button> */}
         {/* <AgregarEspiro/> */}
+        {state?.message && <p>{state.message}</p>}
         <FormButton />
       </form>
-      {state?.message && <p>{state.message}</p>}
     </div>
   );
 }

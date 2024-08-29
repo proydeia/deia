@@ -108,16 +108,6 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
                 </div>
 
                 <div className="flex flex-row gap-2 px-2">
-                  <p className="font-bold">Altura:</p>
-                  <p className="font-medium">{patient.altura}</p>
-                </div>
-
-                <div className="flex flex-row gap-2 px-2">
-                  <p className="font-bold">Peso:</p>
-                  <p className="font-medium">{patient.peso}</p>
-                </div>
-
-                <div className="flex flex-row gap-2 px-2">
                   <p className="font-bold">Sexo:</p>
                   {patient.sexo == 1?(
                     <p>Masculino</p>
@@ -128,11 +118,17 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
                 </div>
 
                 <div className="flex flex-row gap-2 px-2">
+                  <p className="font-bold">Peso:</p>
+                  <p className="font-medium">{patient.peso}</p>
+                </div>
+
+                <div className="flex flex-row gap-2 px-2">
                   <p className="font-bold">Altura:</p>
                   <p className="font-medium">{patient.altura}</p>
                 </div>
+
                 <div className="flex flex-row gap-2 px-2">
-                  <p className="font-bold">Nacimiento:</p>
+                  <p className="font-bold">Fecha de nacimiento:</p>
                   <p className="font-medium">{patient.nacimiento.toDateString()}</p>
                 </div>
               </div>
