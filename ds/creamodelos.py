@@ -3,11 +3,12 @@ from sklearn.metrics import mean_squared_error, accuracy_score
 from sklearn.model_selection import train_test_split
 import pickle
 import json
+import os
 import pandas as pd
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 from keras.src.models import Sequential
 from keras.src.layers import Dense
 from keras.src.optimizers import Adam
-import os
 import numpy as np
 
 def CompareKerasModels(model1, model2, valDataX, valDataY):
@@ -40,12 +41,18 @@ for item in obs:
 xObsTrain, xObsVal, yObsTrain, yObsVal = train_test_split(xObs, yObs, test_size=0.25, random_state=42)
 
 modelObs = Sequential()
+modelObs.add(Dense(8, activation='relu'))
+modelObs.add(Dense(16, activation='relu'))
+modelObs.add(Dense(32, activation='relu'))
+modelObs.add(Dense(64, activation='relu'))
+modelObs.add(Dense(128, activation='relu'))
+modelObs.add(Dense(256, activation='relu'))
+modelObs.add(Dense(128, activation='relu'))
 modelObs.add(Dense(64, activation='relu'))
 modelObs.add(Dense(32, activation='relu'))
-modelObs.add(Dense(16, activation='relu'))
 modelObs.add(Dense(1, activation='sigmoid'))
 modelObs.compile(loss='mean_squared_error', optimizer=Adam())
-modelObs.fit(pd.DataFrame(xObsTrain), pd.DataFrame(yObsTrain), epochs=25, batch_size=16, validation_data=(pd.DataFrame(xObsVal), pd.DataFrame(yObsVal)))
+modelObs.fit(pd.DataFrame(xObsTrain), pd.DataFrame(yObsTrain), epochs=25, batch_size=32, validation_data=(pd.DataFrame(xObsVal), pd.DataFrame(yObsVal)))
 
 if os.path.exists('ds/modelObs.pkl'):
     with open('ds/modelObs.pkl', 'rb') as f:
