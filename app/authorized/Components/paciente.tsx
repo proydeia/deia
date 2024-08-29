@@ -11,7 +11,6 @@ export default function Paciente({ pacienteId, Pagina }: {
 
     const [Page, setPage] = useState("1");
     const [Espiro, setEspiro] = useState("");
-    //  console.log("Id espiro "+Espiro)
     const Patient_Page = () => {
         switch (Page) {
             case "1":

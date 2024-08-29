@@ -2,7 +2,6 @@
 import AgregarPacientes from "../componenetes/agregar_p_form";
 import Lista_y_Busqueda from "./Components/lista";
 import { useState } from "react";
-import Default from "./Components/default";
 import Paciente from "./Components/paciente";
 
 export default function AuthorizedPage() {

@@ -133,7 +133,7 @@ export default function AgregarPacientes({ Pagina }: Props) {
               <h1 className="text-sm font-light text-third">Extra info</h1>
               <input
                 type="text"
-                id="extraInfo"
+                id="extrainfo"
                 name="extrainfo"
                 className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
               />

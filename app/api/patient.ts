@@ -73,7 +73,7 @@ export async function createPatient(state:patientState, formData:FormData) {
 
     const validatedFields = patientFormSchema.safeParse({
         name:       formData.get('name'),
-        extrainfo:  formData.get('extraInfo'),
+        extrainfo:  formData.get('extrainfo'),
         peso:       Number(formData.get('peso')),
         altura:     Number(formData.get('altura')),
         sexo:       Number(formData.get('sexo')),
