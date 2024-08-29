@@ -151,13 +151,13 @@ export default function Ver_Mas({
                 )}</p>
               </div>
 
-              <div className="bg-primary col-span-4 p-4">
+              {/* <div className="bg-primary col-span-4 p-4">
                 <p className="font-bold text-lg sm:text-xl">Información Extra:</p>
                 <p className="sm:text-xl font-medium text-lg">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                   eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
 
