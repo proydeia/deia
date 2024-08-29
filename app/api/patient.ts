@@ -91,6 +91,9 @@ export async function createPatient(state:patientState, formData:FormData) {
     try{
 
         const uniqueId = await uuid("patients")
+        const date = validatedFields.data.nacimiento
+        date.setDate(date.getDate() + 1); // Ajusta la hora a la de Uruguay.
+
         
         const newUser = await db
         .insertInto("patients")
@@ -101,7 +104,7 @@ export async function createPatient(state:patientState, formData:FormData) {
             peso:       validatedFields.data.peso,
             altura:     validatedFields.data.altura,
             sexo:       validatedFields.data.sexo   -   1,
-            nacimiento: validatedFields.data.nacimiento,
+            nacimiento: date,
             extrainfo:  validatedFields.data.extrainfo as string,
         })
         .returningAll()
