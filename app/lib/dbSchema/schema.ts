@@ -113,3 +113,8 @@ export async function login(inputData:{name: string, password: string}){
         };
     };
 };
+
+export async function googleOauth(email:string){
+    const user = await db.selectFrom("users").where("name", "=", email).select(["id", "name", "adm"]).executeTakeFirst();
+    return user;
+};

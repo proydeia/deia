@@ -1,5 +1,6 @@
 import type { NextAuthConfig, DefaultSession } from 'next-auth';
 import { NextResponse } from 'next/server';
+import { googleOauth } from './app/lib/dbSchema/schema';
 
 declare module "next-auth" {
   interface Session {
@@ -11,18 +12,17 @@ declare module "next-auth" {
 }
 
 export const authConfig = {
-  secret: "vncuwipehwcvuwcvnweui938ry8", //cambiar a proccess.env.AUTH_SECRET
+  secret: process.env.AUTH_SECRET,
   
   pages: {
     signIn: '/login',
+    error: '/login',
   },
   
   session: {
     strategy: 'jwt'
   },
-  
   callbacks: {
-
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
 
@@ -39,25 +39,6 @@ export const authConfig = {
 
       return true;
     },
-
-    jwt({token, user}) {
-      if (user) {
-        return {...token, ...user};
-      }
-      return token;
-    },
-
-    async session({ session, token }) {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          ...token,
-        }
-      
-      };
-    },
-
   },
   providers: [],
 } satisfies NextAuthConfig;
