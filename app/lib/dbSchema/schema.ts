@@ -82,7 +82,7 @@ export type DatabaseType = Database;
 
 export default db;
 
-//-----------> Queries:
+//-----------> basic methods that i liked in here hehe:
 
 export async function login(inputData:{name: string, password: string}){
     try{
@@ -94,14 +94,10 @@ export async function login(inputData:{name: string, password: string}){
 
         if( !user || !await compare(user.password,inputData.password) ) return null;
 
-        //if (!await compare(user.password,inputData.password)) return null;
-        console.log(inputData)
         return {
-
             id: user.id,
             name: user.name,
             adm: user.adm,   
-
         };
     }
 

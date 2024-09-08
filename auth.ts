@@ -3,8 +3,6 @@ import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './auth.config';
 import { login, hash, googleOauth } from './app/lib/dbSchema/schema';
 import google from 'next-auth/providers/google';
-import { NextResponse } from 'next/server';
-
 
 //extend the auth.config object with the login and logout functions
  
@@ -25,9 +23,8 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
       },
       
       async authorize(credentials) {
-        console.log(credentials)
+        
         let user = null;
-
         const username = credentials.user as string;
         const password = credentials.password as string;
         
@@ -42,7 +39,6 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
     }),
   ],
   callbacks: {
-
     async signIn({account, profile, user}) {
       if (account?.provider === 'credentials') {
           return true;

@@ -1,18 +1,15 @@
 "use server"
 
+const axios = require('axios');
 import { spirometryFormSchema, spirometrieState } from "../lib/formsDefinitions/spirometryFormDefinition";
 import db, { newSpirometry, Spirometry } from "../lib/dbSchema/schema";
 import { uuid } from "./ID";
-import { DeleteResult } from "kysely";
-import { checkMedic } from "./userData";
-import { getSession } from "next-auth/react";
-const axios = require('axios');
-const moment = require('moment');
-
-// Datos del input medico
+import { userData } from "./userData";
 
 axios.defaults.withCredentials = true
 const URL = process.env.URL
+
+// Datos del input medico
 
 type spirometryInput = {
     id:         string;
@@ -29,21 +26,18 @@ type spirometryInput = {
 // Espirometrias
 
 export async function getSpirometriesList (patientId: string): Promise < Spirometry[] > {
-    const medic = await checkMedic();
     
+    const user = await userData();
+    if (!user || user.adm) throw new Error('U');
+
     try{
         const spirometries = await db
         .selectFrom("spirometries")
-        //.innerJoin("patients", "spirometries.patient", "patients.id")     // Relación entre espirometria y paciente
-        //.innerJoin("users", "patients.medic", "users.id")                 // Relación entre paciente y medico
-        //.where("patients.medic", "=", medic)                              // El medico esta relacionado con el paciente  
-        .where("spirometries.patient", "=", patientId)                      // El paciente esta relacionado con la espirometria   
+        .where("spirometries.patient", "=", patientId)  
         .selectAll()
-        .execute();                                                         // Devuelve las espirometrias; si no existen, devuelve una lista vacia.
-
+        .execute();
         return spirometries;
     }
-
     catch(error:unknown){
         throw new Error('D')
     }
@@ -51,18 +45,15 @@ export async function getSpirometriesList (patientId: string): Promise < Spirome
 
 export async function getSpirometry (spirometryId: string): Promise < Spirometry > {
     
-    const id = await checkMedic();
+    const user = await userData();
+    if (!user || user.adm) throw new Error('U');
     
     try{
         const spirometry = await db 
         .selectFrom("spirometries")
-        //.innerJoin("patients", "spirometries.patient", "patients.id")   // Relación entre espirometria y paciente
-        //.innerJoin("users", "patients.medic", "users.id")               // Relación entre paciente y medico
-        //.where("patients.medic", "=", id)                               // El medico esta relacionado con el paciente
-        .where("spirometries.id", "=", spirometryId)                    // La espirometria esta relacionada con el id
+        .where("spirometries.id", "=", spirometryId)
         .selectAll()
-        .executeTakeFirstOrThrow();                                     // Devuelve la espirometria; si no existe, devuelve un error.
-
+        .executeTakeFirstOrThrow();
         return spirometry;
     }
 
@@ -71,18 +62,17 @@ export async function getSpirometry (spirometryId: string): Promise < Spirometry
     }
 }
 
-export async function deleteSpirometry(spirometryId: string): Promise < DeleteResult > {
+export async function deleteSpirometry(spirometryId: string) {
     
-    const id = await checkMedic();
+    const user = await userData();
+    if (!user || user.adm) throw new Error('U');
     
     try{
-        return await db
+        await db
         .deleteFrom("spirometries")
-        //.innerJoin("patients", "spirometries.patient", "patients.medic")
-        //.innerJoin("users", "patients.medic", "users.id")
-        //.where("patients.medic", "=", id)
         .where("spirometries.id", "=", spirometryId)
         .executeTakeFirstOrThrow();
+        return
     }
     
     catch(error:unknown){
@@ -90,7 +80,7 @@ export async function deleteSpirometry(spirometryId: string): Promise < DeleteRe
     }
 }
 
-export async function createSpirometry(state: spirometrieState, formData: FormData): Promise<spirometrieState> { // "Crea" una espirometria.
+export async function createSpirometry(state: spirometrieState, formData: FormData): Promise<spirometrieState> {
     const validatedFields = spirometryFormSchema.safeParse({
         id:         formData.get('id'),
         sexo:       Number(formData.get('sexo')),
@@ -109,8 +99,8 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
         };
     };
 
-    checkMedic();
-
+    const user = await userData();
+    if (!user || user.adm) throw new Error('U');
 
     try{
         await loadSpirometry(validatedFields.data);
@@ -139,7 +129,7 @@ async function loadSpirometry(data:spirometryInput){
     
         const spirometryDataAi = {
             ...spirometryData, 
-            sexo:       -1,//data.sexo,
+            sexo:       -1,//data.sexo, 
             edad:       -1,//calculateAge(data.nacimiento),
             altura:     -1,//data.altura,
             peso:       -1,//data.peso,
@@ -185,9 +175,10 @@ async function loadSpirometry(data:spirometryInput){
             throw new Error('Ria');
         })
             
-        const spirometryId = await uuid("spirometries"); // Genera un UUID único.	
-        var date = new Date; // Genera fecha actual.
-        date.setDate(date.getDate() + 1); // Ajusta la hora a la de Uruguay.
+        const spirometryId = await uuid("spirometries");	
+        
+        var date = new Date;
+        date.setDate(date.getDate() + 1);
         
         const spirometry: newSpirometry = {
             patient:        data.id,
@@ -200,13 +191,13 @@ async function loadSpirometry(data:spirometryInput){
             date:           date
         }; 
         
-        const spirometryDB: newSpirometry = await db //guardado en la DB 
+        const spirometryDB: newSpirometry = await db
         .insertInto("spirometries")
         .values(spirometry)
         .returningAll()
         .executeTakeFirstOrThrow();
         
-        if(spirometryDB instanceof Error) //error handling del guardado de la data 
+        if(spirometryDB instanceof Error)
         {
             deleteSpirometry(spirometryId);
             throw new Error('DB');
@@ -225,11 +216,8 @@ function calculateAge(birthdate: Date): number {
     const today = new Date();
     let age = today.getFullYear() - birthdate.getFullYear();
     const monthDifference = today.getMonth() - birthdate.getMonth();
-
-    // If the birthdate hasn't occurred yet this year, subtract one from the age
     if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthdate.getDate())) {
         age--;
     }
-
     return age;
 }

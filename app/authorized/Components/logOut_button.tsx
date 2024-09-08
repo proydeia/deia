@@ -1,13 +1,8 @@
-"use client";
-// import { logOut } from "@/app/actions/loginAuth";
+import { signOut } from "@/auth"
 export default function Logout() {
-
-    const handler = async () => {
-        // logOut();
-    }
     return (
         <>
-            <form action={handler}>
+            <form action={async() =>{"use server"; await signOut({redirect:true, redirectTo:'/'})}}>
                 <button type="submit" className="bg-secondary px-8  py-1  h-full rounded-lg hover:bg-primary">
                     <p>Sign Out</p>
                 </button>

@@ -1,12 +1,11 @@
 import type { NextAuthConfig, DefaultSession } from 'next-auth';
 import { NextResponse } from 'next/server';
-import { googleOauth } from './app/lib/dbSchema/schema';
 
 declare module "next-auth" {
   interface Session {
     user: {
       address: string,
-      admin: boolean | null,
+      adm: boolean | null,
     } & DefaultSession["user"]
   }
 }

@@ -1,15 +1,17 @@
 "use server"
 import db, { Patient } from "../lib/dbSchema/schema";
 import { uuid } from "./ID";
-import { checkMedic } from "./userData";
+import { userData } from "./userData";
 import {patientFormSchema, patientState} from '@/app/lib/formsDefinitions/patientFormDefinition';
 
 // Pacientes
 
 export async function getPatientsList(): Promise < Patient[] > {
     
-    const id = await checkMedic();
-    
+    const user = await userData();
+    if (!user || user.adm) throw new Error('U');
+
+    const id = user.id;
     try{    
         return await db
         .selectFrom("patients")
@@ -25,8 +27,10 @@ export async function getPatientsList(): Promise < Patient[] > {
 
 export async function getPatient(patientId:string): Promise < Patient > {
     
-    const id = await checkMedic();
-    
+    const user = await userData();
+    if (!user || user.adm) throw new Error('U');
+
+    const id = user.id;
     try{
         return await db
         .selectFrom("patients")
@@ -43,8 +47,10 @@ export async function getPatient(patientId:string): Promise < Patient > {
 
 export async function deletePatient(patientId: string) { //agregar el estado al boton (form) y que muestre el message
     
-    const id = await checkMedic();
-    
+    const user = await userData();
+    if (!user || user.adm) throw new Error('U');
+
+    const id = user.id;
     try{
         await db
         .deleteFrom("spirometries")
@@ -86,8 +92,10 @@ export async function createPatient(state:patientState, formData:FormData) {
         };
     };
     
-    const id = await checkMedic();
+    const user = await userData();
+    if (!user || user.adm) throw new Error('U');
 
+    const id = user.id;
     try{
 
         const uniqueId = await uuid("patients")

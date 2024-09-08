@@ -1,9 +1,6 @@
 "use server";
 import Link from "next/link";
-//import { useEffect, useState } from "react";
 import Image from "next/image";
-import { getSession } from "./api/userData";
-import { Session } from "next-auth";
 import { auth } from "@/auth";
 import Logout from "./authorized/Components/logOut_button";
 
