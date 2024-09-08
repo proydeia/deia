@@ -4,10 +4,7 @@ import { getPatientsList } from "@/app/api/patient"; // Assuming these functions
 import { Patient } from "@/app/lib/dbSchema/schema";
 import { Dispatch, SetStateAction } from "react";
 
-import { getSession } from "next-auth/react";
-
-
-export default function Lista_y_Busqueda({Pagina }: {
+export default function Lista_y_Busqueda({ Pagina }: {
   Pagina: Dispatch<SetStateAction<string>>,
 }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -61,12 +58,10 @@ export default function Lista_y_Busqueda({Pagina }: {
                   <p>{patient.name}</p>
                 </button>
               </div>
-
             ))}
           </div>
           <div className="flex justify-center">
-            <button onClick={handleAgregarP} className="bg-secondary rounded-md px-4 py-2 my-4 w-1/2">Agregar Paciente</button>
-            
+            <button onClick={handleAgregarP} className="bg-secondary rounded-md px-4 py-2 my-4 w-1/2">Agregar Paciente</button>   
           </div>
         </div>
       </div>

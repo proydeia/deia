@@ -1,14 +1,15 @@
 "use strict";
 import { z } from 'zod'
  
-export const spirometrieFormSchema = z.object({
-    //data y tipo de dato, copiar de otro script
+export const medicFormSchema = z.object({
+    email: z.string({message:'Ingrese un valor valido'}).email({message:'Ingrese un mail'}),
+    password: z.string({message:'Ingrese un valor valido'}).min(6, {message:'La contraseña debe tener al menos 6 caracteres'}),
 })
  
-export type spirometrieState =
+export type medicState =
   | {
       errors?: {
-        user?: string[]
+        email?: string[]
         password?: string[]
       }
       message?: string

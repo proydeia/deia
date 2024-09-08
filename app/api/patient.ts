@@ -11,15 +11,13 @@ export async function getPatientsList(): Promise < Patient[] > {
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
 
-    const id = user.id;
     try{    
         return await db
         .selectFrom("patients")
-        .where("patients.medic", "=", id)                   // El medico esta relacionado con el paciente
+        .where("patients.medic", "=", user.id)
         .selectAll()
         .execute();        
     }
-
     catch(error:unknown){
         throw new Error('D');
     }
@@ -30,27 +28,24 @@ export async function getPatient(patientId:string): Promise < Patient > {
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
 
-    const id = user.id;
     try{
         return await db
         .selectFrom("patients")
-        .where("patients.medic", "=", id)                   // El medico esta relacionado con el paciente
-        .where("patients.id", "=", patientId)               // El paciente esta relacionado con el id
+        .where("patients.medic", "=", user.id)
+        .where("patients.id", "=", patientId)
         .selectAll()
         .executeTakeFirstOrThrow();
     }
-
     catch(error:unknown){
         throw new Error('D');
     }
 }
 
-export async function deletePatient(patientId: string) { //agregar el estado al boton (form) y que muestre el message
+export async function deletePatient(patientId: string) {
     
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
 
-    const id = user.id;
     try{
         await db
         .deleteFrom("spirometries")
@@ -59,18 +54,17 @@ export async function deletePatient(patientId: string) { //agregar el estado al 
 
         await db
         .deleteFrom("patients")
-        .where("patients.medic", "=", id)                   // El medico esta relacionado con el paciente
+        .where("patients.medic", "=", user.id)
         .where("patients.id", "=", patientId) 
         .executeTakeFirstOrThrow();
 
         return {
-            message:'Registro eliminado con éxito.'
+            message:'Paciente eliminado con éxito.'
         }
     }
-    
     catch(error:unknown){
         return {
-            message:'Error al eliminar registro. Intente denuvo más tarde.'
+            message:'Error al eliminar registro.'
         }
     }
 }
@@ -95,19 +89,17 @@ export async function createPatient(state:patientState, formData:FormData) {
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
 
-    const id = user.id;
     try{
-
         const uniqueId = await uuid("patients")
         const date = validatedFields.data.nacimiento
-        date.setDate(date.getDate() + 1); // Ajusta la hora a la de Uruguay.
+        date.setDate(date.getDate() + 1); //lo mismo que las espirometrias
 
         
-        const newUser = await db
+        const newPatient = await db
         .insertInto("patients")
         .values({
             id:         uniqueId,
-            medic:      id,
+            medic:      user.id,
             name:       validatedFields.data.name,
             peso:       validatedFields.data.peso,
             altura:     validatedFields.data.altura,
@@ -120,10 +112,9 @@ export async function createPatient(state:patientState, formData:FormData) {
 
         return {
             message:'Registro creado con éxito.',
-            user: newUser
+            patient: newPatient
         };
     }
-
     catch(error: unknown){
         return {
             message:'Error al crear registro. Intente denuvo más tarde.'

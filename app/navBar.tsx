@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { auth } from "@/auth";
-import Logout from "./authorized/Components/logOut_button";
+import Logout from "./medic/Components/logOut_button";
 
 export default async function Navbar() {
   // const [isClick, setisClick] = useState(false);
@@ -26,8 +26,6 @@ export default async function Navbar() {
   //  }, []);
 
   const session = await auth();
-  console.log("Esta es la sesion:  " + session);
-
   return (
     <>
       <nav className="bg-white shadow-lg shadow-third">

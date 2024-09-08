@@ -56,7 +56,6 @@ export async function getSpirometry (spirometryId: string): Promise < Spirometry
         .executeTakeFirstOrThrow();
         return spirometry;
     }
-
     catch(error:unknown){
         throw new Error("D");
     }
@@ -66,7 +65,7 @@ export async function deleteSpirometry(spirometryId: string) {
     
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
-    
+
     try{
         await db
         .deleteFrom("spirometries")
@@ -74,7 +73,6 @@ export async function deleteSpirometry(spirometryId: string) {
         .executeTakeFirstOrThrow();
         return
     }
-    
     catch(error:unknown){
         throw new Error('D');
     }
@@ -117,9 +115,7 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
 }
 
 async function loadSpirometry(data:spirometryInput){
-
     try{
-
         const spirometryData = {
             fev1:       data.fev1,
             fev1pred:   data.fev1_lln,
@@ -178,7 +174,7 @@ async function loadSpirometry(data:spirometryInput){
         const spirometryId = await uuid("spirometries");	
         
         var date = new Date;
-        date.setDate(date.getDate() + 1);
+        date.setDate(date.getDate() + 1); //no se que le pasa pero me resta un dia. esta fue la mejor soucion un miercoles a las 23:48pm
         
         const spirometry: newSpirometry = {
             patient:        data.id,
