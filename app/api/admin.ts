@@ -3,7 +3,6 @@ import db, { Medic } from "../lib/dbSchema/schema";
 import { uuid } from "./ID";
 import { userData } from "./userData";
 import { medicFormSchema, medicState } from "../lib/formsDefinitions/medicFormDefinition";
-import email from "next-auth/providers/email";
 
 // Pacientes
 
@@ -48,25 +47,29 @@ export async function deleteUser(userId: string) {
     const user = await userData();
     if (!user || !user.adm) throw new Error('U');
     try{
+        await db.transaction().execute(async (trx) => {
+            // Delete spirometries related to the user
+            await trx
+                .deleteFrom('spirometries')
+                .where('spirometries.patient', 'in', 
+                    trx.selectFrom('patients')
+                      .select('patients.id')
+                      .where('patients.medic', '=', userId)
+                )
+                .executeTakeFirstOrThrow();
 
-        await db
-        .deleteFrom("spirometries")
-        .where('spirometries.patient', 'in', 
-            db.selectFrom('patients')
-              .select('patients.id')
-              .where('patients.medic', '=', userId)
-        )
-        .executeTakeFirstOrThrow();
-        
-        await db
-        .deleteFrom("patients")
-        .where("patients.medic", "=", userId) 
-        .executeTakeFirstOrThrow();
+            // Delete patients related to the user
+            await trx
+                .deleteFrom('patients')
+                .where('patients.medic', '=', userId)
+                .executeTakeFirstOrThrow();
 
-        await db
-        .deleteFrom("users")
-        .where("users.id", "=", userId)
-        .executeTakeFirstOrThrow();
+            // Delete the user
+            await trx
+                .deleteFrom('users')
+                .where('users.id', '=', userId)
+                .executeTakeFirstOrThrow();
+        });
 
         console.log('Usuario eliminado con éxito.')
         return {
@@ -96,6 +99,12 @@ export async function createMedic(state:medicState, formData:FormData) {
     if (!user || !user.adm) throw new Error('U');
 
     try{
+        if(await db.selectFrom("users").where("name", "=", validatedFields.data.email).where("organization", "=", user.organization).executeTakeFirst()){
+            return {
+                message:'El usuario ya existe.'
+            };
+        }
+
         const uniqueId = await uuid("patients")
      
         const newUser = await db

@@ -47,16 +47,20 @@ export async function deletePatient(patientId: string) {
     if (!user || user.adm) throw new Error('U');
 
     try{
-        await db
-        .deleteFrom("spirometries")
-        .where("spirometries.patient", "=", patientId)
-        .executeTakeFirstOrThrow();
+        await db.transaction().execute(async (trx) => {
+            // Delete spirometries related to the patient
+            await trx
+                .deleteFrom("spirometries")
+                .where("spirometries.patient", "=", patientId)
+                .executeTakeFirstOrThrow();
 
-        await db
-        .deleteFrom("patients")
-        .where("patients.medic", "=", user.id)
-        .where("patients.id", "=", patientId) 
-        .executeTakeFirstOrThrow();
+            // Delete the patient
+            await trx
+                .deleteFrom("patients")
+                .where("patients.medic", "=", user.id)
+                .where("patients.id", "=", patientId)
+                .executeTakeFirstOrThrow();
+        });
 
         return {
             message:'Paciente eliminado con éxito.'

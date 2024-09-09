@@ -1,5 +1,4 @@
 "use server"
-
 const axios = require('axios');
 import { spirometryFormSchema, spirometrieState } from "../lib/formsDefinitions/spirometryFormDefinition";
 import db, { newSpirometry, Spirometry } from "../lib/dbSchema/schema";
