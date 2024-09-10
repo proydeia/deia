@@ -28,7 +28,7 @@ export default async function Navbar() {
   const session = await auth();
   return (
     <>
-      <nav className="bg-white shadow-lg shadow-third">
+      <nav className="bg-white shadow-lg fixed top-0 left-0 right-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center justify-center w-full">
@@ -40,7 +40,7 @@ export default async function Navbar() {
                   width={30}
                   height={30}
                 />
-                <Link href="/" className="text-white text-center">
+                <Link href="/" className=" text-center">
                   DEIA
                 </Link>
               </div>

@@ -13,6 +13,7 @@ const config: Config = {
       secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
       third: 'rgb(var(--color-third) / <alpha-value>)',
       red: 'rgb(var(--color-red) / <alpha-value>)',
+      white: 'rgb(var(--color-white) / <alpha-value>)',
     }
   },
   plugins: [

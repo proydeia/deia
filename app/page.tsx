@@ -16,11 +16,11 @@ export default function Home() {
       </section>
 
       {/* Add your content sections here */}
-      <section className="about-us">
+      <section className="about-us w-full bg-secondary h-screen">
         {/* About Us content */}
         <p>Quienes somos</p>
       </section>
-      <section className="our-mission">
+      <section className="our-mission w-full bg-primary_light h-screen">
         {/* Our Mission content */}
         <p>Nuestra Mision</p>
       </section>
