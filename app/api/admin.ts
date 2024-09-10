@@ -47,8 +47,7 @@ export async function deleteUser(userId: string) {
     const user = await userData();
     if (!user || !user.adm) throw new Error('U');
     try{
-        await db.transaction().execute(async (trx) => {
-            // Delete spirometries related to the user
+        await db.connection().execute(async (trx) => {
             await trx
                 .deleteFrom('spirometries')
                 .where('spirometries.patient', 'in', 
@@ -58,25 +57,23 @@ export async function deleteUser(userId: string) {
                 )
                 .executeTakeFirstOrThrow();
 
-            // Delete patients related to the user
             await trx
                 .deleteFrom('patients')
                 .where('patients.medic', '=', userId)
                 .executeTakeFirstOrThrow();
 
-            // Delete the user
             await trx
                 .deleteFrom('users')
                 .where('users.id', '=', userId)
                 .executeTakeFirstOrThrow();
         });
-
         console.log('Usuario eliminado con éxito.')
         return {
             message:'Usuario eliminado con éxito.'
         }
     }
     catch(error:unknown){
+        console.log('Error al eliminar registro.', error)
         return {
             message:'Error al eliminar registro.'
         }

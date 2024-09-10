@@ -47,14 +47,12 @@ export async function deletePatient(patientId: string) {
     if (!user || user.adm) throw new Error('U');
 
     try{
-        await db.transaction().execute(async (trx) => {
-            // Delete spirometries related to the patient
+        await db.connection().execute(async (trx) => {
             await trx
                 .deleteFrom("spirometries")
                 .where("spirometries.patient", "=", patientId)
                 .executeTakeFirstOrThrow();
 
-            // Delete the patient
             await trx
                 .deleteFrom("patients")
                 .where("patients.medic", "=", user.id)
