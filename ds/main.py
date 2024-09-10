@@ -7,16 +7,31 @@ import pandas as pd
 from gli_api import get_fev1_fvc_pred, get_fev1_pred, get_fvc_pred
 
 app = FastAPI()
-model1_path = 'ds\modelObs.pkl'
-model2_path = 'ds\modelRes.pkl'
+model1_path = 'ds\modelObsGold.pkl'
+model2_path = 'ds\modelResGold.pkl'
+model3_path = 'ds\modelObsGLI.pkl'
+model4_path = 'ds\modelObsClassificationGLI.pkl'
+model5_path = 'ds\modelResGLI.pkl'
 model1 = None
 model2 = None
+model3 = None
+model4 = None
+model5 = None
 
 if os.path.exists(model1_path):
     model1 = pickle.load(open(model1_path, 'rb'))
 
 if os.path.exists(model2_path):
     model2 = pickle.load(open(model2_path, 'rb'))
+
+if os.path.exists(model3_path):
+    model1 = pickle.load(open(model3_path, 'rb'))
+
+if os.path.exists(model4_path):
+    model2 = pickle.load(open(model4_path, 'rb'))
+
+if os.path.exists(model5_path):
+    model2 = pickle.load(open(model5_path, 'rb'))
 
 @app.get("/")
 async def root():
@@ -49,7 +64,7 @@ class SpirometryPlus(SpirometryLLN):
     altura: float
     peso: float
 
-@app.post("/obstruction")
+@app.post("/obstructiongold")
 async def predictobs(spirometry: SpirometryLLN):
     if spirometry.fev1 / spirometry.fvc >= 0.7: return {"result": 0}
     res = spirometry.fev1 / spirometry.fev1pred
@@ -76,17 +91,39 @@ async def predictobsGLI(spirometry: SpirometryPlus):
         else: return {"result": 4} #Severe
     return {"result": 0} #Nada
     
-@app.post("/obstructionai")
+@app.post("/obstructionaigold")
 async def predictobsai(spirometry: SpirometryPlus):
     if model1 is None:
         return {"result": -1}
     x = np.array([[spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso]])
     #x = pd.DataFrame(x)
-    res = model1.predict(x) * 5
+    res = model1.predict(x) * 4
     print(res)
     return {"result": str(res[0][0])}
 
-@app.post("/restriction")
+@app.post("/obstructionaigli")
+async def predictobsai(spirometry: SpirometryPlus):
+    if model3 is None:
+        return {"result": -1}
+    x = np.array([[spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura]])
+    #x = pd.DataFrame(x)
+    res = model1.predict(x) * 4
+    print(res)
+    return {"result": str(res[0][0])}
+
+@app.post("/obstructionaiglicategorical")
+async def predictobsai(spirometry: SpirometryPlus):
+    if model4 is None:
+        return {"result1": -1, "result2": -1}
+    x = np.array([[spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura]])
+    res = model4.predict(x)
+    sorted_indices = np.argsort(res[0])[::-1]
+    top1 = sorted_indices[0]
+    top2 = sorted_indices[1]
+    print(res)
+    return {"result1": str(top1), "result2": str(top2)}
+
+@app.post("/restrictiongold")
 async def predictres(spirometry: SpirometryLLN):
     f1res = spirometry.fev1 / spirometry.fvc
     if f1res < 0.7: return {"result": 0}
@@ -106,10 +143,10 @@ async def predictresgli(spirometry: SpirometryPlus):
     
     return {"result": 0}
     
-@app.post("/restrictionai")
+@app.post("/restrictionaigold")
 async def predictresai(spirometry: SpirometryPlus):
-    if model2 is None:
+    if model5 is None:
         return {"result": -1}
-    x = np.array([spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso])
-    res = model2.predict([x])
+    x = np.array([spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura])
+    res = model5.predict([x])
     return {"result": str(res[0][0])}
