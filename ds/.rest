@@ -36,7 +36,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:8000/obstructionai
+POST http://localhost:8000/obstructionaigli
 Content-Type: application/json
 
 {
