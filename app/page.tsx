@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Mision from "./componenetes/mision";
+import About from "./componenetes/about";
 
 export default function Home() {
   return (
@@ -12,17 +14,18 @@ export default function Home() {
           height={300}
           className="animate-rotate-y animate-once animate-delay-[300ms] animate-ease-in-out animate-normal"
         />
-        <h1 className="animate-pulse animate-infinite animate-delay-300 animate-ease-linear animate-normal text-6xl">DEIA</h1>
+        <h1 className="animate-fade-left animate-once animate-duration-[4000ms] animate-ease-in text-6xl">DEIA</h1>
+      </section>
+      <section className="our-mission w-full bg-primary_light h-screen flex justify-center items-center">
+        {/* Our Mission content */}
+        <Mision/>
       </section>
 
       {/* Add your content sections here */}
-      <section className="about-us w-full bg-secondary h-screen">
+      <section className="about-us  flex justify-center items-center">
         {/* About Us content */}
-        <p>Quienes somos</p>
-      </section>
-      <section className="our-mission w-full bg-primary_light h-screen">
-        {/* Our Mission content */}
-        <p>Nuestra Mision</p>
+    
+      <About/>
       </section>
     </main>
     
