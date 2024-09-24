@@ -7,11 +7,12 @@ import pandas as pd
 from gli_api import get_fev1_fvc_pred, get_fev1_pred, get_fvc_pred
 
 app = FastAPI()
-model1_path = '.\ds\modelObsGold.pkl'
-model2_path = '.\ds\modelResGold.pkl'
-model3_path = '.\ds\modelObsGLI.pkl'
-model4_path = '.\ds\modelObsClassificationGLI.pkl'
-model5_path = '.\ds\modelResGLI.pkl'
+
+model1_path = 'ds\modelObsGold.pkl'
+model2_path = 'ds\modelResGold.pkl'
+model3_path = 'ds\modelObsGLI.pkl'
+model4_path = 'ds\modelObsClassificationGLI.pkl'
+model5_path = 'ds\modelResGLI.pkl'
 model1 = None
 model2 = None
 model3 = None
@@ -20,18 +21,23 @@ model5 = None
 
 if os.path.exists(model1_path):
     model1 = pickle.load(open(model1_path, 'rb'))
+    print('a')
 
 if os.path.exists(model2_path):
     model2 = pickle.load(open(model2_path, 'rb'))
+    print('b')
 
 if os.path.exists(model3_path):
-    model1 = pickle.load(open(model3_path, 'rb'))
+    model3 = pickle.load(open(model3_path, 'rb'))
+    print('c')
 
 if os.path.exists(model4_path):
-    model2 = pickle.load(open(model4_path, 'rb'))
+    model4 = pickle.load(open(model4_path, 'rb'))
+    print('d')
 
 if os.path.exists(model5_path):
-    model2 = pickle.load(open(model5_path, 'rb'))
+    model5 = pickle.load(open(model5_path, 'rb'))
+    print('e')
 
 @app.get("/")
 async def root():
@@ -105,9 +111,9 @@ async def predictobsai(spirometry: SpirometryPlus):
 async def predictobsai(spirometry: SpirometryPlus):
     if model3 is None:
         return {"result": -1}
-    x = np.array([[spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura]])
+    x = np.array([[spirometry.fev1, spirometry.fvc, spirometry.edad, spirometry.sexo, spirometry.altura]])
     #x = pd.DataFrame(x)
-    res = model1.predict(x) * 4
+    res = model3.predict(x) * 4
     print(res)
     return {"result": str(res[0][0])}
 
@@ -115,7 +121,7 @@ async def predictobsai(spirometry: SpirometryPlus):
 async def predictobsai(spirometry: SpirometryPlus):
     if model4 is None:
         return {"result1": -1, "result2": -1}
-    x = np.array([[spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura]])
+    x = np.array([[spirometry.fev1, spirometry.fvc, spirometry.edad, spirometry.sexo, spirometry.altura]])
     res = model4.predict(x)
     sorted_indices = np.argsort(res[0])[::-1]
     top1 = sorted_indices[0]
@@ -133,6 +139,14 @@ async def predictres(spirometry: SpirometryLLN):
     else:
         return {"result": 0}
     
+@app.post("/restrictionaigold")
+async def predictresai(spirometry: SpirometryPlus):
+    if model2 is None:
+        return {"result": -1}
+    x = np.array([spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso])
+    res = model2.predict([x])
+    return {"result": str(res[0])}
+    
 @app.post("/restrictiongli")
 async def predictresgli(spirometry: SpirometryPlus):
     predictionsFVC = get_fvc_pred(spirometry.sexo, spirometry.edad, spirometry.altura)
@@ -143,10 +157,10 @@ async def predictresgli(spirometry: SpirometryPlus):
     
     return {"result": 0}
     
-@app.post("/restrictionaigold")
+@app.post("/restrictionaigli")
 async def predictresai(spirometry: SpirometryPlus):
     if model5 is None:
         return {"result": -1}
-    x = np.array([spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura])
+    x = np.array([spirometry.fev1, spirometry.fvc, spirometry.edad, spirometry.sexo, spirometry.altura])
     res = model5.predict([x])
-    return {"result": str(res[0][0])}
+    return {"result": str(res[0])}
