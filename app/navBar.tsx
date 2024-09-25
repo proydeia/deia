@@ -4,6 +4,8 @@ import Image from "next/image";
 import { auth } from "@/auth";
 import Logout from "./medic/Components/logOut_button";
 import { link } from "fs";
+import Dropdown from "./medic/Components/menu";
+
 
 export default async function Navbar() {
   // const [isClick, setisClick] = useState(false);
@@ -27,6 +29,7 @@ export default async function Navbar() {
   //  }, []);
 
   const session = await auth();
+  console.log("sesion", session);
   return (
     <>
       <nav className="bg-white bg-fixed shadow-lg fixed top-0 left-0 right-0">
@@ -49,11 +52,12 @@ export default async function Navbar() {
             <div className="hidden md:block">
               <div className=" flex items-center justify-center px-4 py-2  rounded-md  space-x-4 ">
                 {session ? (
-                  <Logout/>
+                  <Dropdown/>
+                  
                 ) : (
                   <Link
                     href="./login"
-                    className="text-white hover:bg-white hover:text-primary rounded-lg"
+                    className="bg-secondary py-2 px-4 text-white hover:bg-white hover:text-primary rounded-md"
                   >
                     Login
                   </Link>

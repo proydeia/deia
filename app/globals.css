@@ -14,3 +14,15 @@
     }
   }
 
+  details {
+    cursor: pointer;
+  }
+  
+  summary::-webkit-details-marker {
+    display: none; /* Oculta la flecha en navegadores basados en WebKit */
+  }
+  
+  summary {
+    outline: none; /* Opcional: para quitar el borde de enfoque */
+  }
+  
