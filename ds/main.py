@@ -8,11 +8,11 @@ from gli_api import get_fev1_fvc_pred, get_fev1_pred, get_fvc_pred
 
 app = FastAPI()
 
-model1_path = 'ds\modelObsGold.pkl'
-model2_path = 'ds\modelResGold.pkl'
-model3_path = 'ds\modelObsGLI.pkl'
-model4_path = 'ds\modelObsClassificationGLI.pkl'
-model5_path = 'ds\modelResGLI.pkl'
+model1_path = './ds/modelObsGold.pkl'
+model2_path = './ds/modelResGold.pkl'
+model3_path = './ds/modelObsGLI.pkl'
+model4_path = './ds/modelObsClassificationGLI.pkl'
+model5_path = './ds/modelResGLI.pkl'
 model1 = None
 model2 = None
 model3 = None
