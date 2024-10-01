@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-xls_name = './ds/lookuptables.xls'
+xls_name = 'ds/lookuptables.xls'
 columnsL = ['Age', 'Lspline', 'Mspline', 'Sspline']
 columnsV = ['M', 'S', 'L']
 
