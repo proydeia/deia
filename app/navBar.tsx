@@ -51,7 +51,7 @@ export default async function Navbar() {
             </div>
             <div className="hidden md:block">
               <div className=" flex items-center justify-center px-4 py-2  rounded-md  space-x-4 ">
-                {session ? (
+                {await auth() ? (
                   <Dropdown/>
                   
                 ) : (

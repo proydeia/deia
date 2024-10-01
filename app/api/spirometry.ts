@@ -130,7 +130,7 @@ async function loadSpirometry(data:spirometryInput){
             peso:       -1,//data.peso,
         };
         
-        const obstruction:number = await axios.post(`${URL}/obstruction`, spirometryData)
+        const obstruction:number = await axios.post(`${URL}/obstructiongold`, spirometryData)
         .then((res:any) => {
             if(res.data.result === -1) throw new Error('Render 500');
             return res.data.result;
@@ -140,7 +140,7 @@ async function loadSpirometry(data:spirometryInput){
             throw new Error('O');
         })
         
-        const obstructionAi:number = await axios.post(`${URL}/obstructionai`, spirometryDataAi)
+        const obstructionAi:number = await axios.post(`${URL}/obstructionaigold`, spirometryDataAi)
         .then((res:any) => {
             if(res.data.result === -1) throw new Error('Render 500');
             return res.data.result;
@@ -150,7 +150,7 @@ async function loadSpirometry(data:spirometryInput){
             throw new Error('Oia');
         })
         
-        const restriction:number = await axios.post(`${URL}/restriction`, spirometryData)
+        const restriction:number = await axios.post(`${URL}/restrictiongold`, spirometryData)
         .then((res:any) => {
             if(res.data.result === -1) throw new Error('Render 500');
             return res.data.result;
@@ -160,7 +160,7 @@ async function loadSpirometry(data:spirometryInput){
             throw new Error('R');
         })
         
-        const restrictionAi:number = await axios.post(`${URL}/restrictionai`, spirometryDataAi)
+        const restrictionAi:number = await axios.post(`${URL}/restrictionaigold`, spirometryDataAi)
         .then((res:any) => {
             if(res.data.result === -1) throw new Error('Render 500');
             return res.data.result;
