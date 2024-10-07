@@ -6,13 +6,60 @@
     :root {
       --color-primary: 186 199 255;
       --color-primary_light: 224 230 255;
+      --color-fondo_light: 241 244 255;
       --color-secondary: 55 117 153;
       --color-third: 8 91 139;
       --color-red: 206 32 41;
       --color-white: 255 255 255;
+      --color-transparent: 100 0 0 ;
+
+
       /* ... */
     }
   }
+
+
+
+@layer components {
+  .diagonal {
+    width: 200px;
+    height: 200px;
+    transform: rotate(45deg);
+    position: absolute;
+    top: 56%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .custom-shape-divider-bottom-1728252665 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1728252665 svg {
+    position: static;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 150px;
+    transform: rotateY(180deg);
+}
+
+.custom-shape-divider-bottom-1728252665 .shape-fill {
+    fill: #FFFFFF;
+}
+
+/** For mobile devices **/
+@media (max-width: 767px) {
+    .custom-shape-divider-bottom-1728252665 svg {
+        width: calc(218% + 1.3px);
+        height: 203px;
+    }
+}
+}
 
   details {
     cursor: pointer;

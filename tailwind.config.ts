@@ -10,10 +10,12 @@ const config: Config = {
     colors:{
       primary: 'rgb(var(--color-primary) / <alpha-value>)',
       primary_light: 'rgb(var(--color-primary_light) / <alpha-value>)',
+      fondo_light: 'rgb(var(--color-fondo_light) / <alpha-value>)',
       secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
       third: 'rgb(var(--color-third) / <alpha-value>)',
       red: 'rgb(var(--color-red) / <alpha-value>)',
       white: 'rgb(var(--color-white) / <alpha-value>)',
+      transparent: 'rgb(var(--color-transparent) / <alpha-value>)',
     }
   },
   plugins: [

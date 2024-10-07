@@ -7,7 +7,7 @@ export default function LoginPage() {
     return (
         <>
         
-        <div className="flex min-h-full flex-1 flex-col justify-center items-center  px-6 py-12 lg:px-8">
+        <div className="flex h-screen flex-1 flex-col justify-center items-center  px-6 py-12 lg:px-8">
           <div className="bg-primary shadow-md rounded-lg p-6 sm:mx-auto sm:w-full sm:max-w-sm">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
               <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -28,6 +28,7 @@ export default function LoginPage() {
                   <span className="m-8 select-none pointer-events-none">Sign in with Google</span>
                 </button>
                 </form>
+                
             </div>
           </div>
         </div>

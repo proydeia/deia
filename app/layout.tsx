@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "./navBar";
+import Navbar from "./componenetes/navBar";
 import Footer from "./componenetes/footer";
 
 
