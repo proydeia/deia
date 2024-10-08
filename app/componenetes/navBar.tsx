@@ -29,7 +29,7 @@ export default async function Navbar() {
   //  }, []);
 
   const session = await auth();
-  console.log("sesion", session);
+  console.log(!!await auth());
   return (
     <>
       <nav className="bg-primary    bg-fixed shadow-lg relative top-0 left-0 right-0">
@@ -49,9 +49,9 @@ export default async function Navbar() {
                 </Link>
               </div>
             </div>
-            <div className="hover:hidden block">
+            <div className="">
               <div className=" flex items-center justify-center px-4 py-2  rounded-md  space-x-4 ">
-                {await auth() ? (
+                {!await auth() ? (
                   <Link
                   href="./login"
                   className="bg-secondary py-2 px-4 text-white hover:bg-white hover:text-primary rounded-md"

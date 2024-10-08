@@ -40,7 +40,7 @@ export default function Home() {
             Innovación en cada respiro
           </h2>
           <div className="flex w-full">
-            <button className="hover:scale-125 rounded-xl py-2 px-8 border-none mt-3 bg-secondary text-fondo_light">
+            <button className="hover:scale-105 rounded-xl py-2 px-8 border-none mt-3 bg-secondary text-fondo_light">
               Inicio de Sesion
             </button>
             <button className="hover:scale-125 rounded-xl py-2 px-8 border-secondary border-2 mt-3 text-secondary ml-4">
@@ -49,17 +49,17 @@ export default function Home() {
           </div>
         </div>
         <div className="relative  h-11/12">
-          <div className="absolute -top-10 -right-10 rounded-full ring-inset ring-primary ring-8  border-8 border-primary h-28 w-28 "></div>
+          <div className="absolute z-20 top-10 -right-10 rounded-full ring-inset ring-third ring-8  border-8 border-third h-28 w-28 "></div>
           <div className="absolute z-10 top-36 rounded-full ring-inset ring-secondary ring-8  border-8 border-secondary h-32 w-32 "></div>
-          <div className="absolute z-10 rounded-full bg-primary h-1/5 w-1/5"></div>
-          <div className="absolute z-10  -right-40 -top-10 rounded-full bg-primary_light h-80 w-80 "></div>
+          <div className="absolute z-20 rounded-full bg-primary h-1/5 w-1/5"></div>
+          <div className="absolute z-4  -right-40 -top-10 rounded-full bg-primary_light h-80 w-80 "></div>
           <Image
             src="/Frame9.png"
             alt="Mi imagen"
             layout="fixed"
             width={400}
             height={400}
-            className="relative -top-10 z-20 animate-rotate-y animate-once animate-delay-[300ms] animate-ease-in-out animate-normal "
+            className="relative -top-10 z-5 animate-rotate-y animate-once animate-delay-[300ms] animate-ease-in-out animate-normal "
           />
         </div>
       </section>
