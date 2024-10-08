@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Mision from "./componenetes/mision";
 import About from "./componenetes/about";
-
+//hola
 export default function Home() {
   return (
     <main>
