@@ -21,6 +21,7 @@
 
 
 @layer components {
+  
   .diagonal {
     width: 200px;
     height: 200px;

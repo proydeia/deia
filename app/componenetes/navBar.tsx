@@ -32,7 +32,7 @@ export default async function Navbar() {
   console.log(!!await auth());
   return (
     <>
-      <nav className="bg-primary    bg-fixed shadow-lg relative top-0 left-0 right-0">
+      <nav className="bg-primary    bg-fixed shadow-lg fixed z-40 top-0 left-0 right-0">
         <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center justify-center w-full sm:items-start">
@@ -44,7 +44,7 @@ export default async function Navbar() {
                   width={30}
                   height={30}
                 />
-                <Link href="/" className=" text-center font-bold text-lg">
+                <Link href="/" className="font-titulo text-center font-bold text-lg">
                   DEIA
                 </Link>
               </div>

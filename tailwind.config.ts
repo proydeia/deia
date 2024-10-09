@@ -16,6 +16,10 @@ const config: Config = {
       red: 'rgb(var(--color-red) / <alpha-value>)',
       white: 'rgb(var(--color-white) / <alpha-value>)',
       transparent: 'rgb(var(--color-transparent) / <alpha-value>)',
+    },
+    fontFamily:{
+      titulo: (['Inter', 'sans-serif']),
+      subtitulo:(['LATO', 'sans-serif'])
     }
   },
   plugins: [

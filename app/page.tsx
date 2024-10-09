@@ -31,19 +31,19 @@ export default function Home() {
           className="w-full "
         />
       </section>
-      <section className="hero-section md:flex justify-around items-center hidden w-full h-screen bg-fondo_light ">
+      <section className="hero-section md:flex justify-around items-center hidden w-full pt-28 pb-1  bg-fondo_light ">
         <div className="flex flex-col gap-2 h-1/2 ">
-          <h1 className="animate-fade-left animate-once animate-duration-[4000ms] animate-ease-in text-6xl font-bold">
+          <h1 className="font-titulo animate-fade-left animate-once animate-duration-[4000ms] animate-ease-in text-6xl font-bold">
             DEIA
           </h1>
-          <h2 className="font-bold text-4xl animate-fade-left animate-once animate-duration-[4000ms] animate-ease-in ">
+          <h2 className="font-bold text-4xl font-subtitulo animate-fade-left animate-once animate-duration-[4000ms] animate-ease-in ">
             Innovación en cada respiro
           </h2>
           <div className="flex w-full">
-            <button className="hover:scale-105 rounded-xl py-2 px-8 border-none mt-3 bg-secondary text-fondo_light">
+            <button className="hover:scale-105 rounded-xl py-2 px-8 border-none mt-3 bg-secondary text-fondo_light font-subtitulo">
               Inicio de Sesion
             </button>
-            <button className="hover:scale-125 rounded-xl py-2 px-8 border-secondary border-2 mt-3 text-secondary ml-4">
+            <button className="hover:scale-125 rounded-xl py-2 px-8 border-secondary border-2 mt-3 text-secondary ml-4 font-subtitulo">
               Como funciona
             </button>
           </div>
@@ -63,9 +63,13 @@ export default function Home() {
           />
         </div>
       </section>
-      <section className="our-mission w-full bg-fondo_light md:h-screen h-3/4 flex justify-center items-center">
+      <section className="our-mission relative w-full bg-fondo_light md:h-screen h-3/4 flex justify-center items-center">
         {/* Our Mission content */}
         <Funcion />
+        <div className="absolute z-10  bottom-80 -left-9 rounded-full ring-inset ring-third ring-8  border-8 border-third h-20 w-20 "></div>
+          <div className="absolute z-0 -bottom-24 -left-20  rounded-full bg-primary_light h-80 w-80 "></div>
+          <div className="absolute z-10  -bottom-10 -left-9  rounded-full ring-inset ring-primary ring-8  border-8 border-primary h-32 w-32 "></div>
+          <div className="absolute z-10  bottom-48 left-10  rounded-full bg-primary h-20 w-20"></div>
       </section>
 
       {/* Add your content sections here */}
