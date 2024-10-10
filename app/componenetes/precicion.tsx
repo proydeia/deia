@@ -1,6 +1,6 @@
 export default function Presicion() {
     return (
-        <div className="bg-white md:w-10/12 w-full p-8 rounded-xl shadow-lg relative z-20">
+        <div className="bg-white md:w-10/12 w-full py-12 px-8  rounded-xl shadow-lg relative z-30">
             <h1 className="text-2xl sm:text-3xl font-black text-center  w-full mb-2 mt-4 font-subtitulo">Precisión de nuestra IA</h1>
             <p className="text-lg font-light text-center">Valores que se actualizan día a día con el avance del desarrollo de nuestra IA</p>
             <div className="flex flex-row gap-6 mt-10">

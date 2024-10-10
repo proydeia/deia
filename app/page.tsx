@@ -2,6 +2,8 @@ import Image from "next/image";
 import About from "./componenetes/about";
 import Funcion from "./componenetes/funcion";
 import Presicion from "./componenetes/precicion";
+import Tutorial from "./componenetes/tutorial";
+import Contacto from "./componenetes/contacto";
 //hola
 export default function Home() {
   return (
@@ -32,7 +34,7 @@ export default function Home() {
           className="w-full "
         />
       </section>
-      <section className="hero-section md:flex justify-around items-center hidden w-full pt-28 pb-1  bg-fondo_light ">
+      <section className="hero-section z-30 md:flex justify-around items-center hidden w-full pt-28 pb-0  bg-fondo_light ">
         <div className="flex flex-col gap-2 h-1/2 ">
           <h1 className="font-titulo animate-fade-left animate-once animate-duration-[4000ms] animate-ease-in text-6xl font-bold">
             DEIA
@@ -64,28 +66,39 @@ export default function Home() {
           />
         </div>
       </section>
-      <section className="our-mission relative z-30  w-full bg-fondo_light md:h-screen h-3/4 flex justify-center items-center">
+      <section className="our-mission relative pt-10 w-full bg-fondo_light pb-10 flex justify-center items-center">
         {/* Our Mission content */}
         <Funcion />
         <div className="absolute z-10  bottom-80 -left-9 rounded-full ring-inset ring-third ring-8  border-8 border-third h-20 w-20 "></div>
-          <div className="absolute z-0 -bottom-24 -left-20  rounded-full bg-primary_light h-80 w-80 "></div>
-          <div className="absolute z-10  -bottom-10 -left-9  rounded-full ring-inset ring-primary ring-8  border-8 border-primary h-32 w-32 "></div>
-          <div className="absolute z-10  bottom-48 left-10  rounded-full bg-primary h-20 w-20"></div>
+        <div className="absolute z-10 -bottom-24 -left-20  rounded-full bg-primary_light h-80 w-80 "></div>
+        <div className="absolute z-10  -bottom-10 -left-9  rounded-full ring-inset ring-primary ring-8  border-8 border-primary h-32 w-32 "></div>
+        <div className="absolute z-10  bottom-48 left-10  rounded-full bg-primary h-20 w-20"></div>
       </section>
-      <section className=" relative w-full bg-fondo_light md:h-screen h-3/4 flex justify-center items-center">
+      <section className=" relative w-full bg-fondo_light  pb-10 flex justify-center items-center">
         {/* Our Mission content */}
         <Presicion />
-        <div className="absolute z-10  bottom-80 -left-9 rounded-full ring-inset ring-third ring-8  border-8 border-third h-20 w-20 "></div>
-          <div className="absolute z-0 -bottom-24 -left-20  rounded-full bg-primary_light h-80 w-80 "></div>
-          <div className="absolute z-10  -bottom-10 -left-9  rounded-full ring-inset ring-primary ring-8  border-8 border-primary h-32 w-32 "></div>
-          <div className="absolute z-10  bottom-48 left-10  rounded-full bg-primary h-20 w-20"></div>
+        <div className="absolute z-10  -bottom-40 -right-9 rounded-full ring-inset ring-primary ring-8  border-8 border-primary h-20 w-20 "></div>
+        <div className="absolute z-10 -bottom-32 -right-20  rounded-full bg-primary_light h-80 w-80 "></div>
+        {/* <div className="absolute z-10  -bottom-10 -left-9  rounded-full ring-inset ring-primary ring-8  border-8 border-primary h-32 w-32 "></div> */}
+        <div className="absolute z-10  bottom-40 -right-1  rounded-full bg-primary h-20 w-20"></div>
       </section>
 
       {/* Add your content sections here */}
-      <section className="about-us w-full bg-fondo_light md:h-screen flex justify-center items-center">
+      <section className="relative w-full bg-fondo_light pb-10 flex justify-center items-center">
         {/* About Us content */}
 
+        <Tutorial />
+      </section>
+      <section className="relative about-us w-full bg-fondo_light pb-10 flex justify-center items-center">
+        {/* About Us content */}
         <About />
+        <div className="absolute z-10  -bottom-10 left-5 rounded-full ring-inset ring-primary_light ring-8  border-8 border-primary_light h-16 w-16 "></div>
+        <div className="absolute z-10  bottom-9 -left-16 rounded-full ring-inset ring-primary ring-8  border-8 border-primary h-32 w-32 "></div>
+      </section>
+      <section className="relative about-us w-full bg-fondo_light pb-10 flex justify-center items-center">
+        {/* About Us content */}
+        <div className="absolute z-10 bottom-52 -right-28  rounded-full bg-primary_light h-80 w-80 "></div>
+        <Contacto />
       </section>
     </main>
   );

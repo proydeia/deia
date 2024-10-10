@@ -2,7 +2,7 @@ import Image from "next/image";
 //hola
 export default function About() {
   return (
-    <div className="bg-white shadow-xl  w-full md:w-10/12  rounded-xl flex flex-col items-center justify-center">
+    <div className="bg-white shadow-xl z-30 w-full md:w-10/12  rounded-xl flex flex-col items-center justify-center">
       <h1 className="text-2xl font-subtitulo sm:text-3xl font-bold text-center  w-full mb-4 mt-8">
         Conocé a nuestro equipo
       </h1>
