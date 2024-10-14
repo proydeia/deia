@@ -33,10 +33,10 @@ export default async function Navbar() {
   return (
     <>
       <nav className="bg-primary_light    bg-fixed shadow-lg fixed z-40 top-0 left-0 right-0">
-        <div className="w-screen mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center justify-center w-full sm:items-start">
-              <div className="flex-shrink-0 flex flex-row gap-2 items-center">
+        <div className="w-screen mx-2 px-2 sm:px-4 ">
+          <div className="flex items-center justify-around h-16">
+            <div className="flex sm:items-center justify-center w-full items-start">
+              <div className=" flex flex-row gap-2 items-center">
                 <Image
                   src="/Frame9.png"
                   alt="Mi imagen"
@@ -49,12 +49,12 @@ export default async function Navbar() {
                 </Link>
               </div>
             </div>
-            <div className="">
+            
               <div className=" flex items-center justify-center px-4 py-2  rounded-md  space-x-4 ">
                 {!await auth() ? (
                   <Link
                   href="./login"
-                  className="bg-secondary py-2 px-4 text-white hover:scale-105 hover:animate-jump hover:animate-once hover:animate-duration-1000 hover:animate-ease-linear hover:animate-normal hover:animate-fill-backwards rounded-md"
+                  className="bg-secondary py-1 sm:py-2 px-2 sm:px-4 text-white hover:scale-105 hover:animate-jump hover:animate-once hover:animate-duration-1000 hover:animate-ease-linear hover:animate-normal hover:animate-fill-backwards rounded-md"
                   >
                     Login
                   </Link>
@@ -64,7 +64,6 @@ export default async function Navbar() {
                   <Dropdown/>
                 )}
               </div>
-            </div>
             {/* <div className="md:hidden flex items-center">
               <button
                 className="inline-flex items-center justify-center p-2 rounded-md text-white md:text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"

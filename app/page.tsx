@@ -7,32 +7,33 @@ import Contacto from "./componenetes/contacto";
 //hola
 export default function Home() {
   return (
-    <main>
-      <section className="relative hero-section md:hidden flex justify-start items-center flex-col">
-        <div className="custom-shape-divider-bottom-1728252665 drop-shadow-2xl shadow-white">
-          <svg
-            data-name="Layer 1"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1200 120"
-            preserveAspectRatio="none"
-          >
-            <path
-              d="M1200 120L0 16.48 0 0 1200 0 1200 120z"
-              className="shape-fill"
-            ></path>
-          </svg>
+    <main className="flex flex-col justify-center bg-fondo_light">
+      <section className="relative hero-section md:hidden flex justify-center items-center flex-col mt-24 mx-8 ">
+        <div className="flex flex-col w-screen justify-center p-4 gap-4">
+          <h1 className="font-titulo font-bold text-6xl text-center">DEIA</h1>
+          <h2 className="font-subtitulo font-semibold text-4xl text-center">Innovación en cada respiro</h2>
+          <p className="font-subtitulo font-medium text-xl text-center">Diagnóstico de Espirometrías con Inteligencia Artificial</p>
+          <div className="flex flex-col justify-center items-center gap-2">
+            <button className="hover:scale-105 rounded-xl py-2 px-8 border-none mt-3 bg-secondary text-fondo_light font-subtitulo">Inicio de Sesión</button>
+            <button className="hover:scale-125 rounded-xl py-2 px-8 border-secondary border-2 mt-3 text-secondary  font-subtitulo">Como funciona</button>
+          </div>
         </div>
-        <h1 className="relative right-20 top-20 animate-fade-left animate-once animate-duration-[4000ms] animate-ease-in text-3xl">
-          Bienvenidos a DEIA
-        </h1>
-        <Image
-          src="/medica_1.jpg"
-          alt="Medica"
-          layout="fixed"
-          width={1000}
-          height={1000}
-          className="w-full "
-        />
+        {/* circulos */}
+        <div className="relative">
+           <div className="absolute z-10 top-40 right-56 rounded-full ring-inset ring-third ring-2  border-4 border-third h-12 w-12 "></div> 
+          <div className="absolute z-10 top-1   -right-0 rounded-full ring-inset ring-primary ring-8  border-8 border-primary h-12 w-12 "></div>
+          <div className="absolute z-20 top-1 right-0 rounded-full bg-primary h-1/5 w-1/5"></div>
+          <div className="absolute z-4  right-20 top-20 rounded-full bg-primary_light h-44 w-44 "></div> 
+          <Image
+           src="/Frame9.png"
+           alt="Mi imagen"
+           layout="fixed"
+           width={200}
+           height={200}
+           className="relative top-0 -left-0 z-0 animate-rotate-y animate-once animate-delay-[300ms] animate-ease-in-out animate-normal "
+         /> 
+
+        </div>
       </section>
       <section className="hero-section z-30 md:flex justify-around items-center hidden w-full pt-28 pb-0  bg-fondo_light ">
         <div className="flex flex-col gap-2 h-1/2 ">
