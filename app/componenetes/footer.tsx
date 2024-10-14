@@ -1,3 +1,4 @@
+//hola
 export default function Footer(){
     return(
         <div className="w-full bg-third px-6 py-4">
