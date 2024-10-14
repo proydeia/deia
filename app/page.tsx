@@ -1,4 +1,5 @@
-import Image from "next/image";
+import Image from "@/node_modules/next/image"
+
 import About from "./componenetes/about";
 import Funcion from "./componenetes/funcion";
 import Presicion from "./componenetes/precicion";
@@ -66,7 +67,7 @@ export default function Home() {
           />
         </div>
       </section>
-      <section className="our-mission relative pt-10 w-full bg-fondo_light pb-10 flex justify-center items-center">
+      <section className="our-mission relative pt-10 w-full bg-fondo_light pb-0 md:pb-10 flex justify-center items-center">
         {/* Our Mission content */}
         <Funcion />
         <div className="hidden md:block absolute z-10  bottom-80 -left-9 rounded-full ring-inset ring-third ring-8  border-8 border-third h-20 w-20 "></div>
@@ -74,7 +75,7 @@ export default function Home() {
         <div className="hidden md:block absolute z-10  -bottom-10 -left-9  rounded-full ring-inset ring-primary ring-8  border-8 border-primary h-32 w-32 "></div>
         <div className="hidden md:block absolute z-10  bottom-48 left-10  rounded-full bg-primary h-20 w-20"></div>
       </section>
-      <section className=" relative w-full bg-fondo_light  pb-10 flex justify-center items-center">
+      <section className=" relative w-full pb-0 md:pb-10 flex justify-center items-center">
         {/* Our Mission content */}
         <Presicion />
         <div className="hidden md:block absolute z-10  -bottom-40 -right-9 rounded-full ring-inset ring-primary ring-8  border-8 border-primary h-20 w-20 "></div>
@@ -84,7 +85,7 @@ export default function Home() {
       </section>
 
       {/* Add your content sections here */}
-      <section className="relative w-full bg-fondo_light pb-10 flex justify-center items-center">
+      <section className="relative w-full bg-fondo_light pb-10 flex justify-center items-center ">
         {/* About Us content */}
 
         <Tutorial />

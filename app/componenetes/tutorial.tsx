@@ -1,8 +1,8 @@
-import Image from "next/image"
+import Image from "@/node_modules/next/image"
 export default function Tutorial() {
     return (
         
-        <div className="bg-white md:w-10/12 w-full p-8 rounded-xl shadow-lg relative z-30 flex flex-row items-center gap-4">
+        <div className="bg-white md:w-10/12 w-full p-8 rounded-xl shadow-lg relative z-30 hidden flex-row items-center gap-4 md:flex ">
         <div className="w-5/12">
         <Image
         src="/Visuals.png"
