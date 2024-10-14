@@ -1,7 +1,7 @@
 import Image from "@/node_modules/next/image";
 export default function Contacto() {
   return (
-    <div className="bg-white md:w-10/12 w-full px-8 pt-4 pb-10 rounded-xl shadow-lg relative z-30 flex flex-col justify-center items-center gap-10">
+    <div className="bg-white md:w-10/12 w-full px-8 pt-4 pb-10 rounded-none md:rounded-xl shadow-none md:shadow-lg relative z-30 flex flex-col justify-center items-center gap-10">
       <div className="">
         <h1 className="text-2xl sm:text-3xl font-extrabold text-start  w-full mb-2 mt-4 font-subtitulo">
           Contactese con nosotros!
@@ -11,13 +11,25 @@ export default function Contacto() {
         </p>
       </div>
       <div className="w-full flex flex-col md:flex-row justify-center items-start gap-4 ">
-        <div className="w-1/2 flex flex-col items-start gap-4">
+        <div className="w-full md:w-1/2 flex flex-col items-start gap-4">
           <div className="flex flex-row gap-2 justify-center items-center">
-            <div className="w-5 h-5 bg-primary rounded-md"></div>
+          <Image
+            src="/cel.png"
+            alt="Mi imagen"
+            layout="fixed"
+            width={25}
+            height={25}
+          />
             <p className="text-start font-subtitulo font-medium">+4394834948</p>
           </div>
           <div className="flex flex-row gap-2 justify-center items-center">
-            <div className="w-5 h-5 bg-primary rounded-md"></div>
+          <Image
+            src="/mail.png"
+            alt="Mi imagen"
+            layout="fixed"
+            width={25}
+            height={25}
+          />
             <p className="text-start font-subtitulo font-medium">proydeia@gmail.com</p>
           </div>
         </div>
@@ -25,12 +37,12 @@ export default function Contacto() {
           <input
             type="text"
             placeholder="Nombre completo"
-            className=" w-3/5 rounded-xl bg-white  border py-3 px-6"
+            className="w-full md:w-3/5 rounded-xl bg-white  border py-3 px-6"
           />
           <input
             type="text"
             placeholder="Correo electrónico"
-            className="w-3/5 rounded-xl bg-white  border py-3 px-6"
+            className="w-full md:w-3/5 rounded-xl bg-white  border py-3 px-6"
           />
           <button className="rounded-xl bg-secondary text-primary_light py-2 px-6 mt-4">Enviar</button>
         </div>

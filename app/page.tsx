@@ -9,7 +9,7 @@ import Contacto from "./componenetes/contacto";
 export default function Home() {
   return (
     <main className="flex flex-col justify-center bg-fondo_light ">
-      <section className="relative hero-section md:hidden flex justify-center items-center flex-col mt-56 mx-8 ">
+      <section className="relative hero-section md:hidden flex justify-center items-center flex-col mt-36 mx-8 ">
         <div className="flex flex-col w-screen justify-center p-4 gap-4">
           <h1 className="font-titulo font-bold text-6xl text-center">DEIA</h1>
           <h2 className="font-subtitulo font-semibold text-4xl text-center">Innovación en cada respiro</h2>
@@ -22,8 +22,8 @@ export default function Home() {
         {/* circulos */}
         <div className="relative">
            <div className="absolute z-20 top-36 right-60 rounded-full ring-inset ring-third ring-4  border-4 border-third h-14 w-14 "></div> 
-          <div className="absolute z-20 top-44   -right-24 rounded-full bg-primary h-20 w-20"></div>
-          <div className="absolute z-10  -right-11 top-12 rounded-full bg-primary_light h-80 w-80 "></div> 
+          <div className="absolute z-20 top-44   -right-20 rounded-full bg-primary h-20 w-20"></div>
+          <div className="absolute z-10  -right-14 top-12 rounded-full bg-primary_light h-80 w-80 "></div> 
           <Image
            src="/Frame9.png"
            alt="Mi imagen"
@@ -85,18 +85,18 @@ export default function Home() {
       </section>
 
       {/* Add your content sections here */}
-      <section className="relative w-full bg-fondo_light pb-10 flex justify-center items-center ">
+      <section className="relative w-full bg-fondo_light pb-0 md:pb-10 flex justify-center items-center ">
         {/* About Us content */}
 
         <Tutorial />
       </section>
-      <section className="relative about-us w-full bg-fondo_light pb-10 flex justify-center items-center">
+      <section className="relative about-us w-full bg-fondo_light pb-0 md:pb-10 flex justify-center items-center">
         {/* About Us content */}
         <About />
         <div className="hidden md:block absolute z-10  -bottom-10 left-5 rounded-full ring-inset ring-primary_light ring-8  border-8 border-primary_light h-16 w-16 "></div>
         <div className="hidden md:block absolute z-10  bottom-9 -left-16 rounded-full ring-inset ring-primary ring-8  border-8 border-primary h-32 w-32 "></div>
       </section>
-      <section className="relative about-us w-full bg-fondo_light pb-10 flex justify-center items-center">
+      <section className="relative about-us w-full bg-fondo_light pb-0 md:pb-10 flex justify-center items-center">
         {/* About Us content */}
         <div className="hidden md:block absolute z-10 bottom-52 -right-28  rounded-full bg-primary_light h-80 w-80 "></div>
         <Contacto />
