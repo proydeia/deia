@@ -1,4 +1,4 @@
-//hola
+//hola ola
 export default function Footer(){
     return(
         <div className="w-full bg-dark px-6 py-4">
