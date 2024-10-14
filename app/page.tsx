@@ -35,7 +35,7 @@ export default function Home() {
 
         </div>
       </section>
-      <section className="hero-section z-30 md:flex justify-around items-center hidden w-full pt-28 pb-0  bg-fondo_light ">
+      <section className="hero-section z-30 md:flex justify-around items-center hidden w-full pt-36 mt-6 pb-0 mb-10 bg-fondo_light ">
         <div className="flex flex-col gap-2 h-1/2 ">
           <h1 className="font-titulo animate-fade-left animate-once animate-duration-[4000ms] animate-ease-in text-6xl font-bold">
             DEIA
@@ -55,7 +55,7 @@ export default function Home() {
         <div className="relative  h-11/12">
           <div className="absolute z-10 top-80 -right-10 rounded-full ring-inset ring-third ring-8  border-8 border-third h-28 w-28 "></div>
           <div className="absolute z-10 top-52   -right-40 rounded-full ring-inset ring-primary ring-8  border-8 border-primary h-32 w-32 "></div>
-          <div className="absolute z-20 top-44 -right-36 rounded-full bg-primary h-1/5 w-1/5"></div>
+          <div className="absolute z-20 top-2 4 -right-36 rounded-full bg-primary h-1/5 w-1/5"></div>
           <div className="absolute z-4  -right-40 top-20 rounded-full bg-primary_light h-80 w-80 "></div>
           <Image
             src="/Frame9.png"
