@@ -5,7 +5,7 @@ import Funcion from "./componenetes/funcion";
 import Presicion from "./componenetes/precicion";
 import Tutorial from "./componenetes/tutorial";
 import Contacto from "./componenetes/contacto";
-//hola
+//hola hola
 export default function Home() {
   return (
     <main className="flex flex-col justify-center bg-fondo_light ">
