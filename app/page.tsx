@@ -1,10 +1,11 @@
-import Image from "@/node_modules/next/image"
+import Image from "@/node_modules/next/image";
 
 import About from "./componenetes/about";
 import Funcion from "./componenetes/funcion";
 import Presicion from "./componenetes/precicion";
 import Tutorial from "./componenetes/tutorial";
 import Contacto from "./componenetes/contacto";
+import Link from "next/link";
 //hola hola
 export default function Home() {
   return (
@@ -12,27 +13,35 @@ export default function Home() {
       <section className=" relative hero-section md:hidden   flex justify-center items-center flex-col mt-36 mx-8 ">
         <div className="flex flex-col w-screen justify-center p-4 gap-4">
           <h1 className="font-titulo font-bold text-6xl text-center">DEIA</h1>
-          <h2 className="font-subtitulo font-semibold text-4xl text-center">Innovación en cada respiro</h2>
-          <p className="font-subtitulo font-medium text-xl text-center">Diagnóstico de Espirometrías con Inteligencia Artificial</p>
+          <h2 className="font-subtitulo font-semibold text-4xl text-center">
+            Innovación en cada respiro
+          </h2>
+          <p className="font-subtitulo font-medium text-xl text-center">
+            Diagnóstico de Espirometrías con Inteligencia Artificial
+          </p>
           <div className="flex flex-col justify-center items-center gap-2">
-            <button className="hover:scale-105 rounded-xl py-2 px-8 border-none mt-3 bg-secondary text-fondo_light font-subtitulo">Inicio de Sesión</button>
-            <button className="hover:scale-105 rounded-xl py-2 px-8 border-secondary border-2 mt-3 text-secondary  font-subtitulo">Como funciona</button>
+            <Link href="./login" className="hover:scale-105 rounded-xl py-2 px-8 border-none mt-3 bg-secondary text-fondo_light font-subtitulo">
+              Inicio de Sesión
+            </Link>
+           
+            {/* <button className="hover:scale-105 rounded-xl py-2 px-8 border-secondary border-2 mt-3 text-secondary  font-subtitulo">
+              Como funciona
+            </button> */}
           </div>
         </div>
         {/* circulos */}
         <div className="relative">
-           <div className="absolute z-20 top-36 right-60 rounded-full ring-inset ring-third ring-4  border-4 border-third h-14 w-14 "></div> 
+          <div className="absolute z-20 top-36 right-60 rounded-full ring-inset ring-third ring-4  border-4 border-third h-14 w-14 "></div>
           <div className="absolute z-20 top-44   -right-20 rounded-full bg-primary h-20 w-20"></div>
-          <div className="absolute z-10  -right-14 top-12 rounded-full bg-primary_light h-80 w-80 "></div> 
+          <div className="absolute z-10  -right-14 top-12 rounded-full bg-primary_light h-80 w-80 "></div>
           <Image
-           src="/Frame9.png"
-           alt="Mi imagen"
-           layout="fixed"
-           width={200}
-           height={200}
-           className="relative top-0 -left-0 z-30 animate-rotate-y animate-once animate-delay-[300ms] animate-ease-in-out animate-normal "
-         /> 
-
+            src="/Frame9.png"
+            alt="Mi imagen"
+            layout="fixed"
+            width={200}
+            height={200}
+            className="relative top-0 -left-0 z-30 animate-rotate-y animate-once animate-delay-[300ms] animate-ease-in-out animate-normal "
+          />
         </div>
       </section>
       <section className="relative hero-section z-30 md:flex  justify-around items-center  w-full pt-36 mt-6  pb-0 mb-10 bg-fondo_light ">
@@ -44,12 +53,15 @@ export default function Home() {
             Innovación en cada respiro
           </h2>
           <div className="flex w-full">
-            <button className="hover:scale-105 rounded-xl py-2 px-8 border-none mt-3 bg-secondary text-fondo_light font-subtitulo">
+            <Link
+              href="./login"
+              className="hover:scale-105 rounded-xl py-2 px-8 border-none mt-3 bg-secondary text-fondo_light font-subtitulo"
+            >
               Inicio de Sesion
-            </button>
-            <button className="hover:scale-105 rounded-xl py-2 px-8 border-secondary border-2 mt-3 text-secondary ml-4 font-subtitulo">
+            </Link>
+            {/* <button className="hover:scale-105 rounded-xl py-2 px-8 border-secondary border-2 mt-3 text-secondary ml-4 font-subtitulo">
               Como funciona
-            </button>
+            </button> */}
           </div>
         </div>
         <div className="relative  h-11/12">

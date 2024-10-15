@@ -25,21 +25,21 @@ export default function LoginPage() {
             height={300}
             className="absolute top-16 -right-1 z-5 "
           />
-        <div className="bg-primary_light shadow-md rounded-md p-6 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="bg-primary_light z-30 shadow-md rounded-md p-6 sm:mx-auto sm:w-full sm:max-w-sm">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 className="mt-8 text-start text-2xl font-titulo font-bold leading-9 tracking-tight ">
               Inicio de Sesión
             </h2>
           </div>
 
-          <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
             <Form></Form>
           </div>
           <div className="flex flex-row items-center gap-2 ">
 
-          <div className="w-1/3 h-[1px] bg-secondary rounded-xl"></div>
+          <div className="w-1/4 md:w-1/3 h-[1px] bg-secondary rounded-xl"></div>
           <p className="font-subtitulo font-light text-xs">Registrarme con</p>
-          <div className="w-1/3 h-[1px] bg-secondary rounded-xl"></div>
+          <div className="w-1/4 md:w-1/3 h-[1px] bg-secondary rounded-xl"></div>
           </div>
           <div>
             <form className="flex items-center justify-center m-5" action={async () => {

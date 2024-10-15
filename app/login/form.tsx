@@ -6,7 +6,7 @@ import FormButton from "../componenetes/form_button";
 export default function Form() {
     const [state, formAction] = useFormState(authenticate, undefined);
     return (
-        <form className="space-y-4" action={formAction}>
+        <form className="space-y-4 z-30" action={formAction}>
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium font-subtitulo leading-6 text-dark">
                     Correo Electrónico
