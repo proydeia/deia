@@ -1,7 +1,7 @@
 import Image from "@/node_modules/next/image"
 export default function Funcion() {
     return (
-        <div className="bg-white md:w-10/12 w-full p-8 rounded-none md:rounded-xl shadow-none mg:shadow-lg relative z-20">
+        <div className="bg-white md:w-10/12 w-full p-8 rounded-none md:rounded-xl shadow-none md:shadow-lg relative z-20">
             <h1 className="text-2xl sm:text-3xl font-black text-center  w-full mb-2 mt-4 font-subtitulo">Funcionalidades</h1>
             <p className="text-lg font-light text-center">Estas son algunas funcionalidades que podés encontrar en DEIA</p>
             <div className="flex flex-col md:flex-row gap-6 mt-10">

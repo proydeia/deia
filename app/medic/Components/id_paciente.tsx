@@ -72,7 +72,7 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
   }
 
   return (
-    <main className="w-full flex justify-center">
+    <main className="w-full flex justify-center ">
       {isLoading ? (
         <Instrucciones />
       ) : !pacienteId ? (

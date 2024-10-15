@@ -54,7 +54,7 @@ export default async function Navbar() {
                 {!await auth() ? (
                   <Link
                   href="./login"
-                  className="bg-secondary py-1 sm:py-2 px-2 sm:px-4 text-white hover:scale-105 hover:animate-jump hover:animate-once hover:animate-duration-1000 hover:animate-ease-linear hover:animate-normal hover:animate-fill-backwards rounded-md"
+                  className="bg-secondary py-1 sm:py-2 px-2 sm:px-4 text-white rounded-md hover:bg-custom-vanilla text-custom-black hover:text-custom-blue hover:shadow-custom-pale hover:shadow-sm transform transition-transform duration-200 hover:scale-105"
                   >
                     Login
                   </Link>
