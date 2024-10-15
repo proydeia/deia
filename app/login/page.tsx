@@ -15,7 +15,7 @@ export default function LoginPage() {
             layout="fixed"
             width={400}
             height={400}
-            className="absolute -bottom-14 -left-12 z-5 "
+            className="absolute -bottom-20 -left-12 z-5 "
           />
       <Image
             src="/logi.png"
