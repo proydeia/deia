@@ -6,11 +6,12 @@ import Presicion from "./componenetes/precicion";
 import Tutorial from "./componenetes/tutorial";
 import Contacto from "./componenetes/contacto";
 import Link from "next/link";
+import { auth } from "@/auth";
 //hola hola
 export default function Home() {
   return (
     <main className="overscroll-x-contain overflow-hidden flex flex-col justify-center bg-fondo_light ">
-      <section className=" relative hero-section md:hidden   flex justify-center items-center flex-col mt-36 mx-8 ">
+      <section className=" relative hero-section md:hidden flex justify-center items-center flex-col mt-36 mx-8 ">
         <div className="flex flex-col w-screen justify-center p-4 gap-4">
           <h1 className="font-titulo font-bold text-6xl text-center">DEIA</h1>
           <h2 className="font-subtitulo font-semibold text-4xl text-center">
@@ -20,9 +21,10 @@ export default function Home() {
             Diagnóstico de Espirometrías con Inteligencia Artificial
           </p>
           <div className="flex flex-col justify-center items-center gap-2">
-            <Link href="./login" className="hover:scale-105 rounded-xl py-2 px-8 border-none mt-3 bg-secondary text-fondo_light font-subtitulo">
+            
+            {/* <Link href="./login" className="hover:scale-105 rounded-xl py-2 px-8 border-none mt-3 bg-secondary text-fondo_light font-subtitulo">
               Inicio de Sesión
-            </Link>
+            </Link> */}
            
             {/* <button className="hover:scale-105 rounded-xl py-2 px-8 border-secondary border-2 mt-3 text-secondary  font-subtitulo">
               Como funciona
@@ -44,7 +46,7 @@ export default function Home() {
           />
         </div>
       </section>
-      <section className="relative hero-section z-30 md:flex  justify-around items-center  w-full pt-36 mt-6  pb-0 mb-10 bg-fondo_light ">
+      <section className="relative hero-section z-30 md:flex hidden justify-around items-center  w-full pt-36 mt-6  pb-0 mb-10 bg-fondo_light ">
         <div className="flex flex-col gap-2 h-1/2 ">
           <h1 className="font-titulo animate-fade-left animate-once animate-duration-[4000ms] animate-ease-in text-6xl font-bold">
             DEIA
@@ -53,12 +55,12 @@ export default function Home() {
             Innovación en cada respiro
           </h2>
           <div className="flex w-full">
-            <Link
+            {/* <Link
               href="./login"
               className="hover:scale-105 rounded-xl py-2 px-8 border-none mt-3 bg-secondary text-fondo_light font-subtitulo"
             >
               Inicio de Sesion
-            </Link>
+            </Link> */}
             {/* <button className="hover:scale-105 rounded-xl py-2 px-8 border-secondary border-2 mt-3 text-secondary ml-4 font-subtitulo">
               Como funciona
             </button> */}

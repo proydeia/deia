@@ -44,7 +44,7 @@ export default function AuthorizedPage() {
           />
         </div>
         {/* ACA VAMOS A IR CAMBIANDO DE COMPONENTES */}
-        <div className="bg-secondary  flex flex-col items-center justify-center sm:w-7/12  w-full  ">
+        <div className="bg-secondary lg:mt-8 md:mt-4 mt-0 flex flex-col items-center justify-center sm:w-7/12  w-full  ">
           <PaginaComponente />
         </div>
       </main>
