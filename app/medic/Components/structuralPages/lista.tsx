@@ -4,17 +4,6 @@ import { getPatientsList } from "#/medic/patient"; // Assuming these functions r
 import { Patient } from "@/app/lib/dbSchema/schema";
 import { Dispatch, SetStateAction } from "react";
 
-type SimplePatient = {
-  id: string;
-  name: string;
-  extrainfo?: string; // Optional
-  medic?: string;     // Optional
-  peso?: number;      // Optional
-  altura?: number;    // Optional
-  nacimiento?: Date;  // Optional
-  sexo?: number;      // Optional
-};
-
 export default function Lista_y_Busqueda({ Pagina }: {
   Pagina: Dispatch<SetStateAction<string>>,
 }) {
