@@ -24,16 +24,16 @@ export default function Contacto() {
             <p className="text-start font-subtitulo font-medium">+4394834948</p>
           </div>
         */}
-            <div className="flex flex-row items-start ml-0 md:ml-6">
-            <Image
+          <div className="flex flex-row gap-2 justify-center items-center">
+          <Image
             src="/mail.png"
             alt="Mi imagen"
             layout="fixed"
             width={25}
             height={25}
-            />
+          />
             <p className="text-start font-subtitulo font-medium">proydeia@gmail.com</p>
-            </div>
+          </div>
         </div>
         {/*
         <div className="w-full md:w-1/2 flex flex-col items-start gap-2">
