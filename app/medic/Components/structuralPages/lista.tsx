@@ -1,9 +1,19 @@
 
 import { useEffect, useState } from "react";
-import { getPatientsList } from "#/medic/patient"; // Assuming these functions return promises or async data
-import { map, string } from "zod";
+import { getPatientsList } from "#/medic/patient"; // Assuming these functions return promises or async dataimport { map, string } from "zod";
 import { Patient } from "@/app/lib/dbSchema/schema";
 import { Dispatch, SetStateAction } from "react";
+
+type SimplePatient = {
+  id: string;
+  name: string;
+  extrainfo?: string; // Optional
+  medic?: string;     // Optional
+  peso?: number;      // Optional
+  altura?: number;    // Optional
+  nacimiento?: Date;  // Optional
+  sexo?: number;      // Optional
+};
 
 export default function Lista_y_Busqueda({ Pagina }: {
   Pagina: Dispatch<SetStateAction<string>>,
@@ -21,7 +31,7 @@ export default function Lista_y_Busqueda({ Pagina }: {
    useEffect(() => {
     const fetchData = async () => {
       try {
-        const patients: Patient[] = await getPatientsList(); // Assuming getPacientsList returns Patient[]
+        const patients: SimplePatient[] = await getPatientsList(); // Assuming getPacientsList returns Patient[]
         setPatientsList(patients);
       } catch (error: unknown) {
         console.error(error);
