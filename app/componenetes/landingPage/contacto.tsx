@@ -24,7 +24,7 @@ export default function Contacto() {
             <p className="text-start font-subtitulo font-medium">+4394834948</p>
           </div>
         */}
-          <div className="flex flex-row gap-2 justify-center items-start">
+          <div className="flex flex-row items-start">
           <Image
             src="/mail.png"
             alt="Mi imagen"
