@@ -55,7 +55,7 @@ export default function Lista_y_Busqueda({ Pagina }: {
   }, []);
 
   useEffect(() => {
-    const filteredList = patientsList.filter((patient) =>
+    const filteredList = patientsList.filter((patient: Patient) =>
       patient.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredPatients(filteredList);
