@@ -45,6 +45,7 @@ export default function Funcion() {
                         height={45}
                         className="relative top-0 -left-0 z-30 animate-rotate-y animate-once animate-delay-[300ms] animate-ease-in-out animate-normal "
                     />
+                    {/* Comentario epico */}
                     <h2 className="text-lg font-bold text-center mb-0 md:mb-3">Resultados confiables</h2>
                     <p className="text-sm font-light text-center px-6 mb-6 hidden md:block">Nuestros modelos de IA están entrenados para brindar resultados confiables gracias a la base de datos con la que trabajamos. </p>
                 </div>
