@@ -31,9 +31,22 @@ export default function Lista_y_Busqueda({ Pagina }: {
    useEffect(() => {
     const fetchData = async () => {
       try {
-        const patients: SimplePatient[] = await getPatientsList(); // Assuming getPacientsList returns Patient[]
-        setPatientsList(patients);
-      } catch (error: unknown) {
+        const patients = await getPatientsList(); // Assuming this returns only { id: string, name: string }[]
+    
+        // Map the data to include default values for missing fields
+        const fullPatientsList: Patient[] = patients.map((patient: { id: string; name: string }): Patient => ({
+          id: patient.id,
+          name: patient.name,
+          extrainfo: "", // Default value for missing fields
+          medic: "Unknown",
+          peso: 0,
+          altura: 0,
+          nacimiento: new Date(),
+          sexo: 0,
+        }));
+    
+        setPatientsList(fullPatientsList);
+      } catch (error) {
         console.error(error);
       }
     };
