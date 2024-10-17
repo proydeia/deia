@@ -1,7 +1,6 @@
 import { signOut } from "@/auth";
 import { redirect } from "next/navigation";
-import Link from "next/link";
-import Logout from "./logOut_button";
+import Logout from "./signOut";
 
 export default function Dropdown() {
   const handleSignOut = async () => {

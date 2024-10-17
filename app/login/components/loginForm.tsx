@@ -1,9 +1,9 @@
 "use client";
-import { authenticate } from "../api/authentication";
+import { authenticate } from "#/auth/credentialAuthentication";
 import { useFormState } from "react-dom";
-import FormButton from "../componenetes/form_button";
+import FormButton from "../../componenetes/form_button";
 
-export default function Form() {
+export default function Login() {
     const [state, formAction] = useFormState(authenticate, undefined);
     return (
         <form className="space-y-4 z-30" action={formAction}>

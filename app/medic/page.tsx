@@ -1,8 +1,8 @@
 "use client";
-import AgregarPacientes from "../componenetes/agregar_p_form";
-import Lista_y_Busqueda from "./Components/lista";
+import AgregarPacientes from "./Components/forms/patientForm";
+import Lista_y_Busqueda from "./Components/structuralPages/lista";
 import { useState } from "react";
-import Paciente from "./Components/paciente";
+import Paciente from "./Components/structuralPages/paciente";
 import Image from "next/image";
 
 export default function AuthorizedPage() {

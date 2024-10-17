@@ -1,22 +1,10 @@
 "use client";
-import FormButton from "./form_button";
+import FormButton from "@/app/componenetes/form_button";
 import { useState } from "react";
-import { createPatient } from "../api/patient";
+import { createPatient } from "#/medic/patient";
 import { Dispatch, SetStateAction } from "react";
 import { useFormState } from "react-dom";
 import Image from "next/image";
-
-interface PatientInput {
-  name: string;
-  extraInfo: string;
-}
-
-interface Patient {
-  id: string;
-  name: string;
-  extrainfo: string;
-  medic: string;
-}
 
 interface Props {
   Pagina: Dispatch<SetStateAction<string>>;

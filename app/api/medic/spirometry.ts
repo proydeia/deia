@@ -1,9 +1,9 @@
 "use server"
 const axios = require('axios');
-import { spirometryFormSchema, spirometrieState } from "../lib/formsDefinitions/spirometryFormDefinition";
-import db, { newSpirometry, Spirometry } from "../lib/dbSchema/schema";
-import { uuid } from "./ID";
-import { userData } from "./userData";
+import { spirometryFormSchema, spirometrieState } from "$/formsDefinitions/spirometryFormDefinition";
+import db, { newSpirometry, Spirometry } from "$/dbSchema/schema";
+import { uuid } from "../ID";
+import { userData } from "../auth/userData";
 
 axios.defaults.withCredentials = true
 const URL = process.env.URL

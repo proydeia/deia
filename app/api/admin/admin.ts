@@ -1,8 +1,8 @@
 "use server"
-import db, { Medic } from "../lib/dbSchema/schema";
-import { uuid } from "./ID";
-import { userData } from "./userData";
-import { medicFormSchema, medicState } from "../lib/formsDefinitions/medicFormDefinition";
+import { uuid } from "#/ID";
+import { userData } from "@/app/api/auth/userData";
+import db, { Medic } from "$/dbSchema/schema";
+import { medicFormSchema, medicState } from "$/formsDefinitions/medicFormDefinition";
 
 // Pacientes
 

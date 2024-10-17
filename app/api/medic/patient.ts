@@ -1,12 +1,12 @@
-"use server"
-import db, { Patient } from "../lib/dbSchema/schema";
-import { uuid } from "./ID";
-import { userData } from "./userData";
-import {patientFormSchema, patientState} from '@/app/lib/formsDefinitions/patientFormDefinition';
+"use server";
+import db, { Patient } from "$/dbSchema/schema";
+import { uuid } from "../ID";
+import { userData } from "../auth/userData";
+import { patientFormSchema, patientState } from '@/app/lib/formsDefinitions/patientFormDefinition';
 
 // Pacientes
 
-export async function getPatientsList(): Promise < Patient[] > {
+export async function getPatientsList(){
     
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
@@ -15,7 +15,7 @@ export async function getPatientsList(): Promise < Patient[] > {
         return await db
         .selectFrom("patients")
         .where("patients.medic", "=", user.id)
-        .selectAll()
+        .select(['id', 'name'])
         .execute();        
     }
     catch(error:unknown){

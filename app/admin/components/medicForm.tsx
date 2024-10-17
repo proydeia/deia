@@ -1,7 +1,7 @@
 "use client";
 import { useFormState } from "react-dom";
-import { createMedic } from "../api/admin";
-import FormButton from "../componenetes/form_button";
+import { createMedic } from "../../api/admin/admin";
+import FormButton from "../../componenetes/form_button";
 
 export default function Form() {
     const [state, formAction] = useFormState(createMedic, undefined);

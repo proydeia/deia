@@ -1,9 +1,9 @@
 
 "use client";
-import FormButton from "./form_button";
+import FormButton from "../../../componenetes/form_button";
 import { Dispatch, SetStateAction } from "react";                                                     //AGREGAR LUEGO LOS DATOS DE LAS ESPIROMETRIAS
 import { useFormState } from "react-dom";
-import { createSpirometry } from "../api/spirometry";
+import { createSpirometry } from "#/medic/spirometry";
 import Image from "next/image";
 export default function AgregarEspiro({Pagina, id, Page}:{ Pagina: Dispatch<SetStateAction<string>>, id: string, Page: Dispatch<SetStateAction<string>>} ) {
   const [state, formAction] = useFormState(createSpirometry, undefined);

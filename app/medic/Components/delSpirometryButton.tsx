@@ -1,17 +1,17 @@
-import { deleteSpirometry } from "@/app/api/spirometry";
-import { deletePatient } from "@/app/api/patient";
-import { useState } from "react";
-//import { deleteMedic } from "@/app/api/admin";
+import { deleteSpirometry } from "#/medic/spirometry";
+import { deletePatient } from "#/medic/patient";
 
-export default function ByebyeButton({ tabla = "patient" || "spirometry" || "", id }: { tabla: string, id: string }) {
+export default function ByebyeButton({ tabla, id }: { tabla: string, id: string }) {
     const Persona = () =>{
     switch (tabla){
         case "patient":
             return "Paciente"
         case "spirometry":
             return "Espirometria"
-        default:
+        case "medic":
             return "Médico"
+        default:
+            new Error("Invalid type");
     }
     
     }
@@ -35,10 +35,8 @@ export default function ByebyeButton({ tabla = "patient" || "spirometry" || "", 
         }
         catch (error: unknown) {
             console.log(JSON.stringify(error))
-            //alert("Error eliminando el paciente");
             return;
         }
-        //mostrar lo que sea que haya que mostrar; recomiendo hacerlo bajo los propios casos del switch.
         return
     }
 

@@ -1,5 +1,5 @@
 import Image from "@/node_modules/next/image";
-//hola
+
 export default function About() {
   return (
     <div className="bg-white shadow-none md:shadow-xl z-30 w-full md:w-10/12 rounded-none md:rounded-xl flex flex-col items-center justify-center">

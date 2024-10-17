@@ -1,7 +1,7 @@
 import { useState } from "react"
 import Id_paciente from "./id_paciente"
-import Ver_Mas from "./mas_esp"
-import AgregarEspiro from "@/app/componenetes/agregar_s_form"
+import Ver_Mas from "../mas_esp"
+import AgregarEspiro from "@/app/medic/Components/forms/spirometryForm"
 import { Dispatch, SetStateAction } from "react";
 
 export default function Paciente({ pacienteId, Pagina }: {

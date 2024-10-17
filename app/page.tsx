@@ -1,13 +1,13 @@
 import Image from "@/node_modules/next/image";
 
-import About from "./componenetes/about";
-import Funcion from "./componenetes/funcion";
-import Presicion from "./componenetes/precicion";
-import Tutorial from "./componenetes/tutorial";
-import Contacto from "./componenetes/contacto";
-import Link from "next/link";
-import { auth } from "@/auth";
-//hola hola
+import About from "./componenetes/landingPage/about";
+import Funcion from "./componenetes/landingPage/funcion";
+import Presicion from "./componenetes/landingPage/precicion";
+import Tutorial from "./componenetes/landingPage/tutorial";
+import Contacto from "./componenetes/landingPage/contacto";
+
+//import { auth } from "@/auth";
+
 export default function Home() {
   return (
     <main className="overscroll-x-contain overflow-hidden flex flex-col justify-center bg-fondo_light ">

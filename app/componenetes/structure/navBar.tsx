@@ -2,9 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { auth } from "@/auth";
-import Logout from "../medic/Components/logOut_button";
-import { link } from "fs";
-import Dropdown from "../medic/Components/menu";
+import Dropdown from "../menu";
 
 
 export default async function Navbar() {

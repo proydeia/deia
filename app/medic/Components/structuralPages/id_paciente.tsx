@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
-import { Patient } from "@/app/lib/dbSchema/schema";
-import { getPatient } from "@/app/api/patient";
-import { getSpirometriesList } from "@/app/api/spirometry";
-import { Spirometry } from "@/app/lib/dbSchema/schema";
+
+import { Patient } from "$/dbSchema/schema";
+import { Spirometry } from "$/dbSchema/schema";
+
+import { getPatient } from "#/medic/patient";
+import { getSpirometriesList } from "#/medic/spirometry";
+
 import Instrucciones from "./instrucciones";
-import ByebyeButton from "./byebyeButton";
+import ByebyeButton from "../delSpirometryButton";
+
 import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
-import Paciente from "./paciente";
+
 interface Props {
   pacienteId: string; // ID passed as a prop
   Pagina: Dispatch<SetStateAction<string>>;

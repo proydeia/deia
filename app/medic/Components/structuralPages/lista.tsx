@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { getPatientsList } from "@/app/api/patient"; // Assuming these functions return promises or async dataimport { map, string } from "zod";
+import { getPatientsList } from "#/medic/patient"; // Assuming these functions return promises or async dataimport { map, string } from "zod";
 import { Patient } from "@/app/lib/dbSchema/schema";
 import { Dispatch, SetStateAction } from "react";
 
