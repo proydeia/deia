@@ -10,7 +10,7 @@ export default function Contacto() {
           ¿Tenés alguna pregunta? Nuestro equipo está acá para ayudar.
         </p>
       </div>
-      <div className="w-full flex flex-col md:flex-row justify-center items-start gap-4 ">
+      <div className="w-full flex flex-col md:flex-row items-start gap-4 ">
         <div className="w-full md:w-1/2 flex flex-col items-start gap-4 ml-0 md:ml-6">
         {/*
           <div className="flex flex-row gap-2 justify-center items-center ">
