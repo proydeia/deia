@@ -1,12 +1,12 @@
 import { userData } from '@/app/api/auth/userData';
 import { list } from '@vercel/blob';
 
-export async function GET(request: Request) {
+export async function POST(): Promise<{file:any, aproved:boolean}> {
   const user = await userData();
-  const { blobs } = await list({ prefix: 'pdf' });
+  const { blobs } = await list();
   
-  if(!user) return Response.redirect('/login');
-  if(!blobs) return;
+  if(!user) return { file: null, aproved: false };
+  if(!blobs) return { file: null, aproved: false };
 
   const blob = blobs.find((blob) => {
     if(blob.pathname.includes(`${user.id}.pdf`)) return blob;
@@ -14,8 +14,8 @@ export async function GET(request: Request) {
 
   if(!blob) return { file: null, aproved: false };
 
-  return Response.json({
+  return {
     file: blob, 
     aproved: blob.pathname.includes('aproved')
-  });
+  };
 }
