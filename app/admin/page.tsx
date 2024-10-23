@@ -9,7 +9,8 @@ import {retrive} from '#/admin/PDF/retrive/retriveFile';
 export default async function adminPage() {
     const { file, aproved} = await retrive();
     const medicos = await getMedicList();
-    return (
+    return
+    (
         <main>
             <div>
                 <h1 className='text-center font-black m-3'>Admin page</h1>                
