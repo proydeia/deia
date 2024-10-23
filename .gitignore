@@ -52,3 +52,4 @@ dist/
 venv/
 .vercel
 .venv
+ds/testpdf.py

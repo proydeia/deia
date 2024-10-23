@@ -62,6 +62,13 @@ class SpirometryLLN(Spirometry):
     #LLN = lin - Comparación con minimo o punto fijo.
     fvcpred: float
 
+class SpirometryGLI(Spirometry):
+    #Edad (podes tener 32.86 años por ejemplo)
+    edad: float
+    #0F 1M
+    sexo: int
+    altura: float
+
 class SpirometryPlus(SpirometryLLN):
     #Edad (podes tener 15.63 años por ejemplo)
     edad: float
@@ -84,7 +91,7 @@ async def predictobs(spirometry: SpirometryLLN):
         return {"result": 1} #Leve - GOLD 1
     
 @app.post("/obstructiongli")
-async def predictobsGLI(spirometry: SpirometryPlus):
+async def predictobsGLI(spirometry: SpirometryGLI):
     predictionsFEV1 = get_fev1_pred(spirometry.sexo, spirometry.edad, spirometry.altura)
     predictionsFraction = get_fev1_fvc_pred(spirometry.sexo, spirometry.edad, spirometry.altura)
 
@@ -108,7 +115,7 @@ async def predictobsai(spirometry: SpirometryPlus):
     return {"result": str(res[0][0])}
 
 @app.post("/obstructionaigli")
-async def predictobsai(spirometry: SpirometryPlus):
+async def predictobsai(spirometry: SpirometryGLI):
     if model3 is None:
         return {"result": -1}
     x = np.array([[spirometry.fev1, spirometry.fvc, spirometry.edad, spirometry.sexo, spirometry.altura]])
@@ -118,7 +125,7 @@ async def predictobsai(spirometry: SpirometryPlus):
     return {"result": str(res[0][0])}
 
 @app.post("/obstructionaiglicategorical")
-async def predictobsai(spirometry: SpirometryPlus):
+async def predictobsai(spirometry: SpirometryGLI):
     if model4 is None:
         return {"result1": -1, "result2": -1}
     x = np.array([[spirometry.fev1, spirometry.fvc, spirometry.edad, spirometry.sexo, spirometry.altura]])
@@ -148,7 +155,7 @@ async def predictresai(spirometry: SpirometryPlus):
     return {"result": str(res[0])}
     
 @app.post("/restrictiongli")
-async def predictresgli(spirometry: SpirometryPlus):
+async def predictresgli(spirometry: SpirometryGLI):
     predictionsFVC = get_fvc_pred(spirometry.sexo, spirometry.edad, spirometry.altura)
     predictionsFraction = get_fev1_fvc_pred(spirometry.sexo, spirometry.edad, spirometry.altura)
 
@@ -158,7 +165,7 @@ async def predictresgli(spirometry: SpirometryPlus):
     return {"result": 0}
     
 @app.post("/restrictionaigli")
-async def predictresai(spirometry: SpirometryPlus):
+async def predictresai(spirometry: SpirometryGLI):
     if model5 is None:
         return {"result": -1}
     x = np.array([spirometry.fev1, spirometry.fvc, spirometry.edad, spirometry.sexo, spirometry.altura])
