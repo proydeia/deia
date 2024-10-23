@@ -12,6 +12,8 @@ export async function GET(request: Request) {
     if(blob.pathname.includes(`${user.id}.pdf`)) return blob;
   });
 
+  if(!blob) return { file: null, aproved: false };
+
   return Response.json({
     file: blob, 
     aproved: blob.pathname.includes('aproved')
