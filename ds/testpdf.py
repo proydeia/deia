@@ -41,3 +41,13 @@ def extract_fvc_fev1(text: str) -> dict:
 text = extract_text_from_pdf('ds/sampleSpirometry1.pdf')
 result = extract_fvc_fev1(text)
 print(result)
+
+data = {"fev1": result["fev1"], "fvc": result["fvc"],     
+    "fev1pred": 1.5,
+    "fvcpred": 2.1,
+    "edad": 18,
+    "sexo": 1,
+    "altura": 172,
+    "peso": 76}
+response = requests.post("http://localhost:8000/obstructionaigli", json=data)
+print(response.json())
