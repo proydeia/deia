@@ -1,5 +1,5 @@
 "use server";
-import db, { Patient } from "$/dbSchema/schema";
+import db, { Patient } from "@/app/lib/dbSchema/schema";
 import { uuid } from "../ID";
 import { userData } from "../auth/userData";
 import { patientFormSchema, patientState } from '@/app/lib/formsDefinitions/patientFormDefinition';

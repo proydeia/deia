@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { getPatientsList } from "#/medic/patient"; // Assuming these functions return promises or async dataimport { map, string } from "zod";
+import { getPatientsList } from "@/app/api/medic/patient"; // Assuming these functions return promises or async dataimport { map, string } from "zod";
 import { Patient } from "@/app/lib/dbSchema/schema";
 import { Dispatch, SetStateAction } from "react";
 
@@ -12,17 +12,30 @@ export default function Lista_y_Busqueda({ Pagina }: {
   const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
 
   const NavigetoComp2 = (Id: string) => {
-    console.log("Clicked on:", Id)
-    console.log(Pagina);
+    // console.log("Clicked on:", Id)
+    // console.log(Pagina);
     Pagina(Id)
    }
   
    useEffect(() => {
     const fetchData = async () => {
       try {
-        const patients: Patient[] = await getPatientsList(); // Assuming getPacientsList returns Patient[]
-        setPatientsList(patients);
-      } catch (error: unknown) {
+        const patients = await getPatientsList(); // Assuming this returns only { id: string, name: string }[]
+    
+        // Map the data to include default values for missing fields
+        const fullPatientsList: Patient[] = patients.map((patient: { id: string; name: string }): Patient => ({
+          id: patient.id,
+          name: patient.name,
+          extrainfo: "", // Default value for missing fields
+          medic: "Unknown",
+          peso: 0,
+          altura: 0,
+          nacimiento: new Date(),
+          sexo: 0,
+        }));
+    
+        setPatientsList(fullPatientsList);
+      } catch (error) {
         console.error(error);
       }
     };
@@ -31,7 +44,7 @@ export default function Lista_y_Busqueda({ Pagina }: {
   }, []);
 
   useEffect(() => {
-    const filteredList = patientsList.filter((patient) =>
+    const filteredList = patientsList.filter((patient: Patient) =>
       patient.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredPatients(filteredList);

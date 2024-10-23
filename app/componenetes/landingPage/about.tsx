@@ -32,7 +32,7 @@ export default function About() {
             className="animate-rotate-y animate-once animate-duration-[2000ms] animate-delay-1000 animate-ease-in-out animate-fill-both"
           />
           <p className="mt-4 py-2 sm:py-2 px-2 text-center font-bold text-md sm:text-xl">
-            Tomás Gorodetsky
+            Tomás Gorodetzky
           </p>
             <p className="text-sm font-subtitulo font-medium text-center">IA Developer</p>
         </div>

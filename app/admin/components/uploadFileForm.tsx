@@ -1,30 +1,41 @@
-"use client";
-import React, { useState } from "react";
-import { uploadFile } from "../../api/admin/uploadFile";
-
-export default function UploadForm() {
-  const [file, setFile] = useState<File | null>(null);
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      setFile(event.target.files[0]);
-    }
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append("file", file);
-
-    await uploadFile(formData);
-  };
-
+'use client';
+ 
+import { type PutBlobResult } from '@vercel/blob';
+import { useState, useRef } from 'react';
+ 
+export default function AvatarUploadPage() {
+  const inputFileRef = useRef<HTMLInputElement>(null);
+  const [blob, setBlob] = useState<PutBlobResult | null>(null);
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="file" onChange={handleFileChange} />
-      <button type="submit">Upload</button>
-    </form>
+    <>
+      <h1>Upload Your PDF</h1>
+ 
+      <form
+        onSubmit={async (event) => {
+          event.preventDefault();
+ 
+          if (!inputFileRef.current?.files) {
+            throw new Error('No file selected');
+          }
+ 
+          const file = inputFileRef.current.files[0];
+
+          const response = await fetch(`/api/admin/PDF/upload`,
+            {
+              method: 'POST',
+              body: file,
+            },
+          );
+        }}
+      >
+        <input name="file" ref={inputFileRef} type="file" required />
+        <button type="submit">Upload</button>
+      </form>
+      {blob && (
+        <div>
+          Blob url: <a href={blob.url}>{blob.url}</a>
+        </div>
+      )}
+    </>
   );
 }

@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import { Spirometry } from "@/app/lib/dbSchema/schema";
 import { useState, useEffect } from "react";
-import { getSpirometry } from "#/medic/spirometry";
+import { getSpirometry } from "@/app/api/medic/spirometry";
 import ByebyeButton from "./delSpirometryButton";
 export default function Ver_Mas({
   Pagina,

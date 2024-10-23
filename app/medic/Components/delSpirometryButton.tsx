@@ -1,5 +1,5 @@
-import { deleteSpirometry } from "#/medic/spirometry";
-import { deletePatient } from "#/medic/patient";
+import { deleteSpirometry } from "@/app/api/medic/spirometry";
+import { deletePatient } from "@/app/api/medic/patient";
 
 export default function ByebyeButton({ tabla, id }: { tabla: string, id: string }) {
     const Persona = () =>{

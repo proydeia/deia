@@ -30,10 +30,10 @@ export default function Funcion() {
                         className="relative top-0 -left-0 z-30 animate-rotate-y animate-once animate-delay-[300ms] animate-ease-in-out animate-normal "
                     />
                     <div>
-                        <h2 className="text-lg font-bold text-center mb-0 md:mb-3">Resultados inmediatos</h2>
+                        <h2 className="text-lg font-bold text-center mb-0 md:mb-3">Resultados precisos</h2>
 
                     </div>
-                    <p className="text-sm font-light text-center px-6 mb-6 hidden md:block">En tan solo algunos segundos, nuestra IA se encargará de aportar al médico un análisis de la espirometría. </p>
+                    <p className="text-sm font-light text-center px-6 mb-6 hidden md:block">Nuestra IA se encarga de analizar los datos de la espirometría para brindar un diagnóstico preciso. </p>
                 </div>
                 <div className="flex flex-row  md:flex-col justify-center items-center gap-4 w-full bg-white shadow-lg py-4 rounded-xl">
                     {/* <div className="w-10 h-10 rounded-xl bg-third mt-6 mb-3"></div> */}
@@ -45,8 +45,9 @@ export default function Funcion() {
                         height={45}
                         className="relative top-0 -left-0 z-30 animate-rotate-y animate-once animate-delay-[300ms] animate-ease-in-out animate-normal "
                     />
-                    <h2 className="text-lg font-bold text-center mb-0 md:mb-3">Resultados inmediatos</h2>
-                    <p className="text-sm font-light text-center px-6 mb-6 hidden md:block">En tan solo algunos segundos, nuestra IA se encargará de aportar al médico un análisis de la espirometría. </p>
+                    {/* Comentario epico */}
+                    <h2 className="text-lg font-bold text-center mb-0 md:mb-3">Resultados confiables</h2>
+                    <p className="text-sm font-light text-center px-6 mb-6 hidden md:block">Nuestros modelos de IA están entrenados para brindar resultados confiables gracias a la base de datos con la que trabajamos. </p>
                 </div>
 
             </div>
