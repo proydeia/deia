@@ -1,7 +1,7 @@
 "use client";
 import FormButton from "@/app/componenetes/form_button";
 import { useState } from "react";
-import { createPatient } from "#/medic/patient";
+import { createPatient } from "@/app/api/medic/patient";
 import { Dispatch, SetStateAction } from "react";
 import { useFormState } from "react-dom";
 import Image from "next/image";

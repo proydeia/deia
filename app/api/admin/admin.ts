@@ -1,8 +1,8 @@
 "use server"
-import { uuid } from "#/ID";
+import { uuid } from "@/app/api/ID";
 import { userData } from "@/app/api/auth/userData";
-import db, { Medic } from "$/dbSchema/schema";
-import { medicFormSchema, medicState } from "$/formsDefinitions/medicFormDefinition";
+import db, { Medic } from "@/app/lib/dbSchema/schema";
+import { medicFormSchema, medicState } from "@/app/lib/formsDefinitions/medicFormDefinition";
 
 // Pacientes
 
@@ -67,13 +67,11 @@ export async function deleteUser(userId: string) {
                 .where('users.id', '=', userId)
                 .executeTakeFirstOrThrow();
         });
-        console.log('Usuario eliminado con éxito.')
         return {
             message:'Usuario eliminado con éxito.'
         }
     }
     catch(error:unknown){
-        console.log('Error al eliminar registro.', error)
         return {
             message:'Error al eliminar registro.'
         }

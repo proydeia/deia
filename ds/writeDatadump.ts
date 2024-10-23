@@ -45,7 +45,6 @@ export async function writeJSON() {
     }
 
     catch(error:unknown){
-        console.log(error)
         throw new Error;
     }
 }

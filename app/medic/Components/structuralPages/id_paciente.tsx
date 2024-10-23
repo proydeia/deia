@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
-import { Patient } from "$/dbSchema/schema";
-import { Spirometry } from "$/dbSchema/schema";
+import { Patient } from "@/app/lib/dbSchema/schema";
+import { Spirometry } from "@/app/lib/dbSchema/schema";
 
-import { getPatient } from "#/medic/patient";
-import { getSpirometriesList } from "#/medic/spirometry";
+import { getPatient } from "@/app/api/medic/patient";
+import { getSpirometriesList } from "@/app/api/medic/spirometry";
 
 import Instrucciones from "./instrucciones";
 import ByebyeButton from "../delSpirometryButton";

@@ -108,7 +108,6 @@ export async function login(inputData:{name: string, password: string}){
 
     catch(error: unknown)
     {
-        console.log(error);
         return{
             error: await error
         };

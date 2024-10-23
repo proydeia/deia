@@ -1,7 +1,7 @@
 "use server"
 const axios = require('axios');
-import { spirometryFormSchema, spirometrieState } from "$/formsDefinitions/spirometryFormDefinition";
-import db, { newSpirometry, Spirometry } from "$/dbSchema/schema";
+import { spirometryFormSchema, spirometrieState } from "@/app/lib/formsDefinitions/spirometryFormDefinition";
+import db, { newSpirometry, Spirometry } from "@/app/lib/dbSchema/schema";
 import { uuid } from "../ID";
 import { userData } from "../auth/userData";
 
@@ -106,7 +106,6 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
         };
     }
     catch(error:unknown){
-        console.log(error)   
         return {
             message: 'Error al generar registro. Intente nuevamente.'
         };
@@ -136,7 +135,6 @@ async function loadSpirometry(data:spirometryInput){
             return res.data.result;
         })
         .catch((error:unknown) => {
-            console.error(JSON.stringify(error))
             throw new Error('O');
         })
         
@@ -146,7 +144,6 @@ async function loadSpirometry(data:spirometryInput){
             return res.data.result;
         })
         .catch((error:unknown) => {
-            console.log(JSON.stringify(error))
             throw new Error('Oia');
         })
         
@@ -156,7 +153,6 @@ async function loadSpirometry(data:spirometryInput){
             return res.data.result;
         })
         .catch((error:unknown) => {
-            console.log(JSON.stringify(error))
             throw new Error('R');
         })
         
@@ -166,7 +162,6 @@ async function loadSpirometry(data:spirometryInput){
             return res.data.result;
         })
         .catch((error:unknown) => {
-            console.log(JSON.stringify(error))
             throw new Error('Ria');
         })
             
@@ -202,7 +197,6 @@ async function loadSpirometry(data:spirometryInput){
 
     }
     catch(error:unknown){
-        console.log(error)
         throw new Error('D');
     }
 }

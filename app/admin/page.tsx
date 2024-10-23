@@ -4,9 +4,10 @@ import {getMedic, getMedicList, deleteUser} from '@/app/api/admin/admin';
 import Form from './components/medicForm';
 
 import UploadForm from './components/uploadFileForm';
-import {submitedFile, aprovedFile} from '../api/admin/retriveFile';
+import {retrive} from '#/admin/PDF/retrive/retriveFile';
 
 export default async function adminPage() {
+    const { file, aproved} = await retrive();
     const medicos = await getMedicList();
     return (
         <main>
@@ -36,20 +37,23 @@ export default async function adminPage() {
                 </div>
                 <div className='bg-primary m-5 flex'>
                     { 
-                        !!await aprovedFile() ? (
+                        !file? (
                             <>
-                                <h3>Archivo subido</h3>
+                                <UploadForm/>
                             </>
                         ): 
                         
-                        !!await submitedFile() ? (
+                        !aproved ? (
                             <>
                                 <h3>Archivo en espera de aprobacion</h3>
                             </>
                         )
                     
                         :(
-                            <UploadForm/>
+                            <>
+                                <h3>Archivo aprobado</h3>
+                                <a href={file.downloadUrl}>Descargar</a>
+                            </>
                         )
                     }
                 </div>

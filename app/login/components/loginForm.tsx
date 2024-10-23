@@ -1,5 +1,5 @@
 "use client";
-import { authenticate } from "#/auth/credentialAuthentication";
+import { authenticate } from "@/app/api/auth/credentialAuthentication";
 import { useFormState } from "react-dom";
 import FormButton from "../../componenetes/form_button";
 

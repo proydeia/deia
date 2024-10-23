@@ -27,7 +27,6 @@ export default async function Navbar() {
   //  }, []);
 
   const session = await auth();
-  console.log(!!await auth());
   return (
     <>
       <nav className="bg-primary_light    bg-fixed shadow-lg fixed z-40 top-0 left-0 right-0">
