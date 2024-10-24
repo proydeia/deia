@@ -6,16 +6,3 @@ export async function POST(request: Request) {
     const { blobs } = await list();
     return Response.json(blobs)
 }
-
-export async function deleteFile() {
-    const user = await userData();
-    const { blobs } = await list();
-    
-    if(!user || !blobs) return;
-
-    blobs.forEach((blob) => {
-        if(blob.pathname.includes(user.id)){
-            del(blob.url);
-        };
-    });
-}
