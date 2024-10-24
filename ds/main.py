@@ -91,6 +91,9 @@ async def predictobsgold(spirometry: SpirometryLLN):
     
 @app.post("/obstructiongli")
 async def predictobsgli(spirometry: SpirometryGLI):
+    if spirometry.sexo < 0 or spirometry.altura < 0 or spirometry.edad < 0:
+        return {"result": -1}
+
     predictionsFEV1 = get_fev1_pred(spirometry.sexo, spirometry.edad, spirometry.altura)
     predictionsFraction = get_fev1_fvc_pred(spirometry.sexo, spirometry.edad, spirometry.altura)
 
@@ -155,6 +158,9 @@ async def predictresaigold(spirometry: SpirometryPlus):
     
 @app.post("/restrictiongli")
 async def predictresgli(spirometry: SpirometryGLI):
+    if spirometry.sexo < 0 or spirometry.altura < 0 or spirometry.edad < 0:
+        return {"result": -1}
+
     predictionsFVC = get_fvc_pred(spirometry.sexo, spirometry.edad, spirometry.altura)
     predictionsFraction = get_fev1_fvc_pred(spirometry.sexo, spirometry.edad, spirometry.altura)
 
