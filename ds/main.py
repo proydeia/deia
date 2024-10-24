@@ -3,7 +3,6 @@ from pydantic import BaseModel
 import pickle
 import os
 import numpy as np
-import pandas as pd
 from gli_api import get_fev1_fvc_pred, get_fev1_pred, get_fvc_pred
 
 app = FastAPI()
@@ -78,7 +77,7 @@ class SpirometryPlus(SpirometryLLN):
     peso: float
 
 @app.post("/obstructiongold")
-async def predictobs(spirometry: SpirometryLLN):
+async def predictobsgold(spirometry: SpirometryLLN):
     if spirometry.fev1 / spirometry.fvc >= 0.7: return {"result": 0}
     res = spirometry.fev1 / spirometry.fev1pred
     if res < 0.3:
@@ -91,7 +90,7 @@ async def predictobs(spirometry: SpirometryLLN):
         return {"result": 1} #Leve - GOLD 1
     
 @app.post("/obstructiongli")
-async def predictobsGLI(spirometry: SpirometryGLI):
+async def predictobsgli(spirometry: SpirometryGLI):
     predictionsFEV1 = get_fev1_pred(spirometry.sexo, spirometry.edad, spirometry.altura)
     predictionsFraction = get_fev1_fvc_pred(spirometry.sexo, spirometry.edad, spirometry.altura)
 
@@ -105,7 +104,7 @@ async def predictobsGLI(spirometry: SpirometryGLI):
     return {"result": 0} #Nada
     
 @app.post("/obstructionaigold")
-async def predictobsai(spirometry: SpirometryPlus):
+async def predictobsaigold(spirometry: SpirometryPlus):
     if model1 is None:
         return {"result": -1}
     x = np.array([[spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso]])
@@ -115,7 +114,7 @@ async def predictobsai(spirometry: SpirometryPlus):
     return {"result": str(res[0][0])}
 
 @app.post("/obstructionaigli")
-async def predictobsai(spirometry: SpirometryGLI):
+async def predictobsaigli(spirometry: SpirometryGLI):
     if model3 is None:
         return {"result": -1}
     x = np.array([[spirometry.fev1, spirometry.fvc, spirometry.edad, spirometry.sexo, spirometry.altura]])
@@ -125,7 +124,7 @@ async def predictobsai(spirometry: SpirometryGLI):
     return {"result": str(res[0][0])}
 
 @app.post("/obstructionaiglicategorical")
-async def predictobsai(spirometry: SpirometryGLI):
+async def predictobsaiglicategorical(spirometry: SpirometryGLI):
     if model4 is None:
         return {"result1": -1, "result2": -1}
     x = np.array([[spirometry.fev1, spirometry.fvc, spirometry.edad, spirometry.sexo, spirometry.altura]])
@@ -137,7 +136,7 @@ async def predictobsai(spirometry: SpirometryGLI):
     return {"result1": str(top1), "result2": str(top2)}
 
 @app.post("/restrictiongold")
-async def predictres(spirometry: SpirometryLLN):
+async def predictresgold(spirometry: SpirometryLLN):
     f1res = spirometry.fev1 / spirometry.fvc
     if f1res < 0.7: return {"result": 0}
     fvctopred = spirometry.fvc / spirometry.fvcpred
@@ -147,7 +146,7 @@ async def predictres(spirometry: SpirometryLLN):
         return {"result": 0}
     
 @app.post("/restrictionaigold")
-async def predictresai(spirometry: SpirometryPlus):
+async def predictresaigold(spirometry: SpirometryPlus):
     if model2 is None:
         return {"result": -1}
     x = np.array([spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso])
@@ -165,7 +164,7 @@ async def predictresgli(spirometry: SpirometryGLI):
     return {"result": 0}
     
 @app.post("/restrictionaigli")
-async def predictresai(spirometry: SpirometryGLI):
+async def predictresaigli(spirometry: SpirometryGLI):
     if model5 is None:
         return {"result": -1}
     x = np.array([spirometry.fev1, spirometry.fvc, spirometry.edad, spirometry.sexo, spirometry.altura])
