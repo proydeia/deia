@@ -4,7 +4,7 @@ import { getMedic, getMedicList, deleteUser } from '@/app/api/admin/admin';
 import Form from './components/medicForm';
 import UploadForm from './components/uploadFileForm';
 import {retrive} from '#/admin/PDF/retrive/retriveFile';
-import { deleteFile } from '#/admin/PDF/delete/route';
+import { deleteFile } from '#/admin/PDF/delete/deleteFile';
 
 export default async function adminPage() {
     const { file, aproved } = await retrive();
