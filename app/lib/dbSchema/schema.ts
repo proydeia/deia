@@ -1,6 +1,7 @@
+
 import { Insertable, Selectable, TableExpression, Updateable, } from "kysely";
 import { createKysely, } from '@vercel/postgres-kysely'; 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 //-----------> Hashing:
 
@@ -47,7 +48,7 @@ interface patientTable {
 interface spirometryTable {
     id: string; //Primary KEY
     obstruction: number;
-    obstructionia: number;
+    obstructionai: number;
     restriction: number;
     restrictionai: number;
     patient: string; //Foreing KEY
@@ -78,38 +79,42 @@ export type Spirometry = Selectable<spirometryTable>;
 export type newPatient = Insertable<patientTable>;
 export type Patient = Selectable<patientTable>;
 
+export type newMedic = Insertable<userTable>;
+export type Medic = Selectable<userTable>;
+
 export type DatabaseType = Database;
 
 export default db;
 
-//-----------> Queries:
+//-----------> basic methods that i liked in here hehe
 
 export async function login(inputData:{name: string, password: string}){
     try{
         const user = await db
         .selectFrom("users")
         .where("users.name", "=", inputData.name)
-        .select(["id", "name", "password", "adm"])
+        .select(["id", "name", "password", "adm", "organization"])
         .executeTakeFirst();
 
-        if( !user || !await compare(user.password,inputData.password) ) return null;
+        if( !user || !await compare(user.password,inputData.password)) return null;
 
-        //if (!await compare(user.password,inputData.password)) return null;
-        console.log(inputData)
         return {
-
             id: user.id,
             name: user.name,
-            adm: user.adm,   
-
+            adm: user.adm,
+            organization: user.organization
         };
     }
 
     catch(error: unknown)
     {
-        console.log(error);
         return{
             error: await error
         };
     };
+};
+
+export async function googleOauth(email:string){
+    const user = await db.selectFrom("users").where("name", "=", email).select(["id", "name", "adm", "organization"]).executeTakeFirst();
+    return user;
 };

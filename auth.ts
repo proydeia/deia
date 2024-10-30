@@ -1,37 +1,28 @@
-import NextAuth, { User } from 'next-auth';
+import NextAuth, { DefaultSession, User } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './auth.config';
-import { login, hash } from './app/lib/dbSchema/schema';
+import { login, hash, googleOauth } from './app/lib/dbSchema/schema';
+import google from 'next-auth/providers/google';
 
+declare module "next-auth" {
+  interface Session {
+    user: {
+      address: string,
+      id: string,
+      adm: boolean | null,
+      organization: string
+    } & DefaultSession["user"]
+  }
+  interface User {
+    address: string,
+    adm: boolean,
+    organization: string,
+  }
+}
 
 //extend the auth.config object with the login and logout functions
  
-export const { auth, signIn, signOut } = NextAuth({
+export const { auth, signIn, signOut, handlers } = NextAuth({
+  secret: process.env.AUTH_SECRET,
   ...authConfig,
-  providers: [
-    Credentials({
-      name: 'Credentials',
-      
-      credentials: {
-        user: { label: "user", type: "text" },
-        password: {  label: "password", type: "password" }
-      },
-      
-      async authorize(credentials) {
-        console.log(credentials)
-        let user = null;
-
-        const username = credentials.user as string;
-        const password = credentials.password as string;
-        
-        const inputData:{name:string, password:string} = {name: username, password: await hash(password)};
-
-        user = await login(inputData);
-
-        if(!user || user.error) return null;
-
-        return user as User;
-      },
-    }),
-  ],
 });
