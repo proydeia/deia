@@ -1,0 +1,55 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+model organizations {
+  name     String @id @db.VarChar(255)
+  maxUsers Int
+  users    users[]
+  aproved  Boolean @default(false)
+}
+
+model users {
+  name          String        @id @db.VarChar(255)
+  adm           Boolean
+  password      String        @db.VarChar(255)
+  organization  String        @db.VarChar(255)
+  patients      patients[]
+  organizations organizations @relation(fields: [organization], references: [name], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model patients {
+  id           String         @id @db.VarChar(255)
+  name         String         @db.VarChar(255)
+  extrainfo    String?        @db.VarChar(255)
+  medic        String         @db.VarChar(255)
+  peso         Float
+  altura       Float
+  nacimiento   DateTime       @db.Date
+  sexo         Int
+  users        users          @relation(fields: [medic], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  spirometries spirometries[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model spirometries {
+  id               String   @id @db.VarChar(255)
+  obstruction      Int
+  restriction      Int
+  patient          String   @db.VarChar(255)
+  date             DateTime @db.Date
+  fev1             Float
+  fev1pred         Float
+  fvc              Float
+  fvcpred          Float
+  correctionobs    Int      @default(-1)
+  correctionobsmed Int      @default(-1)
+  correctionres    Int      @default(-1)
+  correctionresmed Int      @default(-1)
+  enjson           Int      @default(0)
+  restrictionai    Float
+  obstructionai    Float?
+  patients         patients @relation(fields: [patient], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}

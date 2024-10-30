@@ -4,8 +4,6 @@ import Form from "./components/medicForm";
 import UploadForm from "./components/uploadFileForm";
 import { retrive } from "#/admin/PDF/retrive/retriveFile";
 import { deleteFile } from "#/admin/PDF/delete/deleteFile";
-import ListaMedic from "./components/listaMedic";
-
 
 export default async function adminPage() {
   const { file, aproved } = await retrive();
