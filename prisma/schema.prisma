@@ -1,0 +1,55 @@
+datasource db {
+  provider = "postgresql"
+  url      = "postgres://default:HnVxZN1SDea2@ep-misty-snow-a4608mqj-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
+}
+
+model Organization {
+  name     String @id @db.VarChar(255)
+  maxUsers Int
+  aproved  Boolean @default(false)
+  users    User[]
+}
+
+model User {
+  email         String        @id @db.VarChar(255)
+  adm           Boolean
+  password      String        @db.VarChar(255)
+  organization  String        @db.VarChar(255)
+  patients      Patient[]
+  organizations Organization  @relation(fields: [organization], references: [name], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Patient {
+  id           String         @id @db.VarChar(255)
+  name         String         @db.VarChar(255)
+  extrainfo    String?        @db.VarChar(255)
+  medic        String         @db.VarChar(255)
+  peso         Float
+  altura       Float
+  nacimiento   DateTime       @db.Date
+  sexo         Int
+  users        User           @relation(fields: [medic], references: [email], onDelete: NoAction, onUpdate: NoAction)
+  spirometries Spirometry[]
+}
+
+model Spirometry {
+  id                String   @id @db.VarChar(255)
+  patient           String   @db.VarChar(255)
+  date              DateTime @db.Date
+  gold              Boolean @default(false)
+  gli               Boolean @default(false)
+  fev1              Float
+  fev1pred          Float
+  fvc               Float
+  fvcpred           Float
+  obstruction       Int
+  obstructionai     Float
+  restriction       Int
+  restrictionai     Float
+  correctionobsGold Int      @default(-1)
+  correctionobsGLI  Int      @default(-1)
+  correctionresGold Int      @default(-1)
+  correctionresGLI  Int      @default(-1)
+  enjson            Int      @default(0)
+  patients         Patient  @relation(fields: [patient], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
