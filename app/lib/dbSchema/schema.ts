@@ -1,22 +1,6 @@
 
-import { Insertable, Selectable, TableExpression, Updateable, } from "kysely";
+import { Insertable, Selectable } from "kysely";
 import { createKysely, } from '@vercel/postgres-kysely'; 
-const bcrypt = require('bcryptjs');
-
-//-----------> Hashing:
-
-export async function hash(data:string) {
-    return bcrypt.hash(data, 10).then(function(hash:string) {
-        return hash;
-    });
-}
-
-export async function compare(data:string, hash:string): Promise<boolean> {
-    return bcrypt.compare(data, hash).then(function(result:boolean): boolean {
-        return result;
-    });
-}
-
 //-----------> Database:
 
 interface organizationTable {
@@ -85,39 +69,3 @@ export type Medic = Selectable<userTable>;
 export type DatabaseType = Database;
 
 export default db;
-
-//-----------> basic methods that i liked in here hehe
-
-export async function login(inputData:{name: string, password: string}){
-    try{
-        console.log(123131313123);
-        const user = await db
-        .selectFrom("userTable")
-        .where("userTable.name", "=", inputData.name)
-        .select(["id", "name", "password", "adm", "organization"])
-        .executeTakeFirst();
-
-        console.log(2222, user);
-        if( !user || !await compare(user.password,inputData.password)) return null;
-
-        return {
-            id: user.id,
-            name: user.name,
-            adm: user.adm,
-            organization: user.organization
-        };
-    }
-
-    catch(error: unknown)
-    {
-        console.log(123, error);
-        return{
-            error: await error
-        };
-    };
-};
-
-export async function googleOauth(email:string){
-    const user = await db.selectFrom("userTable").where("name", "=", email).select(["id", "name", "adm", "organization"]).executeTakeFirst();
-    return user;
-};

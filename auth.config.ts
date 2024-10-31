@@ -1,9 +1,9 @@
 import type { NextAuthConfig, User  } from 'next-auth';
 import { NextResponse } from 'next/server';
-import { googleOauth, hash, login } from './app/lib/dbSchema/schema';
+import { hash } from "#/auth/salt&hash";
+import { login, googleOauth } from "#/auth/credentialLogin";
 import Credentials from 'next-auth/providers/credentials';
 import google from 'next-auth/providers/google';
-import { Console } from 'console';
 
 export const authConfig = {
   pages: {

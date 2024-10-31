@@ -2,6 +2,9 @@ datasource db {
   provider = "postgresql"
   url      = "postgres://default:HnVxZN1SDea2@ep-misty-snow-a4608mqj-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
 }
+generator client {
+  provider = "prisma-client-js"
+}
 
 model Organization {
   name     String @id @db.VarChar(255)
