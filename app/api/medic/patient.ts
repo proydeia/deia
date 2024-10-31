@@ -6,7 +6,7 @@ import { patientFormSchema, patientState } from '$/formsDefinitions/patientFormD
 
 // Pacientes
 
-export async function getPatientTableList(){
+export async function getPatientsList(){
     
     const user = await userData();
     if (!user || user.adm) throw new Error('U');

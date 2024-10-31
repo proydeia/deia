@@ -24,7 +24,7 @@ type spirometryInput = {
 
 // Espirometrias
 
-export async function getSpirometryTableList (patientId: string): Promise < Spirometry[] > {
+export async function getSpirometryList (patientId: string): Promise < Spirometry[] > {
     
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
