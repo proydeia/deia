@@ -40,7 +40,7 @@ export const spirometryFormSchema = z.object({
 
   })
  
-export type spirometrieState =
+export type spirometryState =
   | {
       errors?: {
         id?:        string[]

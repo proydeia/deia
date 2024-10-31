@@ -13,7 +13,7 @@ export async function getMedicList(): Promise < Medic[] > {
  
     try{    
         return await db
-        .selectFrom("users")
+        .selectFrom("userTable")
         .where("adm", "=", false)
         .where("organization", "=", user.organization)
         .selectAll()
@@ -30,10 +30,10 @@ export async function getMedic(medicId:string): Promise < Medic > {
     if (!user || !user.adm) throw new Error('U');
     try{
         return await db
-        .selectFrom("users")
+        .selectFrom("userTable")
         .where("adm", "=", false)
         .where("organization", "=", user.organization)
-        .where("users.id", "=", medicId)
+        .where("userTable.id", "=", medicId)
         .selectAll()
         .executeTakeFirstOrThrow();
     }
@@ -49,22 +49,22 @@ export async function deleteUser(userId: string) {
     try{
         await db.connection().execute(async (trx) => {
             await trx
-                .deleteFrom('spirometries')
-                .where('spirometries.patient', 'in', 
-                    trx.selectFrom('patients')
-                      .select('patients.id')
-                      .where('patients.medic', '=', userId)
+                .deleteFrom('spirometryTable')
+                .where('spirometryTable.patient', 'in', 
+                    trx.selectFrom('patientTable')
+                      .select('patientTable.id')
+                      .where('patientTable.medic', '=', userId)
                 )
                 .executeTakeFirstOrThrow();
 
             await trx
-                .deleteFrom('patients')
-                .where('patients.medic', '=', userId)
+                .deleteFrom('patientTable')
+                .where('patientTable.medic', '=', userId)
                 .executeTakeFirstOrThrow();
 
             await trx
-                .deleteFrom('users')
-                .where('users.id', '=', userId)
+                .deleteFrom('userTable')
+                .where('userTable.id', '=', userId)
                 .executeTakeFirstOrThrow();
         });
         return {
@@ -94,16 +94,16 @@ export async function createMedic(state:medicState, formData:FormData) {
     if (!user || !user.adm) throw new Error('U');
 
     try{
-        if(await db.selectFrom("users").where("name", "=", validatedFields.data.email).where("organization", "=", user.organization).executeTakeFirst()){
+        if(await db.selectFrom("userTable").where("name", "=", validatedFields.data.email).where("organization", "=", user.organization).executeTakeFirst()){
             return {
                 message:'El usuario ya existe.'
             };
         }
 
-        const uniqueId = await uuid("patients")
+        const uniqueId = await uuid("patientTable")
      
         const newUser = await db
-        .insertInto("users")
+        .insertInto("userTable")
         .values({
             id: uniqueId,
             name: validatedFields.data.email,
