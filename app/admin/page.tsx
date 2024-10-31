@@ -12,7 +12,6 @@ export default async function adminPage() {
 
   return (
     <main className=" bg-fondo_light h-screen">
-        
       <h1 className='text-center font-black m-3'>Admin page</h1>
        <ListaMedic/>
         <div className="w-1/2 bg-primary h-screen mt-12  shadow-2xl relative">
