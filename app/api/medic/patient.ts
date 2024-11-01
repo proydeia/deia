@@ -94,8 +94,9 @@ export async function createPatient(state:patientState, formData:FormData) {
     try{
         const uniqueId = await uuid("patientTable")
         const date = validatedFields.data.nacimiento
-        date.setDate(date.getDate() + 1); //lo mismo que las espirometrias
+        date.setDate(date.getDate() + 1);
 
+        console.log(user);
         
         const newPatient = await db
         .insertInto("patientTable")
@@ -118,6 +119,7 @@ export async function createPatient(state:patientState, formData:FormData) {
         };
     }
     catch(error: unknown){
+        console.log(error);
         return {
             message:'Error al crear registro. Intente denuvo más tarde.'
           };

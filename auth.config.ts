@@ -35,6 +35,8 @@ export const authConfig = {
 
         if(!user || user.error) return null;
 
+        console.log(user);
+
         return user as User;
       },
     }),

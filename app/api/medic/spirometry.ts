@@ -106,6 +106,7 @@ export async function createSpirometry(state: spirometryState, formData: FormDat
         };
     }
     catch(error:unknown){
+        console.log(error);
         return {
             message: 'Error al generar registro. Intente nuevamente.'
         };
@@ -167,6 +168,7 @@ async function loadSpirometry(data:spirometryInput){
             
         const spirometryId = await uuid("spirometryTable");	
         
+        
         var date = new Date;
         date.setDate(date.getDate() + 1); //no se que le pasa pero me resta un dia. esta fue la mejor soucion un miercoles a las 23:48pm
         
@@ -181,12 +183,15 @@ async function loadSpirometry(data:spirometryInput){
             date:           date
         }; 
         
+        console.log(spirometry);
+        
         const spirometryDB: newSpirometry = await db
         .insertInto("spirometryTable")
         .values(spirometry)
         .returningAll()
         .executeTakeFirstOrThrow();
         
+
         if(spirometryDB instanceof Error)
         {
             deleteSpirometry(spirometryId);
@@ -197,6 +202,7 @@ async function loadSpirometry(data:spirometryInput){
 
     }
     catch(error:unknown){
+        console.log(error);
         throw new Error('D');
     }
 }
