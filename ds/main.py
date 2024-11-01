@@ -113,8 +113,8 @@ async def predictobsaigold(spirometry: SpirometryPlus):
     x = np.array([[spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso]])
     #x = pd.DataFrame(x)
     res = model1.predict(x) * 4
-    print(res)
-    return {"result": str(res[0][0])}
+    #print(float(res[0][0]))
+    return {"result": float(res[0][0])}
 
 @app.post("/obstructionaigli")
 async def predictobsaigli(spirometry: SpirometryGLI):
@@ -123,8 +123,8 @@ async def predictobsaigli(spirometry: SpirometryGLI):
     x = np.array([[spirometry.fev1, spirometry.fvc, spirometry.edad, spirometry.sexo, spirometry.altura]])
     #x = pd.DataFrame(x)
     res = model3.predict(x) * 4
-    print(res)
-    return {"result": str(res[0][0])}
+    #print(float(res[0][0]))
+    return {"result": float(res[0][0])}
 
 @app.post("/obstructionaiglicategorical")
 async def predictobsaiglicategorical(spirometry: SpirometryGLI):
@@ -135,8 +135,8 @@ async def predictobsaiglicategorical(spirometry: SpirometryGLI):
     sorted_indices = np.argsort(res[0])[::-1]
     top1 = sorted_indices[0]
     top2 = sorted_indices[1]
-    print(res)
-    return {"result1": str(top1), "result2": str(top2)}
+    #print(int(top1), int(top2))
+    return {"result1": int(top1), "result2": int(top2)}
 
 @app.post("/restrictiongold")
 async def predictresgold(spirometry: SpirometryLLN):
@@ -154,7 +154,8 @@ async def predictresaigold(spirometry: SpirometryPlus):
         return {"result": -1}
     x = np.array([spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso])
     res = model2.predict([x])
-    return {"result": str(res[0])}
+    #print(int(res[0]))
+    return {"result": int(res[0])}
     
 @app.post("/restrictiongli")
 async def predictresgli(spirometry: SpirometryGLI):
@@ -175,4 +176,5 @@ async def predictresaigli(spirometry: SpirometryGLI):
         return {"result": -1}
     x = np.array([spirometry.fev1, spirometry.fvc, spirometry.edad, spirometry.sexo, spirometry.altura])
     res = model5.predict([x])
-    return {"result": str(res[0])}
+    #print(int(res[0]))
+    return {"result": int(res[0])}
