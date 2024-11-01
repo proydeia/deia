@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { googleOauth, hash, login } from './app/lib/dbSchema/schema';
 import Credentials from 'next-auth/providers/credentials';
 import google from 'next-auth/providers/google';
+import { Console } from 'console';
 
 export const authConfig = {
   pages: {
@@ -30,10 +31,11 @@ export const authConfig = {
         const password = credentials.password as string;
         
         const inputData:{name:string, password:string} = {name: username, password: await hash(password)};
-
         user = await login(inputData);
 
         if(!user || user.error) return null;
+
+        console.log(user);
 
         return user as User;
       },

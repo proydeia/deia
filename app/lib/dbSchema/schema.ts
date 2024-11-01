@@ -69,10 +69,10 @@ interface spirometryTable {
 }
 
 interface Database {
-    organizations: organizationTable,
-    users: userTable
-    patients: patientTable
-    spirometries: spirometryTable
+    organizationTable: organizationTable,
+    userTable: userTable,
+    patientTable: patientTable,
+    spirometryTable: spirometryTable,
 }
 
 const db = createKysely<Database>();
@@ -94,12 +94,14 @@ export default db;
 
 export async function login(inputData:{name: string, password: string}){
     try{
+        console.log(123131313123);
         const user = await db
-        .selectFrom("users")
-        .where("users.name", "=", inputData.name)
+        .selectFrom("userTable")
+        .where("userTable.name", "=", inputData.name)
         .select(["id", "name", "password", "adm", "organization"])
         .executeTakeFirst();
 
+        console.log(2222, user);
         if( !user || !await compare(user.password,inputData.password)) return null;
 
         return {
@@ -112,6 +114,7 @@ export async function login(inputData:{name: string, password: string}){
 
     catch(error: unknown)
     {
+        console.log(123, error);
         return{
             error: await error
         };
@@ -119,6 +122,6 @@ export async function login(inputData:{name: string, password: string}){
 };
 
 export async function googleOauth(email:string){
-    const user = await db.selectFrom("users").where("name", "=", email).select(["id", "name", "adm", "organization"]).executeTakeFirst();
+    const user = await db.selectFrom("userTable").where("name", "=", email).select(["id", "name", "adm", "organization"]).executeTakeFirst();
     return user;
 };

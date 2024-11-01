@@ -1,26 +1,28 @@
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_URL")
+  url      = "postgres://default:HnVxZN1SDea2@ep-misty-snow-a4608mqj-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
 }
 
-model organizations {
+model Organization {
   name     String @id @db.VarChar(255)
+  phone    String? @db.VarChar(255)
+  email    String? @db.VarChar(255)
+  address  String? @db.VarChar(255)
   maxUsers Int
-  users    users[]
   aproved  Boolean @default(false)
+  users    User[]
 }
 
-model users {
-  name          String        @id @db.VarChar(255)
+model User {
+  email         String        @id @db.VarChar(255)
   adm           Boolean
   password      String        @db.VarChar(255)
   organization  String        @db.VarChar(255)
-  patients      patients[]
-  organizations organizations @relation(fields: [organization], references: [name], onDelete: NoAction, onUpdate: NoAction)
+  patients      Patient[]
+  organizations Organization  @relation(fields: [organization], references: [name])
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model patients {
+model Patient {
   id           String         @id @db.VarChar(255)
   name         String         @db.VarChar(255)
   extrainfo    String?        @db.VarChar(255)
@@ -29,27 +31,82 @@ model patients {
   altura       Float
   nacimiento   DateTime       @db.Date
   sexo         Int
-  users        users          @relation(fields: [medic], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  spirometries spirometries[]
+  users        User           @relation(fields: [medic], references: [email])
+  spirometries Spirometry[]
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model spirometries {
-  id               String   @id @db.VarChar(255)
-  obstruction      Int
-  restriction      Int
-  patient          String   @db.VarChar(255)
-  date             DateTime @db.Date
-  fev1             Float
-  fev1pred         Float
-  fvc              Float
-  fvcpred          Float
-  correctionobs    Int      @default(-1)
-  correctionobsmed Int      @default(-1)
-  correctionres    Int      @default(-1)
-  correctionresmed Int      @default(-1)
-  enjson           Int      @default(0)
-  restrictionai    Float
-  obstructionai    Float?
-  patients         patients @relation(fields: [patient], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model Spirometry {
+  id                String   @id @db.VarChar(255)
+  patient           String   @db.VarChar(255)
+  date              DateTime @db.Date
+  gold              Boolean  @default(false)
+  gli               Boolean  @default(false)
+  fev1              Float?
+  fev1pred          Float?
+  fvc               Float?
+  fvcpred           Float?
+  obstruction       Int?
+  obstructionai     Float?
+  restriction       Int?
+  restrictionai     Float?
+  correctionobsGold Int      @default(-1)
+  correctionobsGLI  Int      @default(-1)
+  correctionresGold Int      @default(-1)
+  correctionresGLI  Int      @default(-1)
+  enjson            Int      @default(0)
+  patients          Patient  @relation(fields: [patient], references: [id])
+}
+
+//-----> Viejo
+
+
+model organizationTable {
+    id String @id
+    name String
+    domain String
+    medics Int
+    medicsUser userTable[]
+}
+
+model userTable {
+    id String @id
+    name String
+    adm Boolean
+    password String
+    organization String
+    organizations organizationTable @relation(fields: [organization], references: [id])
+    patients patientTable[]
+}
+
+model patientTable {
+    id String @id
+    name String
+    extrainfo String?
+    medic String
+    medics userTable @relation(fields: [medic], references: [id])
+    spirometries spirometryTable[]
+    peso Int
+    altura Int
+    nacimiento DateTime
+    sexo Int
+}
+
+model spirometryTable {
+    id String   @id
+    obstruction Int
+    obstructionai Int
+    restriction Int
+    restrictionai Int
+    patient String 
+    patients patientTable @relation(fields: [patient], references: [id])
+    date DateTime
+    fev1 Int
+    fev1pred Int
+    fvc Int
+    fvcpred Int
+    correctionobs Int?
+    correctionobsmed Int?
+    correctionres Int?
+    correctionresmed Int?
+    enjson Int?
 }

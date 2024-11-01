@@ -1,6 +1,6 @@
 "use server"
 const axios = require('axios');
-import { spirometryFormSchema, spirometrieState } from "@/app/lib/formsDefinitions/spirometryFormDefinition";
+import { spirometryFormSchema, spirometryState } from "@/app/lib/formsDefinitions/spirometryFormDefinition";
 import db, { newSpirometry, Spirometry } from "@/app/lib/dbSchema/schema";
 import { uuid } from "../ID";
 import { userData } from "../auth/userData";
@@ -24,18 +24,18 @@ type spirometryInput = {
 
 // Espirometrias
 
-export async function getSpirometriesList (patientId: string): Promise < Spirometry[] > {
+export async function getSpirometryList (patientId: string): Promise < Spirometry[] > {
     
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
 
     try{
-        const spirometries = await db
-        .selectFrom("spirometries")
-        .where("spirometries.patient", "=", patientId)  
+        const spirometryTable = await db
+        .selectFrom("spirometryTable")
+        .where("spirometryTable.patient", "=", patientId)  
         .selectAll()
         .execute();
-        return spirometries;
+        return spirometryTable;
     }
     catch(error:unknown){
         throw new Error('D')
@@ -49,8 +49,8 @@ export async function getSpirometry (spirometryId: string): Promise < Spirometry
     
     try{
         const spirometry = await db 
-        .selectFrom("spirometries")
-        .where("spirometries.id", "=", spirometryId)
+        .selectFrom("spirometryTable")
+        .where("spirometryTable.id", "=", spirometryId)
         .selectAll()
         .executeTakeFirstOrThrow();
         return spirometry;
@@ -67,8 +67,8 @@ export async function deleteSpirometry(spirometryId: string) {
 
     try{
         await db
-        .deleteFrom("spirometries")
-        .where("spirometries.id", "=", spirometryId)
+        .deleteFrom("spirometryTable")
+        .where("spirometryTable.id", "=", spirometryId)
         .executeTakeFirstOrThrow();
         return
     }
@@ -77,7 +77,7 @@ export async function deleteSpirometry(spirometryId: string) {
     }
 }
 
-export async function createSpirometry(state: spirometrieState, formData: FormData): Promise<spirometrieState> {
+export async function createSpirometry(state: spirometryState, formData: FormData): Promise<spirometryState> {
     const validatedFields = spirometryFormSchema.safeParse({
         id:         formData.get('id'),
         sexo:       Number(formData.get('sexo')),
@@ -106,6 +106,7 @@ export async function createSpirometry(state: spirometrieState, formData: FormDa
         };
     }
     catch(error:unknown){
+        console.log(error);
         return {
             message: 'Error al generar registro. Intente nuevamente.'
         };
@@ -165,7 +166,8 @@ async function loadSpirometry(data:spirometryInput){
             throw new Error('Ria');
         })
             
-        const spirometryId = await uuid("spirometries");	
+        const spirometryId = await uuid("spirometryTable");	
+        
         
         var date = new Date;
         date.setDate(date.getDate() + 1); //no se que le pasa pero me resta un dia. esta fue la mejor soucion un miercoles a las 23:48pm
@@ -181,12 +183,15 @@ async function loadSpirometry(data:spirometryInput){
             date:           date
         }; 
         
+        console.log(spirometry);
+        
         const spirometryDB: newSpirometry = await db
-        .insertInto("spirometries")
+        .insertInto("spirometryTable")
         .values(spirometry)
         .returningAll()
         .executeTakeFirstOrThrow();
         
+
         if(spirometryDB instanceof Error)
         {
             deleteSpirometry(spirometryId);
@@ -197,6 +202,7 @@ async function loadSpirometry(data:spirometryInput){
 
     }
     catch(error:unknown){
+        console.log(error);
         throw new Error('D');
     }
 }

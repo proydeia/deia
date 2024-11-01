@@ -4,7 +4,7 @@ import { Patient } from "@/app/lib/dbSchema/schema";
 import { Spirometry } from "@/app/lib/dbSchema/schema";
 
 import { getPatient } from "@/app/api/medic/patient";
-import { getSpirometriesList } from "@/app/api/medic/spirometry";
+import { getSpirometryList } from "@/app/api/medic/spirometry";
 
 import Instrucciones from "./instrucciones";
 import ByebyeButton from "../delSpirometryButton";
@@ -39,7 +39,7 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
           const fetchedPatient: Patient = await getPatient(pacienteId); // Assuming getPatient returns a Patient
           setPatient(fetchedPatient);
           const fetchSpirometry = async () => {
-            const fetchedSpirometry: Spirometry[] = await getSpirometriesList(
+            const fetchedSpirometry: Spirometry[] = await getSpirometryList(
               pacienteId
             );
             setSpyrometry(fetchedSpirometry);

@@ -13,8 +13,8 @@ export async function getPatientsList(){
 
     try{    
         return await db
-        .selectFrom("patients")
-        .where("patients.medic", "=", user.id)
+        .selectFrom("patientTable")
+        .where("patientTable.medic", "=", user.id)
         .select(['id', 'name'])
         .execute();        
     }
@@ -30,9 +30,9 @@ export async function getPatient(patientId:string): Promise < Patient > {
 
     try{
         return await db
-        .selectFrom("patients")
-        .where("patients.medic", "=", user.id)
-        .where("patients.id", "=", patientId)
+        .selectFrom("patientTable")
+        .where("patientTable.medic", "=", user.id)
+        .where("patientTable.id", "=", patientId)
         .selectAll()
         .executeTakeFirstOrThrow();
     }
@@ -49,14 +49,14 @@ export async function deletePatient(patientId: string) {
     try{
         await db.connection().execute(async (trx) => {
             await trx
-                .deleteFrom("spirometries")
-                .where("spirometries.patient", "=", patientId)
+                .deleteFrom("spirometryTable")
+                .where("spirometryTable.patient", "=", patientId)
                 .executeTakeFirstOrThrow();
 
             await trx
-                .deleteFrom("patients")
-                .where("patients.medic", "=", user.id)
-                .where("patients.id", "=", patientId)
+                .deleteFrom("patientTable")
+                .where("patientTable.medic", "=", user.id)
+                .where("patientTable.id", "=", patientId)
                 .executeTakeFirstOrThrow();
         });
 
@@ -92,13 +92,14 @@ export async function createPatient(state:patientState, formData:FormData) {
     if (!user || user.adm) throw new Error('U');
 
     try{
-        const uniqueId = await uuid("patients")
+        const uniqueId = await uuid("patientTable")
         const date = validatedFields.data.nacimiento
-        date.setDate(date.getDate() + 1); //lo mismo que las espirometrias
+        date.setDate(date.getDate() + 1);
 
+        console.log(user);
         
         const newPatient = await db
-        .insertInto("patients")
+        .insertInto("patientTable")
         .values({
             id:         uniqueId,
             medic:      user.id,
@@ -118,6 +119,7 @@ export async function createPatient(state:patientState, formData:FormData) {
         };
     }
     catch(error: unknown){
+        console.log(error);
         return {
             message:'Error al crear registro. Intente denuvo más tarde.'
           };

@@ -16,7 +16,7 @@ export default async function ListaMedic() {
     return (
         <div className="flex flex-row">
         <div className="pt-24 w-1/2">
-          <div className="flex flex-col gap-1 items-start mx-10 justify-between">
+          {/* <div className="flex flex-col gap-1 items-start mx-10 justify-between">
             <h3 className="text-2xl  font-bold  font-subtitulo text-left  mt-4 mb-2">
               Lista Medicos
             </h3>
@@ -29,7 +29,7 @@ export default async function ListaMedic() {
               placeholder="Nombre del Médico"
               className="self-auto block h-10 mr-12 rounded-md border-0 py-2 pl-2 pr-10 text-gray-900 shadow-sm  placeholder:text-gray-400 sm:text-sm sm:leading-6"
             />
-          </div>
+          </div> */}
           <div className="w-10/12 mx-4 mb-6 mt-3  overflow-y-auto">
             {medicos.map((medico) => (
               <div

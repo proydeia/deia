@@ -4,15 +4,14 @@ import Form from "./components/medicForm";
 import UploadForm from "./components/uploadFileForm";
 import { retrive } from "#/admin/PDF/retrive/retriveFile";
 import { deleteFile } from "#/admin/PDF/delete/deleteFile";
+import ListaMedic from "./components/listaMedic";
 
 export default async function adminPage() {
   const { file, aproved } = await retrive();
-
   return (
     <main className=" bg-fondo_light h-screen">
-        
-      {/* <h1 className='text-center font-black m-3'>Admin page</h1>   */}
-       {/* <ListaMedic  /> */}
+      <h1 className='text-center font-black m-3'>Admin page</h1>
+       <ListaMedic/>
         <div className="w-1/2 bg-primary h-screen mt-12  shadow-2xl relative">
           <div className="mt-12 ">
             <h3 className="text-2xl font-bold px-6 py-3 font-subtitulo text-left w-full mt-4 mb-2 bg-primary_light ">
