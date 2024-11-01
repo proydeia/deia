@@ -4,6 +4,9 @@ import { uuid } from "../ID";
 import { userData } from "../auth/sessionData";
 import { patientFormSchema, patientState } from '$/formsDefinitions/patientFormDefinition';
 
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient()
+
 // Pacientes
 
 export async function getPatientList(){
@@ -12,11 +15,15 @@ export async function getPatientList(){
     if (!user || user.adm) throw new Error('U');
 
     try{    
-        return await db
-        .selectFrom("patientTable")
-        .where("patientTable.medic", "=", user.id)
-        .select(['id', 'name'])
-        .execute();        
+        return await prisma.patient.findMany({
+            where: {
+                medic: user.id
+            },
+            select: {
+                id: true,
+                name: true
+            }
+        });   
     }
     catch(error:unknown){
         throw new Error('D');
@@ -93,27 +100,29 @@ export async function createPatient(state:patientState, formData:FormData) {
     if (!user || user.adm) throw new Error('U');
 
     try{
-        const uniqueId = await uuid("patientTable")
         const date = validatedFields.data.nacimiento
-        date.setDate(date.getDate() + 1); //lo mismo que las espirometrias
+        date.setDate(date.getDate() + 1); 
 
-        console.log(user)
-        
-        const newPatient = await db
-        .insertInto("patientTable")
-        .values({
-            id:         uniqueId,
-            medic:      user.id,
-            name:       validatedFields.data.name,
-            peso:       validatedFields.data.peso,
-            altura:     validatedFields.data.altura,
-            sexo:       validatedFields.data.sexo   -   1,
-            nacimiento: date,
-            extrainfo:  validatedFields.data.extrainfo as string,
-        })
-        .returningAll()
-        .executeTakeFirstOrThrow();
-
+        const newPatient = await prisma.patient.create({
+            data: {
+                id:         3,
+                medic:      user.id,
+                name:       validatedFields.data.name,
+                peso:       validatedFields.data.peso,
+                altura:     validatedFields.data.altura,
+                sexo:       validatedFields.data.sexo   -   1,
+                nacimiento: date,
+                extrainfo:  validatedFields.data.extrainfo as string,
+            },
+            select: {
+                name: true,
+                peso: true,
+                altura: true,
+                sexo: true,
+                nacimiento: true,
+                extrainfo: true
+            }
+        });
         return {
             message:'Registro creado con éxito.',
             patient: newPatient

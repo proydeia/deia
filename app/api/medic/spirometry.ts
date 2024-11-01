@@ -2,8 +2,11 @@
 const axios = require('axios');
 import { spirometryFormSchema, spirometryState } from "@/app/lib/formsDefinitions/spirometryFormDefinition";
 import db, { newSpirometry, Spirometry } from "@/app/lib/dbSchema/schema";
-import { uuid } from "../ID";
-import { userData } from "../auth/sessionData";
+import { uuid } from "#/ID";
+import { userData } from "#/auth/sessionData";
+
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient()
 
 axios.defaults.withCredentials = true
 const URL = process.env.URL
@@ -24,17 +27,17 @@ type spirometryInput = {
 
 // Espirometrias
 
-export async function getSpirometryList (patientId: string): Promise < Spirometry[] > {
+export async function getSpirometryList (patientId: string){
     
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
 
     try{
-        const spirometryTable = await db
-        .selectFrom("spirometryTable")
-        .where("spirometryTable.patient", "=", patientId)  
-        .selectAll()
-        .execute();
+        const spirometryTable = await prisma.spirometry.findMany({
+            where: {
+                patient: patientId
+            }
+        });
         return spirometryTable;
     }
     catch(error:unknown){
