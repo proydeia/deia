@@ -3,7 +3,7 @@ import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 import { LoginState, SignupFormSchema } from '@/app/lib/formsDefinitions/loginFormDefinition';
  
-export async function authenticate(state: LoginState,  formData: FormData) { //credentials
+export async function authenticate(state: LoginState,  formData: FormData) {
   try {
     const validatedFields = SignupFormSchema.safeParse({
       user: formData.get('user'),
@@ -28,10 +28,9 @@ export async function authenticate(state: LoginState,  formData: FormData) { //c
           };
         default:
           return {
-            message:'Error interno. Intente nuevamente.'
+            message:'Error interno. Intente nuevamente más tarde.'
           };
       }
     }
-    throw error;
   }
 }

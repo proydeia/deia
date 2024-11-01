@@ -1,4 +1,4 @@
-import { userData } from '#/auth/userData';
+import { userData } from '@/app/api/auth/sessionData';
 import { del, list } from '@vercel/blob';
 
 export async function deleteFile() {

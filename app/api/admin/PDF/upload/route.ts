@@ -1,6 +1,6 @@
 import { put } from '@vercel/blob';
 import { NextResponse } from 'next/server';
-import { userData } from '#/auth/userData';
+import { userData } from '@/app/api/auth/sessionData';
 
 export async function POST(request: Request): Promise<NextResponse> {
       const user = await userData()

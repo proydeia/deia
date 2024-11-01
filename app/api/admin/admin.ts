@@ -1,6 +1,6 @@
 "use server"
 import { uuid } from "@/app/api/ID";
-import { userData } from "@/app/api/auth/userData";
+import { userData } from "@/app/api/auth/sessionData";
 import db, { Medic } from "@/app/lib/dbSchema/schema";
 import { medicFormSchema, medicState } from "@/app/lib/formsDefinitions/medicFormDefinition";
 

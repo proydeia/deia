@@ -1,12 +1,12 @@
 "use server";
 import db, { Patient } from "$/dbSchema/schema";
 import { uuid } from "../ID";
-import { userData } from "../auth/userData";
+import { userData } from "../auth/sessionData";
 import { patientFormSchema, patientState } from '$/formsDefinitions/patientFormDefinition';
 
 // Pacientes
 
-export async function getPatientTableList(){
+export async function getPatientList(){
     
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
@@ -81,6 +81,7 @@ export async function createPatient(state:patientState, formData:FormData) {
         sexo:       Number(formData.get('sexo')),
         nacimiento: new Date(formData.get('nacimiento') as string),
     });
+    
 
     if (!validatedFields.success) {
         return {
@@ -96,6 +97,7 @@ export async function createPatient(state:patientState, formData:FormData) {
         const date = validatedFields.data.nacimiento
         date.setDate(date.getDate() + 1); //lo mismo que las espirometrias
 
+        console.log(user)
         
         const newPatient = await db
         .insertInto("patientTable")

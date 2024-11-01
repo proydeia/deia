@@ -24,9 +24,8 @@ export const authConfig = {
         password: {  label: "password", type: "password" }
       },
       
-      async authorize(credentials) {
-        
-        let user = null;
+      async authorize(credentials) {      
+        let user;
         const username = credentials.user as string;
         const password = credentials.password as string;
         
@@ -41,21 +40,24 @@ export const authConfig = {
   ],
 
   callbacks: {
-
     async signIn({account, profile, user}) {
       if (account?.provider === 'credentials') {
           return true;
       }
+
       if(account?.provider === 'google' && profile) {
         const check = await googleOauth(profile.email as string);
         if(check) {
-          user.id = check.id;
+          user.id = check.email;
           user.adm = check.adm;
           user.organization = check.organization;
+
           return true;
         }
+
         return false;
       }
+
       return false;
     },
 
@@ -82,7 +84,6 @@ export const authConfig = {
       const isOnMedic = nextUrl.pathname.startsWith('/medic');
       const isOnLogin = nextUrl.pathname.startsWith('/login');
       const isOnAdmin = nextUrl.pathname.startsWith('/admin')
-      
       
       if (!isLoggedIn && (isOnMedic || isOnAdmin)) {
         return false;

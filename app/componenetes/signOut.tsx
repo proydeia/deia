@@ -1,5 +1,5 @@
 import { signOut } from "@/auth"
-import { userData } from "@/app/api/auth/userData";
+import { userData } from "@/app/api/auth/sessionData";
 import Link from "next/link";
 export default function Logout() {
    

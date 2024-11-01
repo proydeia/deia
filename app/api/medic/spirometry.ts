@@ -3,7 +3,7 @@ const axios = require('axios');
 import { spirometryFormSchema, spirometryState } from "@/app/lib/formsDefinitions/spirometryFormDefinition";
 import db, { newSpirometry, Spirometry } from "@/app/lib/dbSchema/schema";
 import { uuid } from "../ID";
-import { userData } from "../auth/userData";
+import { userData } from "../auth/sessionData";
 
 axios.defaults.withCredentials = true
 const URL = process.env.URL
@@ -24,7 +24,7 @@ type spirometryInput = {
 
 // Espirometrias
 
-export async function getSpirometryTableList (patientId: string): Promise < Spirometry[] > {
+export async function getSpirometryList (patientId: string): Promise < Spirometry[] > {
     
     const user = await userData();
     if (!user || user.adm) throw new Error('U');

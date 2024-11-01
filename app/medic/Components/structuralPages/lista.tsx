@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { getPatientsList } from "@/app/api/medic/patient"; // Assuming these functions return promises or async dataimport { map, string } from "zod";
+import { getPatientList } from "@/app/api/medic/patient"; // Assuming these functions return promises or async dataimport { map, string } from "zod";
 import { Patient } from "@/app/lib/dbSchema/schema";
 import { Dispatch, SetStateAction } from "react";
 
@@ -20,7 +20,7 @@ export default function Lista_y_Busqueda({ Pagina }: {
    useEffect(() => {
     const fetchData = async () => {
       try {
-        const patients = await getPatientsList(); // Assuming this returns only { id: string, name: string }[]
+        const patients = await getPatientList(); // Assuming this returns only { id: string, name: string }[]
     
         // Map the data to include default values for missing fields
         const fullPatientsList: Patient[] = patients.map((patient: { id: string; name: string }): Patient => ({

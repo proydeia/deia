@@ -1,4 +1,4 @@
-import { userData } from '@/app/api/auth/userData';
+import { userData } from '@/app/api/auth/sessionData';
 import { list } from '@vercel/blob';
 
 export async function retrive(): Promise<{file:any, aproved:boolean}> {
