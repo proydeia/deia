@@ -94,9 +94,9 @@ model patientTable {
 model spirometryTable {
     id String   @id
     obstruction Int
-    obstructionai Int
+    obstructionai Float
     restriction Int
-    restrictionai Int
+    restrictionai Float
     patient String 
     patients patientTable @relation(fields: [patient], references: [id])
     date DateTime
