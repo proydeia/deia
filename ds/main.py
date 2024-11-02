@@ -55,11 +55,13 @@ class Spirometry(BaseModel):
     fev1: float
     fvc: float
 
+"""
 class SpirometryLLN(Spirometry):
     #LLN = lin - Comparación con minimo o punto fijo.
     fev1pred: float
     #LLN = lin - Comparación con minimo o punto fijo.
     fvcpred: float
+"""
 
 class SpirometryGLI(Spirometry):
     #Edad (podes tener 32.86 años por ejemplo)
@@ -68,18 +70,14 @@ class SpirometryGLI(Spirometry):
     sexo: int
     altura: float
 
-class SpirometryPlus(SpirometryLLN):
-    #Edad (podes tener 15.63 años por ejemplo)
-    edad: float
-    #0F 1M
-    sexo: int
-    altura: float
+class SpirometryGoldAI(SpirometryGLI):
     peso: float
 
 @app.post("/obstructiongold")
-async def predictobsgold(spirometry: SpirometryLLN):
+async def predictobsgold(spirometry: SpirometryGLI):
     if spirometry.fev1 / spirometry.fvc >= 0.7: return {"result": 0}
-    res = spirometry.fev1 / spirometry.fev1pred
+    fev1pred = get_fev1_pred(spirometry.sexo, spirometry.edad, spirometry.altura)["M"]
+    res = spirometry.fev1 / fev1pred
     if res < 0.3:
         return {"result": 4} #Muy Severo - GOLD 4
     elif res < 0.5:
@@ -107,10 +105,12 @@ async def predictobsgli(spirometry: SpirometryGLI):
     return {"result": 0} #Nada
     
 @app.post("/obstructionaigold")
-async def predictobsaigold(spirometry: SpirometryPlus):
+async def predictobsaigold(spirometry: SpirometryGoldAI):
     if model1 is None:
         return {"result": -1}
-    x = np.array([[spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso]])
+    fev1pred = get_fev1_pred(spirometry.sexo, spirometry.edad, spirometry.altura)["M"]
+    fvcpred = get_fvc_pred(spirometry.sexo, spirometry.edad, spirometry.altura)["M"]
+    x = np.array([[spirometry.fev1, fev1pred, spirometry.fvc, fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso]])
     #x = pd.DataFrame(x)
     res = model1.predict(x) * 4
     #print(float(res[0][0]))
@@ -139,20 +139,23 @@ async def predictobsaiglicategorical(spirometry: SpirometryGLI):
     return {"result1": int(top1), "result2": int(top2)}
 
 @app.post("/restrictiongold")
-async def predictresgold(spirometry: SpirometryLLN):
+async def predictresgold(spirometry: SpirometryGLI):
     f1res = spirometry.fev1 / spirometry.fvc
     if f1res < 0.7: return {"result": 0}
-    fvctopred = spirometry.fvc / spirometry.fvcpred
+    fvcpred = get_fvc_pred(spirometry.sexo, spirometry.edad, spirometry.altura)["M"]
+    fvctopred = spirometry.fvc / fvcpred
     if  fvctopred <= 0.8:
         return {"result": 1}
     else:
         return {"result": 0}
     
 @app.post("/restrictionaigold")
-async def predictresaigold(spirometry: SpirometryPlus):
+async def predictresaigold(spirometry: SpirometryGoldAI):
     if model2 is None:
         return {"result": -1}
-    x = np.array([spirometry.fev1, spirometry.fev1pred, spirometry.fvc, spirometry.fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso])
+    fev1pred = get_fev1_pred(spirometry.sexo, spirometry.edad, spirometry.altura)["M"]
+    fvcpred = get_fvc_pred(spirometry.sexo, spirometry.edad, spirometry.altura)["M"]
+    x = np.array([spirometry.fev1, fev1pred, spirometry.fvc, fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso])
     res = model2.predict([x])
     #print(int(res[0]))
     return {"result": int(res[0])}
