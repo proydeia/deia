@@ -2,13 +2,13 @@ import requests
 
 gold_example = {
     "fev1": 1.2,
-    "fev1pred": 1.5,
+    "fev1pred": -1,
     "fvc": 2.0,
-    "fvcpred": 2.1,
-    "edad": -1,
+    "fvcpred": -1,
+    "edad": 25,
     "sexo": 1,
-    "altura": -1,
-    "peso": -1
+    "altura": 168,
+    "peso": 65
 }
 
 gli_example = {
