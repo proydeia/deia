@@ -7,8 +7,8 @@ from gli_api import get_fev1_fvc_pred, get_fev1_pred, get_fvc_pred
 
 app = FastAPI()
 
-model1_path = 'ds/modelObsGold.pkl'
-model2_path = 'ds/modelResGold.pkl'
+model1_path = 'ds/modelObsGoldV2.pkl'
+model2_path = 'ds/modelResGoldV2.pkl'
 model3_path = 'ds/modelObsGLI.pkl'
 model4_path = 'ds/modelObsClassificationGLI.pkl'
 model5_path = 'ds/modelResGLI.pkl'
@@ -55,19 +55,7 @@ class Spirometry(BaseModel):
     fev1: float
     fvc: float
 
-class SpirometryGold(Spirometry):
-    #LLN = lin - Comparación con minimo o punto fijo.
-    fev1pred: float
-    #LLN = lin - Comparación con minimo o punto fijo.
-    fvcpred: float
-    #Edad (podes tener 32.86 años por ejemplo)
-    edad: float
-    #0F 1M
-    sexo: int
-    altura: float
-    peso: float
-
-class SpirometryGLI(Spirometry):
+class SpirometryComplete(Spirometry):
     #Edad (podes tener 32.86 años por ejemplo)
     edad: float
     #0F 1M
@@ -75,12 +63,9 @@ class SpirometryGLI(Spirometry):
     altura: float
 
 @app.post("/obstructiongold")
-async def predictobsgold(spirometry: SpirometryGold):
+async def predictobsgold(spirometry: SpirometryComplete):
     if spirometry.fev1 / spirometry.fvc >= 0.7: return {"result": 0}
-    if spirometry.fev1pred == -1:
-        fev1pred = get_fev1_pred(spirometry.sexo, spirometry.edad, spirometry.altura)["M"]
-    else:
-        fev1pred = spirometry.fev1pred
+    fev1pred = get_fev1_pred(spirometry.sexo, spirometry.edad, spirometry.altura)["M"]
     res = spirometry.fev1 / fev1pred
     if res < 0.3:
         return {"result": 4} #Muy Severo - GOLD 4
@@ -92,7 +77,7 @@ async def predictobsgold(spirometry: SpirometryGold):
         return {"result": 1} #Leve - GOLD 1
     
 @app.post("/obstructiongli")
-async def predictobsgli(spirometry: SpirometryGLI):
+async def predictobsgli(spirometry: SpirometryComplete):
     if spirometry.sexo < 0 or spirometry.altura < 0 or spirometry.edad < 0:
         return {"result": -1}
 
@@ -109,26 +94,17 @@ async def predictobsgli(spirometry: SpirometryGLI):
     return {"result": 0} #Nada
     
 @app.post("/obstructionaigold")
-async def predictobsaigold(spirometry: SpirometryGold):
+async def predictobsaigold(spirometry: SpirometryComplete):
     if model1 is None:
         return {"result": -1}
-    if spirometry.fev1pred == -1:
-        fev1pred = get_fev1_pred(spirometry.sexo, spirometry.edad, spirometry.altura)["M"]
-    else:
-        fev1pred = spirometry.fev1pred
-
-    if spirometry.fvcpred == -1:
-        fvcpred = get_fvc_pred(spirometry.sexo, spirometry.edad, spirometry.altura)["M"]
-    else:
-        fvcpred = spirometry.fvcpred
-    x = np.array([[spirometry.fev1, fev1pred, spirometry.fvc, fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso]])
+    x = np.array([[spirometry.fev1, spirometry.fvc, spirometry.edad, spirometry.sexo, spirometry.altura]])
     #x = pd.DataFrame(x)
     res = model1.predict(x) * 4
     #print(float(res[0][0]))
     return {"result": float(res[0][0])}
 
 @app.post("/obstructionaigli")
-async def predictobsaigli(spirometry: SpirometryGLI):
+async def predictobsaigli(spirometry: SpirometryComplete):
     if model3 is None:
         return {"result": -1}
     x = np.array([[spirometry.fev1, spirometry.fvc, spirometry.edad, spirometry.sexo, spirometry.altura]])
@@ -138,7 +114,7 @@ async def predictobsaigli(spirometry: SpirometryGLI):
     return {"result": float(res[0][0])}
 
 @app.post("/obstructionaiglicategorical")
-async def predictobsaiglicategorical(spirometry: SpirometryGLI):
+async def predictobsaiglicategorical(spirometry: SpirometryComplete):
     if model4 is None:
         return {"result1": -1, "result2": -1}
     x = np.array([[spirometry.fev1, spirometry.fvc, spirometry.edad, spirometry.sexo, spirometry.altura]])
@@ -150,13 +126,10 @@ async def predictobsaiglicategorical(spirometry: SpirometryGLI):
     return {"result1": int(top1), "result2": int(top2)}
 
 @app.post("/restrictiongold")
-async def predictresgold(spirometry: SpirometryGold):
+async def predictresgold(spirometry: SpirometryComplete):
     f1res = spirometry.fev1 / spirometry.fvc
     if f1res < 0.7: return {"result": 0}
-    if spirometry.fev1pred == -1:
-        fvcpred = get_fvc_pred(spirometry.sexo, spirometry.edad, spirometry.altura)["M"]
-    else:
-        fvcpred = spirometry.fev1pred
+    fvcpred = get_fvc_pred(spirometry.sexo, spirometry.edad, spirometry.altura)["M"]
     fvctopred = spirometry.fvc / fvcpred
     if  fvctopred <= 0.8:
         return {"result": 1}
@@ -164,25 +137,16 @@ async def predictresgold(spirometry: SpirometryGold):
         return {"result": 0}
     
 @app.post("/restrictionaigold")
-async def predictresaigold(spirometry: SpirometryGold):
+async def predictresaigold(spirometry: SpirometryComplete):
     if model2 is None:
         return {"result": -1}
-    if spirometry.fev1pred == -1:
-        fev1pred = get_fev1_pred(spirometry.sexo, spirometry.edad, spirometry.altura)["M"]
-    else:
-        fev1pred = spirometry.fev1pred
-    
-    if spirometry.fvcpred == -1:
-        fvcpred = get_fvc_pred(spirometry.sexo, spirometry.edad, spirometry.altura)["M"]
-    else:
-        fvcpred = spirometry.fvcpred
-    x = np.array([spirometry.fev1, fev1pred, spirometry.fvc, fvcpred, spirometry.edad, spirometry.sexo, spirometry.altura, spirometry.peso])
+    x = np.array([spirometry.fev1, spirometry.fvc, spirometry.edad, spirometry.sexo, spirometry.altura])
     res = model2.predict([x])
     #print(int(res[0]))
     return {"result": int(res[0])}
     
 @app.post("/restrictiongli")
-async def predictresgli(spirometry: SpirometryGLI):
+async def predictresgli(spirometry: SpirometryComplete):
     if spirometry.sexo < 0 or spirometry.altura < 0 or spirometry.edad < 0:
         return {"result": -1}
 
@@ -195,7 +159,7 @@ async def predictresgli(spirometry: SpirometryGLI):
     return {"result": 0}
     
 @app.post("/restrictionaigli")
-async def predictresaigli(spirometry: SpirometryGLI):
+async def predictresaigli(spirometry: SpirometryComplete):
     if model5 is None:
         return {"result": -1}
     x = np.array([spirometry.fev1, spirometry.fvc, spirometry.edad, spirometry.sexo, spirometry.altura])
