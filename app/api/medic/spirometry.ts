@@ -8,7 +8,6 @@ import { userData } from "../auth/userData";
 axios.defaults.withCredentials = true
 const URL = process.env.URL
 
-// hola
 // Datos del input medico
 
 type spirometryInput = {
