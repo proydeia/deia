@@ -12,7 +12,7 @@ export default async function adminPage() {
     <main className="bg-fondo_light h-screen flex flex-row justify-stretch w-screen">
       {/* <h1 className='text-center font-black m-3'>Admin page</h1> */}
        <ListaMedic/>
-        <div className="w-7/12 rounded-l-3xl bg-primary h-screen mt-16 shadow-2xl relative">
+        <div className="w-7/12 rounded-l-3xl bg-primary h-fit mt-16 shadow-2xl absolute">
           <div className="mt-8  ">
             <h3 className="text-2xl font-bold px-6 py-3 font-subtitulo text-left w-full mt-4 mb-2 bg-primary_light ">
               Crear Medicos
