@@ -117,7 +117,9 @@ async function loadSpirometry(data:spirometryInput){
     try{
         const spirometryData = {
             fev1:       data.fev1,
+            fev1pred:   -1,
             fvc:        data.fvc,
+            fvcpred:    -1,
         }
     
         const spirometryDataAi = {
@@ -125,6 +127,7 @@ async function loadSpirometry(data:spirometryInput){
             sexo:       data.sexo, 
             edad:       calculateAge(data.nacimiento),
             altura:     data.altura,
+            peso:       -1,
         };
         
         const obstruction:number = await axios.post(`${URL}/obstructiongold`, spirometryData)
