@@ -1,32 +1,32 @@
 datasource db {
   provider = "postgresql"
-  url      = "postgres://default:HnVxZN1SDea2@ep-misty-snow-a4608mqj-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
+  url      = "postgres://default:HnVxZN1SDea2@ep-misty-snow-a4608mqj-pooler.us-east-1.aws.neon.tech/verceldb?sslmode=require"
 }
 
 model Organization {
-  name     String @id @db.VarChar(255)
-  phone    String? @db.VarChar(255)
-  email    String? @db.VarChar(255)
-  address  String? @db.VarChar(255)
+  name     String @id
+  phone    String? 
+  email    String? 
+  address  String? 
   maxUsers Int
   aproved  Boolean @default(false)
   users    User[]
 }
 
 model User {
-  email         String        @id @db.VarChar(255)
+  email         String        @id
   adm           Boolean
-  password      String        @db.VarChar(255)
-  organization  String        @db.VarChar(255)
+  password      String        
+  organization  String        
   patients      Patient[]
   organizations Organization  @relation(fields: [organization], references: [name])
 }
 
 model Patient {
-  id           String         @id @db.VarChar(255)
-  name         String         @db.VarChar(255)
-  extrainfo    String?        @db.VarChar(255)
-  medic        String         @db.VarChar(255)
+  id           Int         @id @default(autoincrement())
+  name         String
+  extrainfo    String?        
+  medic        String         
   peso         Float
   altura       Float
   nacimiento   DateTime       @db.Date
@@ -36,8 +36,8 @@ model Patient {
 }
 
 model Spirometry {
-  id                String   @id @db.VarChar(255)
-  patient           String   @db.VarChar(255)
+  id                Int   @id @default(autoincrement())
+  patient           Int   
   date              DateTime @db.Date
   gold              Boolean  @default(false)
   gli               Boolean  @default(false)

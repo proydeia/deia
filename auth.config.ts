@@ -1,9 +1,8 @@
 import type { NextAuthConfig, User  } from 'next-auth';
 import { NextResponse } from 'next/server';
-import { googleOauth, hash, login } from './app/lib/dbSchema/schema';
+import { googleOauth, hash, login } from '#/auth/credentialLogin';
 import Credentials from 'next-auth/providers/credentials';
 import google from 'next-auth/providers/google';
-import { Console } from 'console';
 
 export const authConfig = {
   pages: {
@@ -34,9 +33,7 @@ export const authConfig = {
         user = await login(inputData);
 
         if(!user || user.error) return null;
-
-        console.log(user);
-
+        
         return user as User;
       },
     }),
@@ -51,7 +48,7 @@ export const authConfig = {
       if(account?.provider === 'google' && profile) {
         const check = await googleOauth(profile.email as string);
         if(check) {
-          user.id = check.id;
+          user.id = check.email;
           user.adm = check.adm;
           user.organization = check.organization;
           return true;

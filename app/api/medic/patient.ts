@@ -1,6 +1,6 @@
 "use server";
-import db, { Patient } from "$/dbSchema/schema";
-import { uuid } from "../ID";
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient()
 import { userData } from "../auth/userData";
 import { patientFormSchema, patientState } from '$/formsDefinitions/patientFormDefinition';
 
@@ -11,53 +11,80 @@ export async function getPatientsList(){
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
 
-    try{    
-        return await db
-        .selectFrom("patientTable")
-        .where("patientTable.medic", "=", user.id)
-        .select(['id', 'name'])
-        .execute();        
+    console.log(user.id);
+
+    try{
+        return await prisma.patient.findMany({
+            where: {
+                medic: user.id
+            },
+            select: {
+                id: true,
+                name: true
+            },
+        });        
     }
     catch(error:unknown){
+        console.log(error);
         throw new Error('D');
     }
 }
 
-export async function getPatient(patientId:string): Promise < Patient > {
+export async function getPatient(patientId:number){
     
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
 
     try{
-        return await db
-        .selectFrom("patientTable")
-        .where("patientTable.medic", "=", user.id)
-        .where("patientTable.id", "=", patientId)
-        .selectAll()
-        .executeTakeFirstOrThrow();
+        return await prisma.patient.findUnique({
+            where: {
+                id: patientId
+            },
+            select: {
+                id: true,
+                name: true,
+                peso: true,
+                altura: true,
+                sexo: true,
+                nacimiento: true,
+                extrainfo: true,
+                spirometries: {
+                    select: {
+                        id: true,
+                        date: true,
+                        fvc: true,
+                        fev1: true,
+                    }
+                }
+            },
+
+    });
     }
     catch(error:unknown){
+        console.log(error);
         throw new Error('D');
     }
 }
 
-export async function deletePatient(patientId: string) {
+export async function deletePatient(patientId: number) {
     
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
 
-    try{
-        await db.connection().execute(async (trx) => {
-            await trx
-                .deleteFrom("spirometryTable")
-                .where("spirometryTable.patient", "=", patientId)
-                .executeTakeFirstOrThrow();
+    console.log(patientId);
 
-            await trx
-                .deleteFrom("patientTable")
-                .where("patientTable.medic", "=", user.id)
-                .where("patientTable.id", "=", patientId)
-                .executeTakeFirstOrThrow();
+    try{
+        await prisma.patient.delete({
+            where: {
+                id: patientId
+            },
+            include:{
+                spirometries: {
+                    where: {
+                        patient: patientId
+                    }
+                }
+            }
         });
 
         return {
@@ -65,6 +92,7 @@ export async function deletePatient(patientId: string) {
         }
     }
     catch(error:unknown){
+        console.log(error);
         return {
             message:'Error al eliminar registro.'
         }
@@ -92,26 +120,20 @@ export async function createPatient(state:patientState, formData:FormData) {
     if (!user || user.adm) throw new Error('U');
 
     try{
-        const uniqueId = await uuid("patientTable")
         const date = validatedFields.data.nacimiento
         date.setDate(date.getDate() + 1);
 
-        console.log(user);
-        
-        const newPatient = await db
-        .insertInto("patientTable")
-        .values({
-            id:         uniqueId,
-            medic:      user.id,
-            name:       validatedFields.data.name,
-            peso:       validatedFields.data.peso,
-            altura:     validatedFields.data.altura,
-            sexo:       validatedFields.data.sexo   -   1,
-            nacimiento: date,
-            extrainfo:  validatedFields.data.extrainfo as string,
-        })
-        .returningAll()
-        .executeTakeFirstOrThrow();
+        const newPatient = await prisma.patient.create({
+            data: {
+                medic:      user.id,
+                name:       validatedFields.data.name,
+                peso:       validatedFields.data.peso,
+                altura:     validatedFields.data.altura,
+                sexo:       validatedFields.data.sexo - 1,
+                nacimiento: new Date(date),
+                extrainfo:  validatedFields.data.extrainfo as string,
+            }
+        });
 
         return {
             message:'Registro creado con éxito.',
