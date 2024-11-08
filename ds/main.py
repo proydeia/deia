@@ -8,6 +8,7 @@ from gli_api import get_fev1_fvc_pred, get_fev1_pred, get_fvc_pred
 app = FastAPI()
 
 model1_path = 'ds/modelObsGoldV2.pkl'
+model6_path = 'ds/modelObsClassificationGold.pkl'
 model2_path = 'ds/modelResGoldV2.pkl'
 model3_path = 'ds/modelObsGLI.pkl'
 model4_path = 'ds/modelObsClassificationGLI.pkl'
@@ -37,6 +38,10 @@ if os.path.exists(model4_path):
 if os.path.exists(model5_path):
     model5 = pickle.load(open(model5_path, 'rb'))
     print('e')
+
+if os.path.exists(model6_path):
+    model6 = pickle.load(open(model6_path, 'rb'))
+    print('f')
 
 @app.get("/")
 async def root():
@@ -112,6 +117,18 @@ async def predictobsaigli(spirometry: SpirometryComplete):
     res = model3.predict(x) * 4
     #print(float(res[0][0]))
     return {"result": float(res[0][0])}
+
+@app.post("/obstructionaigoldcategorical")
+async def predictobsaigoldcategorical(spirometry: SpirometryComplete):
+    if model6 is None:
+        return {"result1": -1, "result2": -1}
+    x = np.array([[spirometry.fev1, spirometry.fvc, spirometry.edad, spirometry.sexo, spirometry.altura]])
+    res = model6.predict(x)
+    sorted_indices = np.argsort(res[0])[::-1]
+    top1 = sorted_indices[0]
+    top2 = sorted_indices[1]
+    #print(int(top1), int(top2))
+    return {"result1": int(top1), "result2": int(top2)}
 
 @app.post("/obstructionaiglicategorical")
 async def predictobsaiglicategorical(spirometry: SpirometryComplete):

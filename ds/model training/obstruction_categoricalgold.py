@@ -34,7 +34,7 @@ def CompareKerasCategoricalModels(model1, model2, valDataX, valDataY):
     return score1, score2
 
 obs = None
-with open('ds/obsgli.json') as f:
+with open('ds/obsgoldv2.json') as f:
     obs = json.load(f)
 
 xObs = []
@@ -56,18 +56,18 @@ modelObs.add(Dense(5, activation='softmax'))
 modelObs.compile(loss='sparse_categorical_crossentropy', optimizer=Adam(), metrics=['accuracy'])
 modelObs.fit(pd.DataFrame(xObsTrain), pd.DataFrame(yObsTrain), epochs=100, batch_size=32, validation_data=(pd.DataFrame(xObsVal), pd.DataFrame(yObsVal)), callbacks=[EarlyStopping(patience=10)])
 
-if os.path.exists('ds/modelObsClassificationGLI.pkl'):
-    with open('ds/modelObsClassificationGLI.pkl', 'rb') as f:
+if os.path.exists('ds/modelObsClassificationGold.pkl'):
+    with open('ds/modelObsClassificationGold.pkl', 'rb') as f:
         modelObsOld = pickle.load(f)
         score1, score2 = CompareKerasCategoricalModels(modelObs, modelObsOld, xObsVal, yObsVal)
         print(score1, score2)
         if score1 > score2:
             print('New model is better.')
-            with open('ds/modelObsClassificationGLI.pkl', 'wb') as j:
+            with open('ds/modelObsClassificationGold.pkl', 'wb') as j:
                 pickle.dump(modelObs, j)
         else:
             print('Old model is better or equal.')
 else:
-    with open('ds/modelObsClassificationGLI.pkl', 'wb') as j:
+    with open('ds/modelObsClassificationGold.pkl', 'wb') as j:
         pickle.dump(modelObs, j)
     print('Models created and saved.')
