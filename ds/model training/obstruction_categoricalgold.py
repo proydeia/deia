@@ -3,11 +3,10 @@ from sklearn.model_selection import train_test_split
 import pickle
 import json
 import os
-import pandas as pd
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 from keras.src.models import Sequential
 from keras.src.layers import Dense, Dropout, BatchNormalization
-from keras.src.optimizers import RMSprop
+from keras.src.optimizers import Adam
 from keras.src.callbacks import EarlyStopping
 import numpy as np
 
@@ -55,7 +54,7 @@ modelObs.add(BatchNormalization())
 modelObs.add(Dropout(0.5))
 modelObs.add(Dense(64, activation='relu'))
 modelObs.add(Dense(5, activation='softmax'))
-modelObs.compile(loss='sparse_categorical_crossentropy', optimizer=RMSprop(), metrics=['accuracy'])
+modelObs.compile(loss='sparse_categorical_crossentropy', optimizer=Adam(), metrics=['accuracy'])
 modelObs.fit(np.array(xObsTrain), np.array(yObsTrain), epochs=100, batch_size=32, validation_data=(np.array(xObsVal), np.array(yObsVal)), callbacks=[EarlyStopping(patience=15, restore_best_weights=True)])
 
 if os.path.exists('ds/modelObsClassificationGold.pkl'):
