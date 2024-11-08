@@ -6,14 +6,14 @@ import os
 import pandas as pd
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 from keras.src.models import Sequential
-from keras.src.layers import Dense
+from keras.src.layers import Dense, Dropout, BatchNormalization
 from keras.src.optimizers import Adam
 from keras.src.callbacks import EarlyStopping
 import numpy as np
 
 def n_f1_score(model, X, y, n=2):
     # Get predictions (these are already probabilities if using softmax)
-    y_prob = model.predict(pd.DataFrame(X))
+    y_prob = model.predict(np.array(X))
     
     # Get top n predictions for each sample
     top_n_preds = []
@@ -26,7 +26,7 @@ def n_f1_score(model, X, y, n=2):
     for i, preds in enumerate(top_n_preds):
         y_pred.append(y[i] if y[i] in preds else preds[0])
     
-    return f1_score(y, y_pred, average='weighted')
+    return f1_score(y, y_pred, average='macro')
 
 def CompareKerasCategoricalModels(model1, model2, valDataX, valDataY):
     score1 = n_f1_score(model1, valDataX, valDataY)
@@ -47,11 +47,13 @@ for item in obs:
 xObsTrain, xObsVal, yObsTrain, yObsVal = train_test_split(xObs, yObs, test_size=0.3, random_state=42)
 
 modelObs = Sequential()
-modelObs.add(Dense(8, activation='relu'))
-modelObs.add(Dense(16, activation='relu'))
-modelObs.add(Dense(32, activation='relu'))
+modelObs.add(Dense(64, activation='relu', input_shape=(len(xObsTrain[0]),)))
+modelObs.add(BatchNormalization())
+modelObs.add(Dropout(0.5))
+modelObs.add(Dense(128, activation='relu'))
+modelObs.add(BatchNormalization())
+modelObs.add(Dropout(0.5))
 modelObs.add(Dense(64, activation='relu'))
-modelObs.add(Dense(32, activation='relu'))
 modelObs.add(Dense(5, activation='softmax'))
 modelObs.compile(loss='sparse_categorical_crossentropy', optimizer=Adam(), metrics=['accuracy'])
 modelObs.fit(pd.DataFrame(xObsTrain), pd.DataFrame(yObsTrain), epochs=100, batch_size=32, validation_data=(pd.DataFrame(xObsVal), pd.DataFrame(yObsVal)), callbacks=[EarlyStopping(patience=10)])
