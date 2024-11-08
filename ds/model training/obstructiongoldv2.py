@@ -1,5 +1,6 @@
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
+from sklearn.utils.class_weight import compute_class_weight
 import pickle
 import json
 import os
@@ -11,8 +12,8 @@ from keras.src.optimizers import Adam
 import numpy as np
 
 def CompareKerasModels(model1, model2, valDataX, valDataY):
-    score1 = mean_absolute_error(valDataY, model1.predict(pd.DataFrame(valDataX)))
-    score2 = mean_absolute_error(valDataY, model2.predict(pd.DataFrame(valDataX)))
+    score1 = mean_absolute_error(valDataY, model1.predict(np.array(valDataX)))
+    score2 = mean_absolute_error(valDataY, model2.predict(np.array(valDataX)))
     return score1, score2
 
 obs = None
@@ -27,6 +28,10 @@ for item in obs:
     xObs.append(list(item.values()))
 
 xObsTrain, xObsVal, yObsTrain, yObsVal = train_test_split(xObs, yObs, test_size=0.3, random_state=42)
+
+# Calculate class weights
+class_weights = compute_class_weight('balanced', classes=np.unique(yObsTrain), y=yObsTrain)
+class_weights_dict = dict(enumerate(class_weights))
 
 modelObs = Sequential()
 modelObs.add(Dense(5, activation='relu'))
@@ -44,7 +49,7 @@ modelObs.add(Dense(24, activation='relu'))
 modelObs.add(Dense(12, activation='relu'))
 modelObs.add(Dense(1, activation='sigmoid'))
 modelObs.compile(loss='mean_absolute_error', optimizer=Adam())
-modelObs.fit(pd.DataFrame(xObsTrain), pd.DataFrame(yObsTrain), epochs=25, batch_size=32, validation_data=(pd.DataFrame(xObsVal), pd.DataFrame(yObsVal)))
+modelObs.fit(np.array(xObsTrain), np.array(yObsTrain), epochs=100, batch_size=32, validation_data=(np.array(xObsVal), np.array(yObsVal)), class_weight=class_weights_dict)
 
 if os.path.exists('ds/modelObsGoldV2.pkl'):
     with open('ds/modelObsGoldV2.pkl', 'rb') as f:
