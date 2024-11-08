@@ -5,25 +5,23 @@ import AgregarEspiro from "@/app/medic/Components/forms/spirometryForm"
 import { Dispatch, SetStateAction } from "react";
 
 export default function Paciente({ pacienteId, Pagina }: {
-    pacienteId: string; // ID passed as a prop
-    Pagina: Dispatch<SetStateAction<string>>;
+    pacienteId: number; // ID passed as a prop
+    Pagina: Dispatch<SetStateAction<number>>;
 }) {
-
-    const [Page, setPage] = useState("1");
-    const [Espiro, setEspiro] = useState("");
+    const [Page, setPage] = useState(-1);
+    const [Espiro, setEspiro] = useState(Number);
     const Patient_Page = () => {
         switch (Page) {
-            case "1":
+            case -1:
                 return <Id_paciente pacienteId={pacienteId} Pagina={Pagina} Page={setPage} Espiro={setEspiro} />;
 
-            case "2":
+            case 0:
                 return <AgregarEspiro Pagina={Pagina} id={pacienteId} Page={setPage} />;
 
             default:
                 return <Ver_Mas Pagina={Pagina} Page={setPage} pacienteId={pacienteId} EspiroId={Espiro}/>;
         }
     }
-
 
     return (
         <>

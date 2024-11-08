@@ -37,27 +37,15 @@ export async function getPatient(patientId:number){
 
     try{
         return await prisma.patient.findUnique({
-            where: {
-                id: patientId
-            },
-            select: {
-                id: true,
-                name: true,
-                peso: true,
-                altura: true,
-                sexo: true,
-                nacimiento: true,
-                extrainfo: true,
-                spirometries: {
-                    select: {
-                        id: true,
-                        date: true,
-                        fvc: true,
-                        fev1: true,
-                    }
+            where: { id: patientId },
+            include: { spirometries: {
+                select:{
+                    id: true,
+                    date: true,
+                    obstruction: true,
+                    restriction: true,
                 }
-            },
-
+            } }
     });
     }
     catch(error:unknown){
@@ -132,12 +120,14 @@ export async function createPatient(state:patientState, formData:FormData) {
                 sexo:       validatedFields.data.sexo - 1,
                 nacimiento: new Date(date),
                 extrainfo:  validatedFields.data.extrainfo as string,
-            }
+            },
+            select: { id: true }
         });
 
         return {
             message:'Registro creado con éxito.',
-            patient: newPatient
+            patient: newPatient,
+            id: newPatient.id,
         };
     }
     catch(error: unknown){

@@ -1,43 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = "postgres://default:HnVxZN1SDea2@ep-misty-snow-a4608mqj-pooler.us-east-1.aws.neon.tech/verceldb?sslmode=require"
 }
 
 model Organization {
-  name     String @id
-  phone    String? 
-  email    String? 
-  address  String? 
+  name     String  @id
+  phone    String?
+  email    String?
+  address  String?
   maxUsers Int
   aproved  Boolean @default(false)
   users    User[]
 }
 
 model User {
-  email         String        @id
+  email         String       @id
   adm           Boolean
-  password      String        
-  organization  String        
+  password      String
+  organization  String
   patients      Patient[]
-  organizations Organization  @relation(fields: [organization], references: [name])
+  organizations Organization @relation(fields: [organization], references: [name])
 }
 
 model Patient {
-  id           Int         @id @default(autoincrement())
-  name         String
-  extrainfo    String?        
-  medic        String         
+  id           Int          @id @default(autoincrement())
+  extrainfo    String?
+  medic        String
   peso         Float
   altura       Float
-  nacimiento   DateTime       @db.Date
+  nacimiento   DateTime     @db.Date
   sexo         Int
-  users        User           @relation(fields: [medic], references: [email])
+  name         String
+  users        User         @relation(fields: [medic], references: [email])
   spirometries Spirometry[]
 }
 
 model Spirometry {
-  id                Int   @id @default(autoincrement())
-  patient           Int   
+  id                Int      @id @default(autoincrement())
+  patient           Int
   date              DateTime @db.Date
   gold              Boolean  @default(false)
   gli               Boolean  @default(false)
@@ -57,56 +61,53 @@ model Spirometry {
   patients          Patient  @relation(fields: [patient], references: [id])
 }
 
-//-----> Viejo
-
-
 model organizationTable {
-    id String @id
-    name String
-    domain String
-    medics Int
-    medicsUser userTable[]
+  id         String      @id
+  name       String
+  domain     String
+  medics     Int
+  medicsUser userTable[]
 }
 
 model userTable {
-    id String @id
-    name String
-    adm Boolean
-    password String
-    organization String
-    organizations organizationTable @relation(fields: [organization], references: [id])
-    patients patientTable[]
+  id            String            @id
+  name          String
+  adm           Boolean
+  password      String
+  organization  String
+  patients      patientTable[]
+  organizations organizationTable @relation(fields: [organization], references: [id])
 }
 
 model patientTable {
-    id String @id
-    name String
-    extrainfo String?
-    medic String
-    medics userTable @relation(fields: [medic], references: [id])
-    spirometries spirometryTable[]
-    peso Int
-    altura Int
-    nacimiento DateTime
-    sexo Int
+  id           String            @id
+  name         String
+  extrainfo    String?
+  medic        String
+  peso         Int
+  altura       Int
+  nacimiento   DateTime
+  sexo         Int
+  medics       userTable         @relation(fields: [medic], references: [id])
+  spirometries spirometryTable[]
 }
 
 model spirometryTable {
-    id String   @id
-    obstruction Int
-    obstructionai Float
-    restriction Int
-    restrictionai Float
-    patient String 
-    patients patientTable @relation(fields: [patient], references: [id])
-    date DateTime
-    fev1 Int
-    fev1pred Int
-    fvc Int
-    fvcpred Int
-    correctionobs Int?
-    correctionobsmed Int?
-    correctionres Int?
-    correctionresmed Int?
-    enjson Int?
+  id               String       @id
+  obstruction      Int
+  obstructionai    Float
+  restriction      Int
+  restrictionai    Float
+  patient          String
+  date             DateTime
+  fev1             Int
+  fev1pred         Int
+  fvc              Int
+  fvcpred          Int
+  correctionobs    Int?
+  correctionobsmed Int?
+  correctionres    Int?
+  correctionresmed Int?
+  enjson           Int?
+  patients         patientTable @relation(fields: [patient], references: [id])
 }

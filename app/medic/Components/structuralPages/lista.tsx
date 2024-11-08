@@ -1,17 +1,16 @@
 
 import { useEffect, useState } from "react";
 import { getPatientsList } from "@/app/api/medic/patient"; // Assuming these functions return promises or async dataimport { map, string } from "zod";
-import { Patient } from "@/app/lib/dbSchema/schema";
 import { Dispatch, SetStateAction } from "react";
 
 export default function Lista_y_Busqueda({ Pagina }: {
-  Pagina: Dispatch<SetStateAction<string>>,
+  Pagina: Dispatch<SetStateAction<number>>,
 }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [patientsList, setPatientsList] = useState<Patient[]>([]);
-  const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
+  const [patientsList, setPatientsList] = useState<any[]>([]);
+  const [filteredPatients, setFilteredPatients] = useState<any[]>([]);
 
-  const NavigetoComp2 = (Id: string) => {
+  const NavigetoComp2 = (Id: number) => {
     // console.log("Clicked on:", Id)
     // console.log(Pagina);
     Pagina(Id)
@@ -23,15 +22,9 @@ export default function Lista_y_Busqueda({ Pagina }: {
         const patients = await getPatientsList(); // Assuming this returns only { id: string, name: string }[]
     
         // Map the data to include default values for missing fields
-        const fullPatientsList: Patient[] = patients.map((patient: { id: string; name: string }): Patient => ({
+        const fullPatientsList = patients.map((patient: { id: number; name: string }) => ({
           id: patient.id,
           name: patient.name,
-          extrainfo: "", // Default value for missing fields
-          medic: "Unknown",
-          peso: 0,
-          altura: 0,
-          nacimiento: new Date(),
-          sexo: 0,
         }));
     
         setPatientsList(fullPatientsList);
@@ -44,14 +37,14 @@ export default function Lista_y_Busqueda({ Pagina }: {
   }, []);
 
   useEffect(() => {
-    const filteredList = patientsList.filter((patient: Patient) =>
+    const filteredList = patientsList.filter((patient) =>
       patient.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredPatients(filteredList);
   }, [patientsList, searchTerm]);
 
   const handleAgregarP = () => {
-    Pagina("2")
+    Pagina(0)
   };
   //opcion 1: hacer un usestate y asignar ahi el id 
   // opcion 2: enviar todo a una pagina nueva tipo [slug] 

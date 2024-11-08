@@ -1,7 +1,8 @@
-import { deleteSpirometry } from "@/app/api/medic/spirometry";
-import { deletePatient } from "@/app/api/medic/patient";
+import { deleteSpirometry } from "#/medic/spirometry";
+import { deletePatient } from "#/medic/patient";
 
-export default function ByebyeButton({ tabla, id }: { tabla: string, id: string }) {
+export default function ByebyeButton({ tabla, id }: { tabla: string, id: number }) {
+    console.log(tabla, id);
     const Persona = () =>{
     switch (tabla){
         case "patient":
@@ -23,6 +24,7 @@ export default function ByebyeButton({ tabla, id }: { tabla: string, id: string 
                     break;
 
                 case "spirometry":
+                    console.log("id: ", id)
                     await deleteSpirometry(id);
                     break;
 
@@ -34,7 +36,7 @@ export default function ByebyeButton({ tabla, id }: { tabla: string, id: string 
             }
         }
         catch (error: unknown) {
-            console.log(JSON.stringify(error))
+            console.log(error);
             return;
         }
         return

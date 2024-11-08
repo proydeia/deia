@@ -5,7 +5,7 @@ import { Dispatch, SetStateAction } from "react";                               
 import { useFormState } from "react-dom";
 import { createSpirometry } from "@/app/api/medic/spirometry";
 import Image from "next/image";
-export default function AgregarEspiro({Pagina, id, Page}:{ Pagina: Dispatch<SetStateAction<string>>, id: string, Page: Dispatch<SetStateAction<string>>} ) {
+export default function AgregarEspiro({Pagina, id, Page}:{ Pagina: Dispatch<SetStateAction<number>>, id: number, Page: Dispatch<SetStateAction<number>>} ) {
   const [state, formAction] = useFormState(createSpirometry, undefined);
 
   return (
@@ -17,7 +17,7 @@ export default function AgregarEspiro({Pagina, id, Page}:{ Pagina: Dispatch<SetS
           </p>
 
           <div className="flex flex-row items-center justify-center">
-          <button onClick={() => Page("1")}>
+          <button onClick={() => Page(-1)}>
             <Image
               src="/flexa_back.png"
               alt="Flecha"
@@ -26,7 +26,7 @@ export default function AgregarEspiro({Pagina, id, Page}:{ Pagina: Dispatch<SetS
               height={30}
             />
           </button>
-          <button onClick={() => Pagina("1")} className=" px-4 h-2/3">
+          <button onClick={() => Pagina(-1)} className=" px-4 h-2/3">
             <Image
               src="/cruz_back.png"
               alt="Mi imagen"

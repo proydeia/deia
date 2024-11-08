@@ -6,11 +6,11 @@ import Paciente from "./Components/structuralPages/paciente";
 import Image from "next/image";
 
 export default function AuthorizedPage() {
-  const [Pagina, setPagina] = useState("1");
+  const [Pagina, setPagina] = useState(-1);
 
   const PaginaComponente = () => {
     switch (Pagina) {
-      case "1":
+      case -1:
         return (        
         <main>
           <div className="w-full h-screen flex flex-col justify-center items-center">
@@ -26,7 +26,7 @@ export default function AuthorizedPage() {
           </div>
         </main>)
         
-      case "2":
+      case 0:
         return <AgregarPacientes Pagina={setPagina} />;
 
       default:

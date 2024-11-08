@@ -7,7 +7,7 @@ import { useFormState } from "react-dom";
 import Image from "next/image";
 
 interface Props {
-  Pagina: Dispatch<SetStateAction<string>>;
+  Pagina: Dispatch<SetStateAction<number>>;
 }
 export default function AgregarPacientes({ Pagina }: Props) {
   const [state, formAction] = useFormState(createPatient, undefined);
@@ -23,7 +23,7 @@ export default function AgregarPacientes({ Pagina }: Props) {
         <p className="text-2xl sm:text-3xl font-bold text-left text-primary_light w-full mb-4 mt-4">
           Agregar Paciente
         </p>
-        <button onClick={() => Pagina("1")} className=" px-4 h-2/3">
+        <button onClick={() => Pagina(-1)} className=" px-4 h-2/3">
           <Image
             src="/cruz_back.png"
             alt="Mi imagen"

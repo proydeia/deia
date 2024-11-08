@@ -3,7 +3,6 @@ const axios = require('axios');
 import { spirometryFormSchema, spirometryState } from "@/app/lib/formsDefinitions/spirometryFormDefinition";
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient()
-import { uuid } from "../ID";
 import { userData } from "../auth/userData";
 
 axios.defaults.withCredentials = true
@@ -39,6 +38,7 @@ export async function getSpirometryList (patientId: number){
                 date: true,
                 fev1: true,
                 fev1pred: true,
+                id:true
             }
         })
     }
@@ -71,7 +71,6 @@ export async function getSpirometry (spirometryId: number){
             }
         });
 
-        console.log(s);
         return s;   
     }
     catch(error:unknown){
@@ -88,12 +87,13 @@ export async function deleteSpirometry(spirometryId: number) {
     try{
         await prisma.spirometry.delete({
             where:{
-                id: spirometryId
+                id: spirometryId,
             },
         })
         return
     }
     catch(error:unknown){
+        console.log(error);
         throw new Error('D');
     }
 }
@@ -127,7 +127,6 @@ export async function createSpirometry(state: spirometryState, formData: FormDat
         };
     }
     catch(error:unknown){
-        console.log(error);
         return {
             message: 'Error al generar registro. Intente nuevamente.'
         };

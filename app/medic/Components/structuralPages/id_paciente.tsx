@@ -13,10 +13,10 @@ import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 
 interface Props {
-  pacienteId: string; // ID passed as a prop
-  Pagina: Dispatch<SetStateAction<string>>;
-  Page: Dispatch<SetStateAction<string>>;
-  Espiro: Dispatch<SetStateAction<string>>;
+  pacienteId: number; // ID passed as a prop
+  Pagina: Dispatch<SetStateAction<number>>;
+  Page: Dispatch<SetStateAction<number>>;
+  Espiro: Dispatch<SetStateAction<number>>;
 }
 interface SpirometryButtonProps {
   Espiro_id: Function;
@@ -36,10 +36,10 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
       if (pacienteId) {
         //Si no hay pacienteId, no se hace nada
         try {
-          const fetchedPatient: Patient = await getPatient(pacienteId); // Assuming getPatient returns a Patient
+          const fetchedPatient:any = await getPatient(pacienteId); // Assuming getPatient returns a Patient
           setPatient(fetchedPatient);
           const fetchSpirometry = async () => {
-            const fetchedSpirometry: Spirometry[] = await getSpirometryList(
+            const fetchedSpirometry: any[] = await getSpirometryList(
               pacienteId
             );
             setSpyrometry(fetchedSpirometry);
@@ -68,10 +68,10 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
       </button>
     );
   };
-  const NavigetoVer_Mas = (Id: string) => {
+  const NavigetoVer_Mas = (Id: number) => {
     // Id = "173cf573-5aaa-4fa8-9a98-eaa1e43ef8ec" //este el el id de una espirometria de un paciente
     // es una prueba
-    Page("3")
+    Page(3)
     Espiro(Id)
   }
 
@@ -88,7 +88,7 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
               {patient.name}
             </p>
             <div className="flex flex-row items-center justify-center">
-              <button onClick={() => Pagina("1")} className=" px-4 h-2/3 hover:animate-spin animate-duration-100 animate-once animate-ease-in-out animate-normal">
+              <button onClick={() => Pagina(-1)} className=" px-4 h-2/3 hover:animate-spin animate-duration-100 animate-once animate-ease-in-out animate-normal">
                 <Image
                   src="/cruz_back.png"
                   alt="Mi imagen"
@@ -144,6 +144,7 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
                 >
                   <div className="flex-grow">
                     <p>Fecha: {spirometry.date.toDateString()}</p>
+                    <p>id:{spirometry.obstruction}</p>
 
                     <p>
                       {spirometry.obstruction >= 0 && spirometry.restriction <= 0 ? (
@@ -164,7 +165,7 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
 
                 <ByebyeButton tabla={"patient"} id={pacienteId} />
 
-                <button className="bg-secondary text-md p-2 ml-2 rounded-sm" onClick={() => Page("2")}>Agregar Espirometrías</button>
+                <button className="bg-secondary text-md p-2 ml-2 rounded-sm" onClick={() => Page(0)}>Agregar Espirometrías</button>
               </div>
             </div>
           </div>
