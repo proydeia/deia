@@ -1,8 +1,8 @@
 "use server"
 const axios = require('axios');
 import { spirometryFormSchema, spirometryState } from "@/app/lib/formsDefinitions/spirometryFormDefinition";
-import db, { newSpirometry, Spirometry } from "@/app/lib/dbSchema/schema";
-import { uuid } from "../ID";
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient()
 import { userData } from "../auth/userData";
 
 axios.defaults.withCredentials = true
@@ -24,55 +24,76 @@ type spirometryInput = {
 
 // Espirometrias
 
-export async function getSpirometryList (patientId: string): Promise < Spirometry[] > {
+export async function getSpirometryList (patientId: number){
     
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
 
     try{
-        const spirometryTable = await db
-        .selectFrom("spirometryTable")
-        .where("spirometryTable.patient", "=", patientId)  
-        .selectAll()
-        .execute();
-        return spirometryTable;
+        return await prisma.spirometry.findMany({
+            where:{
+                patient: patientId
+            },
+            select:{
+                date: true,
+                fev1: true,
+                fev1pred: true,
+                id:true
+            }
+        })
     }
     catch(error:unknown){
+        console.log(error);
         throw new Error('D')
     }
 }
 
-export async function getSpirometry (spirometryId: string): Promise < Spirometry > {
+export async function getSpirometry (spirometryId: number){
     
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
     
     try{
-        const spirometry = await db 
-        .selectFrom("spirometryTable")
-        .where("spirometryTable.id", "=", spirometryId)
-        .selectAll()
-        .executeTakeFirstOrThrow();
-        return spirometry;
+        const s = await prisma.spirometry.findUnique({
+            where:{
+                id: spirometryId
+            },
+            select:{
+                date: true,
+                fev1: true,
+                fev1pred: true,
+                fvc: true,
+                fvcpred: true,
+                obstruction: true,
+                obstructionai: true,
+                restriction: true,
+                restrictionai: true,
+            }
+        });
+
+        return s;   
     }
     catch(error:unknown){
+        console.log(error);
         throw new Error("D");
     }
 }
 
-export async function deleteSpirometry(spirometryId: string) {
+export async function deleteSpirometry(spirometryId: number) {
     
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
 
     try{
-        await db
-        .deleteFrom("spirometryTable")
-        .where("spirometryTable.id", "=", spirometryId)
-        .executeTakeFirstOrThrow();
+        await prisma.spirometry.delete({
+            where:{
+                id: spirometryId,
+            },
+        })
         return
     }
     catch(error:unknown){
+        console.log(error);
         throw new Error('D');
     }
 }
@@ -106,7 +127,6 @@ export async function createSpirometry(state: spirometryState, formData: FormDat
         };
     }
     catch(error:unknown){
-        console.log(error);
         return {
             message: 'Error al generar registro. Intente nuevamente.'
         };
@@ -164,18 +184,14 @@ async function loadSpirometry(data:spirometryInput){
         })
         .catch((error:unknown) => {
             throw new Error('Ria');
-        })
-            
-        const spirometryId = await uuid("spirometryTable");	
-        
+        })	
         
         var date = new Date;
         date.setDate(date.getDate() + 1); //no se que le pasa pero me resta un dia. esta fue la mejor soucion un miercoles a las 23:48pm
         
-        const spirometry: newSpirometry = {
+        const spirometry = {
             patient:        data.id,
             ...spirometryData,
-            id:             spirometryId,
             obstruction:    obstruction,
             obstructionai:  obstructionAi,
             restriction:    restriction,
@@ -185,21 +201,12 @@ async function loadSpirometry(data:spirometryInput){
         
         console.log(spirometry);
         
-        const spirometryDB: newSpirometry = await db
-        .insertInto("spirometryTable")
-        .values(spirometry)
-        .returningAll()
-        .executeTakeFirstOrThrow();
-        
-
-        if(spirometryDB instanceof Error)
-        {
-            deleteSpirometry(spirometryId);
-            throw new Error('DB');
-        }
-    
-        return
-
+        // return await prisma.spirometry.create({
+        //     data: {
+        //         patient: data.id,
+                
+        //     }
+        // });
     }
     catch(error:unknown){
         console.log(error);

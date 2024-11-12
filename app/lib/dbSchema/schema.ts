@@ -20,10 +20,9 @@ export async function compare(data:string, hash:string): Promise<boolean> {
 //-----------> Database:
 
 interface organizationTable {
-    id: string; //Primary KEY
     name: string;
-    domain: string;
     medics: number;
+    aproved: boolean;
 }
 
 interface userTable {
@@ -46,21 +45,26 @@ interface patientTable {
 }
 
 interface spirometryTable {
-    id: string; //Primary KEY
-    obstruction: number;
-    obstructionai: number;
-    restriction: number;
-    restrictionai: number;
+    id: string;
     patient: string; //Foreing KEY
     date: Date;
+
     fev1: number;
     fev1pred: number;
     fvc: number;
     fvcpred: number;
+
+    obstruction: number;
+    obstructionai: number;
+    
+    restriction: number;
+    restrictionai: number;
+
     correctionobs: number | undefined;
     correctionobsmed: number | undefined;
     correctionres: number | undefined;
     correctionresmed: number | undefined;
+    
     enjson: number | undefined;
 }
 

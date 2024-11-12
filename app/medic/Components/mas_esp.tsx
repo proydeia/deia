@@ -1,28 +1,27 @@
 import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
-import { Spirometry } from "@/app/lib/dbSchema/schema";
 import { useState, useEffect } from "react";
 import { getSpirometry } from "@/app/api/medic/spirometry";
 import ByebyeButton from "./delSpirometryButton";
 export default function Ver_Mas({
   Pagina,
   Page,
-  pacienteId,
   EspiroId
 }: {
-  Pagina: Dispatch<SetStateAction<string>>;
-  Page: Dispatch<SetStateAction<string>>;
-  EspiroId: string;
-  pacienteId: string;
+  Pagina: Dispatch<SetStateAction<number>>;
+  Page: Dispatch<SetStateAction<number>>;
+  EspiroId: number;
+  pacienteId: number;
 }) {
-  const [spyrometry, setSpyrometry] = useState<Spirometry | null>(null);
+  const [spyrometry, setSpyrometry] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
+      console.log(EspiroId);
       setIsLoading(true);
       if (EspiroId) {
         try {
-          const fetchedSpirometry: Spirometry = await getSpirometry(EspiroId);
+          const fetchedSpirometry = await getSpirometry(EspiroId);
           const fetchSpirometry = async () => {
             //terminar de arreglar esto a primera hora
             setSpyrometry(fetchedSpirometry);
@@ -49,7 +48,7 @@ export default function Ver_Mas({
           Datos Extra
         </p>
         <div className="flex flex-row items-center justify-center">
-          <button onClick={() => Page("1")}>
+          <button onClick={() => Page(-1)}>
             <Image
               src="/flexa_back.png"
               alt="Flecha"
@@ -58,7 +57,7 @@ export default function Ver_Mas({
               height={30}
             />
           </button>
-          <button onClick={() => Pagina("1")} className=" px-4 h-2/3">
+          <button onClick={() => Pagina(-1)} className=" px-4 h-2/3">
             <Image
               src="/cruz_back.png"
               alt="Mi imagen"
@@ -84,7 +83,7 @@ export default function Ver_Mas({
                 {spyrometry.date.toDateString() || "No spirometry data"}
               </div>
               <div className="justify-center pr-4">
-                <ByebyeButton tabla={"spirometry"} id={spyrometry.id} />
+                <ByebyeButton tabla={"spirometry"} id={EspiroId} />
               </div>
             </div>
             <div className="grid grid-cols-4 p-4 gap-4 justify-center overflow-y-auto h-96">
@@ -163,7 +162,10 @@ export default function Ver_Mas({
 
         </>
       ) : (
-        <p>No hay datos</p>
+        <>
+          <p>{spyrometry}</p>
+          <p>No hay datos</p>
+        </>
       )}
     </div>
   );
