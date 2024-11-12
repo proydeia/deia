@@ -137,18 +137,11 @@ async function loadSpirometry(data:spirometryInput){
     try{
         const spirometryData = {
             fev1:       data.fev1,
-            fev1pred:   -1,
             fvc:        data.fvc,
-            fvcpred:    -1,
-        }
-    
-        const spirometryDataAi = {
-            ...spirometryData, 
-            sexo:       data.sexo, 
             edad:       calculateAge(data.nacimiento),
+            sexo:       data.sexo, 
             altura:     data.altura,
-            peso:       -1,
-        };
+        }
         
         const obstruction:number = await axios.post(`${URL}/obstructiongold`, spirometryData)
         .then((res:any) => {
@@ -159,7 +152,7 @@ async function loadSpirometry(data:spirometryInput){
             throw new Error('O');
         })
         
-        const obstructionAi:number = await axios.post(`${URL}/obstructionaigold`, spirometryDataAi)
+        const obstructionAi:number = await axios.post(`${URL}/obstructionaigold`, spirometryData)
         .then((res:any) => {
             if(res.data.result === -1) throw new Error('Render 500');
             return res.data.result;
@@ -177,7 +170,7 @@ async function loadSpirometry(data:spirometryInput){
             throw new Error('R');
         })
         
-        const restrictionAi:number = await axios.post(`${URL}/restrictionaigold`, spirometryDataAi)
+        const restrictionAi:number = await axios.post(`${URL}/restrictionaigold`, spirometryData)
         .then((res:any) => {
             if(res.data.result === -1) throw new Error('Render 500');
             return res.data.result;
@@ -189,24 +182,27 @@ async function loadSpirometry(data:spirometryInput){
         var date = new Date;
         date.setDate(date.getDate() + 1); //no se que le pasa pero me resta un dia. esta fue la mejor soucion un miercoles a las 23:48pm
         
+
         const spirometry = {
-            patient:        data.id,
-            ...spirometryData,
+            patient:        parseInt(data.id),
+            date:           date,
+            gold: true,
+            gli: true,
+            fev1:           data.fev1,
+            fev1pred:       data.fev1_lln,
+            fvc:            data.fvc,
+            fvcpred:        data.fvc_lln,
             obstruction:    obstruction,
             obstructionai:  obstructionAi,
             restriction:    restriction,
             restrictionai:  restrictionAi,
-            date:           date
         }; 
         
         console.log(spirometry);
         
-        // return await prisma.spirometry.create({
-        //     data: {
-        //         patient: data.id,
-                
-        //     }
-        // });
+        return await prisma.spirometry.create({
+            data: spirometry
+        });
     }
     catch(error:unknown){
         console.log(error);

@@ -144,8 +144,6 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
                 >
                   <div className="flex-grow">
                     <p>Fecha: {spirometry.date.toDateString()}</p>
-                    <p>id:{spirometry.obstruction}</p>
-
                     <p>
                       {spirometry.obstruction >= 0 && spirometry.restriction <= 0 ? (
                         `Obstrucción: ${spirometry.obstruction}`

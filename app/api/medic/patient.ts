@@ -66,19 +66,13 @@ export async function deletePatient(patientId: number) {
             where: {
                 id: patientId
             },
-            include:{
-                spirometries: {
-                    where: {
-                        patient: patientId
-                    }
-                }
-            }
         });
 
         return {
             message:'Paciente eliminado con éxito.'
         }
     }
+    
     catch(error:unknown){
         console.log(error);
         return {

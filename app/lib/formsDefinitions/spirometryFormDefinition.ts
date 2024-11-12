@@ -20,23 +20,19 @@ export const spirometryFormSchema = z.object({
 
     fev1: z
     .number({message:'Ingresar un valor válido'})
-    //.max(100, {message:'Ingresar un valor válido'})
-    .min(0, {message:'Ingresar un valor válido'}),
+    .refine(data => data > 0, {message:'Ingresar un valor mayor a 0'}),
 
     fev1_lln: z
     .number({message:'Ingresar un valor válido'})
-    //.max(100, {message:'Ingresar un valor válido'})
-    .min(0, {message:'Ingresar un valor válido'}),
+    .refine(data => data > 0, {message:'Ingresar un valor mayor a 0'}),
 
     fvc: z
     .number({message:'Ingresar un valor válido'})
-    //.max(100, {message:'Ingresar un valor válido'})
-    .min(0, {message:'Ingresar un valor válido'}),
+    .refine(data => data > 0, {message:'Ingresar un valor mayor a 0'}),
     
     fvc_lln: z
     .number({message:'Ingresar un valor válido'})
-    //.max(100, {message:'Ingresar un valor válido'})
-    .min(0, {message:'Ingresar un valor válido'}),
+    .refine(data => data > 0, {message:'Ingresar un valor mayor a 0'}),
 
   })
  
@@ -44,10 +40,10 @@ export type spirometryState =
   | {
       errors?: {
         id?:        string[]
-        // sexo?:      string[]
-        // altura?:    string[]
-        // peso?:      string[]
-        // nacimiento: string[]
+        sexo?:      string[]
+        altura?:    string[]
+        peso?:      string[]
+        nacimiento?:string[]
         fev1?:      string[]
         fev1_lln?:  string[]
         fvc?:       string[]

@@ -23,7 +23,7 @@ model User {
   password      String
   organization  String
   patients      Patient[]
-  organizations Organization @relation(fields: [organization], references: [name])
+  organizations Organization @relation(fields: [organization], references: [name], onDelete: Cascade)
 }
 
 model Patient {
@@ -35,7 +35,7 @@ model Patient {
   nacimiento   DateTime     @db.Date
   sexo         Int
   name         String
-  users        User         @relation(fields: [medic], references: [email])
+  users        User         @relation(fields: [medic], references: [email], onDelete: Cascade)
   spirometries Spirometry[]
 }
 
@@ -58,56 +58,5 @@ model Spirometry {
   correctionresGold Int      @default(-1)
   correctionresGLI  Int      @default(-1)
   enjson            Int      @default(0)
-  patients          Patient  @relation(fields: [patient], references: [id])
-}
-
-model organizationTable {
-  id         String      @id
-  name       String
-  domain     String
-  medics     Int
-  medicsUser userTable[]
-}
-
-model userTable {
-  id            String            @id
-  name          String
-  adm           Boolean
-  password      String
-  organization  String
-  patients      patientTable[]
-  organizations organizationTable @relation(fields: [organization], references: [id])
-}
-
-model patientTable {
-  id           String            @id
-  name         String
-  extrainfo    String?
-  medic        String
-  peso         Int
-  altura       Int
-  nacimiento   DateTime
-  sexo         Int
-  medics       userTable         @relation(fields: [medic], references: [id])
-  spirometries spirometryTable[]
-}
-
-model spirometryTable {
-  id               String       @id
-  obstruction      Int
-  obstructionai    Float
-  restriction      Int
-  restrictionai    Float
-  patient          String
-  date             DateTime
-  fev1             Int
-  fev1pred         Int
-  fvc              Int
-  fvcpred          Int
-  correctionobs    Int?
-  correctionobsmed Int?
-  correctionres    Int?
-  correctionresmed Int?
-  enjson           Int?
-  patients         patientTable @relation(fields: [patient], references: [id])
+  patients          Patient  @relation(fields: [patient], references: [id], onDelete: Cascade)
 }
