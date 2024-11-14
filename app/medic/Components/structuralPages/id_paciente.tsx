@@ -7,6 +7,7 @@ import ByebyeButton from "../delSpirometryButton";
 import Pag1 from "./Pag1";
 import SpirometryList from "./SpirometryList";
 import { Dispatch, SetStateAction } from "react";
+import Ver_Mas from "../mas_esp";
 import Image from "next/image";
 
 interface Props {
@@ -21,6 +22,7 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
   const [spirometries, setSpirometries] = useState<Spirometry[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'Pag1' | 'SpirometryList'>('Pag1');
+  const [selectedSpirometryId, setSelectedSpirometryId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,7 +103,13 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
 
           {activeTab === 'Pag1' && <Pag1 paciente={patient} />}
           {activeTab === 'SpirometryList' && spirometries && (
+            <>
             <SpirometryList spirometries={spirometries} onVerMas={NavigetoVer_Mas} />
+            {selectedSpirometryId && (
+              <Ver_Mas Pagina={Pagina} Page={Page} EspiroId={selectedSpirometryId} pacienteId={pacienteId} />
+            )}
+            <ByebyeButton tabla={"patient"} id={pacienteId} />
+          </>
           )}
           <div className={`${activeTab === 'SpirometryList' ? 'hidden' : 'block'}`}>
            
