@@ -64,7 +64,7 @@ export default function AgregarEspiro({Pagina, id, Page}:{ Pagina: Dispatch<SetS
             </div>
         
           <div>
-            <label className="w-11/12">
+            {/* <label className="w-11/12">
               <h1 className="text-sm font-light text-third">FEV1 LLN</h1>
               <input
                 type="number"
@@ -75,7 +75,7 @@ export default function AgregarEspiro({Pagina, id, Page}:{ Pagina: Dispatch<SetS
               />
 
               {state?.errors?.fev1_lln && <p>{state.errors.fev1_lln}</p>}
-            </label>
+            </label> */}
           </div>
 
           <div>
@@ -93,7 +93,7 @@ export default function AgregarEspiro({Pagina, id, Page}:{ Pagina: Dispatch<SetS
             </label>
           </div>
 
-          <div>
+          {/* <div>
             <label className="w-11/12">
               <h1 className="text-sm font-light text-third">FVC LLN</h1>
               <input
@@ -106,7 +106,7 @@ export default function AgregarEspiro({Pagina, id, Page}:{ Pagina: Dispatch<SetS
 
               {state?.errors?.fvc_lln && <p>{state.errors.fvc_lln}</p>}
             </label>
-          </div>
+          </div> */}
 
         </div>
         {/* <label className="w-11/12">

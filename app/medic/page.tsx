@@ -20,9 +20,9 @@ export default function AuthorizedPage() {
             layout="fixed"
             width={400}
             height={400}
-            className="relative top-5 z-5 animate-rotate-y animate-once animate-delay-[20000ms]  animate-ease-in-out animate-normal "
+            className="relative top-5 -mt-8 z-5 animate-rotate-y animate-once animate-delay-[20000ms]  animate-ease-in-out animate-normal "
             />
-               <p className="text-xl md:text-4xl font-titulo font-bold text-center text-primary_light w-full mb-4 mt-4">DEIA</p> 
+               <p className="text-xl md:text-4xl font-titulo font-bold text-center text-primary_light w-full mb-4 mt-8">DEIA</p> 
           </div>
         </main>)
         
@@ -36,7 +36,7 @@ export default function AuthorizedPage() {
   
   return (
     <>
-      <main className="flex flex-col sm:flex-row h-screen">
+      <main className="flex flex-col sm:flex-row h-fit">
         {/* LISTA DE PACIENTES */}
         <div className="sm:w-5/12 w-full flex items-center mt-10 justify-center bg-primary">
           <Lista_y_Busqueda
@@ -44,7 +44,7 @@ export default function AuthorizedPage() {
           />
         </div>
         {/* ACA VAMOS A IR CAMBIANDO DE COMPONENTES */}
-        <div className="bg-secondary lg:mt-8 md:mt-4 mt-0 flex flex-col items-center justify-center sm:w-7/12  w-full  ">
+        <div className="bg-secondary lg:mt-8 md:mt-4 mt-0 flex flex-col items-center  justify-center sm:w-7/12  w-full  ">
           <PaginaComponente />
         </div>
       </main>
