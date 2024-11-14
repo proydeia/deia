@@ -59,13 +59,13 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
         <div className="flex flex-col w-11/12 justify-center items-center bg-primary_light">
           <div className="flex flex-row w-full justify-start items-center ">
             <button
-              className={`px-4 py-1 font-subtitulo font-thin  border-b-2 ${activeTab === 'Pag1' ? 'bg-secondary text-primary_light' : 'bg-primary text-secondary'}`}
+              className={`px-4 py-1 font-subtitulo font-thin   ${activeTab === 'Pag1' ? 'border-b-2 text-primary_light' : 'bg-primary text-secondary'}`}
               onClick={() => setActiveTab('Pag1')}
             >
               Información 
             </button>
             <button
-              className={`px-4 py-1 font-subtitulo font-thin  border-b-2 ${activeTab === 'SpirometryList' ? 'bg-secondary text-primary_light' : 'bg-primary text-secondary'}`}
+              className={`px-4 py-1 font-subtitulo font-thin   ${activeTab === 'SpirometryList' ? 'border-b-2 text-primary_light' : 'bg-primary text-secondary'}`}
               onClick={() => setActiveTab('SpirometryList')}
             >
               Espirometrías
