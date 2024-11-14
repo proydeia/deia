@@ -22,18 +22,9 @@ export const spirometryFormSchema = z.object({
     .number({message:'Ingresar un valor válido'})
     .refine(data => data > 0, {message:'Ingresar un valor mayor a 0'}),
 
-    fev1_lln: z
-    .number({message:'Ingresar un valor válido'})
-    .refine(data => data > 0, {message:'Ingresar un valor mayor a 0'}),
-
     fvc: z
     .number({message:'Ingresar un valor válido'})
     .refine(data => data > 0, {message:'Ingresar un valor mayor a 0'}),
-    
-    fvc_lln: z
-    .number({message:'Ingresar un valor válido'})
-    .refine(data => data > 0, {message:'Ingresar un valor mayor a 0'}),
-
   })
  
 export type spirometryState =
@@ -45,9 +36,7 @@ export type spirometryState =
         peso?:      string[]
         nacimiento?:string[]
         fev1?:      string[]
-        fev1_lln?:  string[]
         fvc?:       string[]
-        fvc_lln?:   string[]
       }
       message?: string
     }

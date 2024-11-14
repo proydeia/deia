@@ -56,16 +56,16 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
       ) : !pacienteId ? (
         <p>Elija un Paciente o cree uno.</p>
       ) : patient ? (
-        <div className="flex flex-col w-11/12 justify-center items-center bg-primary_light">
-          <div className="flex flex-row w-full justify-start items-center ">
+        <div className="flex flex-col w-11/12 justify-center mt-14 items-center bg-primary_light">
+          <div className="flex flex-row w-full justify-start  items-center ">
             <button
-              className={`px-4 py-1 font-subtitulo font-thin   ${activeTab === 'Pag1' ? 'border-b-2 text-primary_light' : 'bg-primary text-secondary'}`}
+              className={`px-4 py-1 font-subtitulo font-thin   ${activeTab === 'Pag1' ? 'border-b-2 text-secondary' : 'border-b-0 text-secondary'}`}
               onClick={() => setActiveTab('Pag1')}
             >
               Información 
             </button>
             <button
-              className={`px-4 py-1 font-subtitulo font-thin   ${activeTab === 'SpirometryList' ? 'border-b-2 text-primary_light' : 'bg-primary text-secondary'}`}
+              className={`px-4 py-1 font-subtitulo font-thin   ${activeTab === 'SpirometryList' ? 'border-b-2 text-secondary' : 'border-b-0  text-secondary'}`}
               onClick={() => setActiveTab('SpirometryList')}
             >
               Espirometrías
@@ -76,6 +76,8 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
               {patient.name}
             </p>
             <div className="flex flex-row items-center justify-center">
+              {/* {activeTab === 'SpirometryList' ? return(
+                
               <button
                 onClick={() => Pagina(-1)}
                 className="px-4 h-2/3 hover:animate-spin animate-duration-100 animate-once animate-ease-in-out animate-normal"
@@ -88,6 +90,11 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
                   height={30}
                 />
               </button>
+              ): {
+                return(
+                  <p>ola</p>
+                )
+              }} */}
             </div>
           </div>
 
@@ -96,17 +103,18 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
           {activeTab === 'SpirometryList' && spirometries && (
             <SpirometryList spirometries={spirometries} onVerMas={NavigetoVer_Mas} />
           )}
-
           <div className={`${activeTab === 'SpirometryList' ? 'hidden' : 'block'}`}>
+           
             <ByebyeButton tabla={"patient"} id={pacienteId} />
             </div>
             <button
-               className={`bg-secondary text-md p-2 ml-2 rounded-lg${activeTab === 'SpirometryList' ? 'block' : 'hidden'}`}
+               className={`bg-secondary text-md p-2 ml-2 rounded-lg my-2 ${activeTab === 'SpirometryList' ? 'block' : 'hidden'}`}
               onClick={() => Page(0)}
             >
               Agregar Espirometrías
             </button>
         </div>
+
       ) : (
         <p>Paciente no encontrado</p>
       )}

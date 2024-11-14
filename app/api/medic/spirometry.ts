@@ -17,9 +17,7 @@ type spirometryInput = {
     altura:     number;
     nacimiento: Date;
     fev1:       number;
-    fev1_lln:   number;
     fvc:        number;
-    fvc_lln:    number;
 }
 
 // Espirometrias
@@ -106,9 +104,7 @@ export async function createSpirometry(state: spirometryState, formData: FormDat
         peso:       Number(formData.get('peso')),
         nacimiento: new Date(formData.get('nacimiento') as string),
         fev1:       Number(formData.get('fev1')),
-        fev1_lln:   Number(formData.get('fev1_lln')),
         fvc:        Number(formData.get('fvc')),
-        fvc_lln:    Number(formData.get('fvc_lln')),
     });
 
     if (!validatedFields.success) {
@@ -186,12 +182,12 @@ async function loadSpirometry(data:spirometryInput){
         const spirometry = {
             patient:        parseInt(data.id),
             date:           date,
-            gold: true,
-            gli: true,
+            gold:           true,
+            gli:            true,
             fev1:           data.fev1,
-            fev1pred:       data.fev1_lln,
+            fev1pred:       data.fev1, //preguntar que carajo es este dato
             fvc:            data.fvc,
-            fvcpred:        data.fvc_lln,
+            fvcpred:        data.fvc, //preguntar que carajo es este dato
             obstruction:    obstruction,
             obstructionai:  obstructionAi,
             restriction:    restriction,
