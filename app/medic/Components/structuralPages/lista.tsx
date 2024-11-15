@@ -50,7 +50,7 @@ export default function Lista_y_Busqueda({ Pagina }: {
   // opcion 2: enviar todo a una pagina nueva tipo [slug] 
 
   return (
-    <div className=" flex items-center mt-20 justify-center w-full py-4 px-2">
+    <div className=" flex items-center mt-10 justify-center w-full py-4 px-2">
       <div className="w-11/12 flex flex-col gap-4 items-center">
         <p className="text-3xl font-bold text-left w-full mt-4 mb-2">
           Historial de Pacientes
@@ -78,7 +78,7 @@ export default function Lista_y_Busqueda({ Pagina }: {
           )}
           </div>
           <div className="flex justify-center mb-6">
-            <button onClick={handleAgregarP} className="bg-secondary rounded-md px-4 py-2 mt-4  w-1/2">Agregar Paciente</button>   
+            <button onClick={handleAgregarP} className="bg-secondary rounded-md px-4 py-2 mt-2  w-1/2">Agregar Paciente</button>   
           </div>
         </div>
       </div>

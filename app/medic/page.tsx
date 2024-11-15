@@ -37,7 +37,7 @@ export default function AuthorizedPage() {
 
   return (
     <>
-      <main className="flex flex-col sm:flex-row h-screen">
+      <main className="flex flex-col sm:flex-row ">
         {/* LISTA DE PACIENTES */}
         <div className="sm:w-5/12 w-full flex items-center mt-10 justify-center bg-primary">
           <Lista_y_Busqueda

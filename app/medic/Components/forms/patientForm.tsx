@@ -73,19 +73,7 @@ export default function AgregarPacientes({ Pagina }: Props) {
               {state?.errors?.altura && <p>{state.errors.altura}</p>}
             </label>
           </div>
-          <div>
-            <label className="w-11/12">
-              <h1 className="text-sm font-light text-third">Peso (kg)</h1>
-              <input
-                type="number"
-                step={0.01}
-                id="peso"
-                name="peso"
-                className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
-              />
-              {state?.errors?.peso && <p>{state.errors.peso}</p>}
-            </label>
-          </div>
+         
           <div>
             <h1 className="text-sm font-light text-third">Sexo Biologico</h1>
             <div className="w-full rounded-sm border-0 border-b-2 border-secondary focus:outline-none bg-primary">
@@ -116,15 +104,15 @@ export default function AgregarPacientes({ Pagina }: Props) {
             </div>
               {state?.errors?.sexo && <p>{state.errors.sexo}</p>}
           </div>
-          <div>
+          <div className="col-span-2 w-full">
             <label className="w-11/12">
-              <h1 className="text-sm font-light text-third">Extra info</h1>
-              <input
+                <h1 className="text-sm font-light text-third">Extra info</h1>
+                <input
                 type="text"
                 id="extrainfo"
                 name="extrainfo"
-                className=" px-3 rounded-sm bg-primary py-2 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
-              />
+                className="px-3 rounded-sm bg-primary py-4 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
+                />
               {state?.errors?.extrainfo && <p>{state.errors.extrainfo}</p>}
             </label>
           </div>
