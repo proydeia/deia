@@ -43,12 +43,8 @@ model Spirometry {
   id                Int      @id @default(autoincrement())
   patient           Int
   date              DateTime @db.Date
-  gold              Boolean  @default(false)
-  gli               Boolean  @default(false)
   fev1              Float?
-  fev1pred          Float?
   fvc               Float?
-  fvcpred           Float?
   obstruction       Int?
   obstructionai     Float?
   restriction       Int?

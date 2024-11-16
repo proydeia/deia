@@ -35,7 +35,7 @@ export async function getSpirometryList (patientId: number){
             select:{
                 date: true,
                 fev1: true,
-                fev1pred: true,
+                fvc:true,
                 id:true
             }
         })
@@ -59,9 +59,7 @@ export async function getSpirometry (spirometryId: number){
             select:{
                 date: true,
                 fev1: true,
-                fev1pred: true,
                 fvc: true,
-                fvcpred: true,
                 obstruction: true,
                 obstructionai: true,
                 restriction: true,
@@ -182,12 +180,8 @@ async function loadSpirometry(data:spirometryInput){
         const spirometry = {
             patient:        parseInt(data.id),
             date:           date,
-            gold:           true,
-            gli:            true,
             fev1:           data.fev1,
-            fev1pred:       data.fev1, //preguntar que carajo es este dato
             fvc:            data.fvc,
-            fvcpred:        data.fvc, //preguntar que carajo es este dato
             obstruction:    obstruction,
             obstructionai:  obstructionAi,
             restriction:    restriction,
