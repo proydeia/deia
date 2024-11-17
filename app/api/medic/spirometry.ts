@@ -3,7 +3,7 @@ const axios = require('axios');
 import { spirometryFormSchema, spirometryState } from "@/app/lib/formsDefinitions/spirometryFormDefinition";
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient()
-import { userData } from "../auth/userData";
+import { userData } from "#/auth/userData";
 
 axios.defaults.withCredentials = true
 const URL = process.env.URL
