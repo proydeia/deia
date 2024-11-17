@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { getPatientsList } from "@/app/api/medic/patient"; // Assuming these functions return promises or async dataimport { map, string } from "zod";
+import { getPatientsList } from "@/app/api/medic/patient/patient"; // Assuming these functions return promises or async dataimport { map, string } from "zod";
 import { Dispatch, SetStateAction } from "react";
 
 export default function Lista_y_Busqueda({ Pagina }: {

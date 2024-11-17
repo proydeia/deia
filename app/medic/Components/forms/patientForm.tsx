@@ -1,17 +1,65 @@
 "use client";
 import FormButton from "@/app/componenetes/form_button";
-import { useState } from "react";
-import { createPatient } from "#/medic/patient";
+import { FormEvent, useState } from "react";
 import { Dispatch, SetStateAction } from "react";
 import { useFormState } from "react-dom";
 import Image from "next/image";
+import { patientFormSchema, patientState } from "$/formsDefinitions/patientFormDefinition";
 
 interface Props {
   Pagina: Dispatch<SetStateAction<number>>;
 }
 export default function AgregarPacientes({ Pagina }: Props) {
-  const [state, formAction] = useFormState(createPatient, undefined);
 
+  const handler = async (state:patientState, formData: FormData) => {
+    //e.preventDefault();
+
+    const validatedFields = patientFormSchema.safeParse({
+      name:       formData.get('name'),
+      extrainfo:  formData.get('extrainfo'),
+      altura:     Number(formData.get('altura')),
+      sexo:       Number(formData.get('sexo')),
+      nacimiento: new Date(formData.get('nacimiento') as string),
+    });
+    
+    if (!validatedFields.success) {
+      console.log(validatedFields.error.flatten().fieldErrors);
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+      };
+    };
+
+    try{    
+      const response = await fetch("/api/medic/patient/create", {
+        method: "POST",
+        body: JSON.stringify(validatedFields.data), 
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      
+      if (response.ok){
+        const result = await response.json();
+        const { id, name } = result.newPatient;
+        console.log(`Paciente ${name} creado con id ${id}.`);
+        return {
+          message: 'Paciente creado con éxito.' //aca hay que hacer un redirect a la pagina de paciente (usar ID proporcionaddo) y sumar a la lista (id y name proporcionafo)
+        }
+      };
+
+      return {
+        message: 'Error al crear Paciente.'
+      }
+    }
+
+    catch(error){
+      return {
+        message: 'Error al conectar con el servidor. Intente de nuevo más tarde.'
+      }
+    }
+  };
+
+  const [state, formAction] = useFormState(handler, undefined);
   const [name, setName] = useState<string>("");
   const [extraInfo, setExtraInfo] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);

@@ -1,8 +1,7 @@
 "use server";
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Patient } from '@prisma/client';
 const prisma = new PrismaClient()
-import { userData } from "../auth/userData";
-import { patientFormSchema, patientState } from '$/formsDefinitions/patientFormDefinition';
+import { userData } from "../../auth/userData";
 
 // Pacientes
 
@@ -81,53 +80,39 @@ export async function deletePatient(patientId: number) {
     }
 }
 
-export async function createPatient(state:patientState, formData:FormData) {
+export async function createPatient(data: {
+    name: string,
+    altura: number,
+    sexo: number,
+    nacimiento: Date,
+    extrainfo: string
+}) {
 
-    const validatedFields = patientFormSchema.safeParse({
-        name:       formData.get('name'),
-        extrainfo:  formData.get('extrainfo'),
-        peso:       Number(formData.get('peso')),
-        altura:     Number(formData.get('altura')),
-        sexo:       Number(formData.get('sexo')),
-        nacimiento: new Date(formData.get('nacimiento') as string),
-    });
-
-    if (!validatedFields.success) {
-        return {
-          errors: validatedFields.error.flatten().fieldErrors,
-        };
-    };
-    
     const user = await userData();
-    if (!user || user.adm) throw new Error('U');
+    if (!user || user.adm) return new Error('U');
 
     try{
-        const date = validatedFields.data.nacimiento
+        const date = new Date(data.nacimiento)
         date.setDate(date.getDate() + 1);
 
         const newPatient = await prisma.patient.create({
             data: {
                 medic:      user.id,
-                name:       validatedFields.data.name,
-                peso:       validatedFields.data.peso,
-                altura:     validatedFields.data.altura,
-                sexo:       validatedFields.data.sexo - 1,
+                name:       data.name,
+                altura:     data.altura,
+                sexo:       data.sexo - 1,
                 nacimiento: new Date(date),
-                extrainfo:  validatedFields.data.extrainfo as string,
+                extrainfo:  data.extrainfo as string,
             },
-            select: { id: true }
+            select: { 
+                id: true,
+                name: true,
+             }
         });
 
-        return {
-            message:'Registro creado con éxito.',
-            patient: newPatient,
-            id: newPatient.id,
-        };
+        return { newPatient };
     }
     catch(error: unknown){
-        console.log(error);
-        return {
-            message:'Error al crear registro. Intente denuvo más tarde.'
-          };
+        return new Error('D');
     }
 }
