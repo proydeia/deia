@@ -135,16 +135,16 @@ async function loadSpirometry(data:spirometryInput){
         let newSpirometry = {
             date: date,
             patient: data.id,
-            obstructiongold: null,
-            obstructionaigold: null,
-            obstructiongli: null,
-            obstructionaigli: null,
+            obstructiongold: 0,
+            obstructionaigold: 0,
+            obstructiongli: 0,
+            obstructionaigli: 0,
             obstructionaigoldcategorical: null,
             obstructionaiglicategorical: null,
-            restrictiongold: null,
-            restrictionaigold: null,
-            restrictiongli: null,
-            restrictionaigli: null,
+            restrictiongold: 0,
+            restrictionaigold: 0,
+            restrictiongli: 0,
+            restrictionaigli: 0,
         }
 
         const fetchs = [
