@@ -10,8 +10,6 @@ export async function getPatientsList(){
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
 
-    console.log(user.id);
-
     try{
         return await prisma.patient.findMany({
             where: {
