@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Patient, Spirometry } from "@/app/lib/dbSchema/schema";
+import { Patient, Spirometry } from "@prisma/client";
 import { getPatient } from "@/app/api/medic/patient/patient";
 import { getSpirometryList } from "@/app/api/medic/spirometry";
 import Instrucciones from "./instrucciones";
@@ -8,7 +8,6 @@ import Pag1 from "./Pag1";
 import SpirometryList from "./SpirometryList";
 import { Dispatch, SetStateAction } from "react";
 import Ver_Mas from "../mas_esp";
-import Image from "next/image";
 
 interface Props {
   pacienteId: number;
