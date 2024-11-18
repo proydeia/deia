@@ -19,9 +19,7 @@ export default function Lista_y_Busqueda({ Pagina }: {
    useEffect(() => {
     const fetchData = async () => {
       try {
-        const patients = await getPatientsList(); // Assuming this returns only { id: string, name: string }[]
-    
-        // Map the data to include default values for missing fields
+        const patients = await getPatientsList();
         const fullPatientsList = patients.map((patient: { id: number; name: string }) => ({
           id: patient.id,
           name: patient.name,
@@ -46,8 +44,6 @@ export default function Lista_y_Busqueda({ Pagina }: {
   const handleAgregarP = () => {
     Pagina(0)
   };
-  //opcion 1: hacer un usestate y asignar ahi el id 
-  // opcion 2: enviar todo a una pagina nueva tipo [slug] 
 
   return (
     <div className=" flex items-center mt-20 justify-center w-full py-4 px-2">

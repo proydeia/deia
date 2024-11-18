@@ -53,6 +53,7 @@ export default function AgregarPacientes({ Pagina }: Props) {
     }
 
     catch(error){
+      console.log(error);
       return {
         message: 'Error al conectar con el servidor. Intente de nuevo más tarde.'
       }

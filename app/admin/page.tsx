@@ -10,7 +10,7 @@ export default async function adminPage() {
   const { file, aproved } = await retrive();
   return (
     <main className="bg-fondo_light h-screen flex flex-row justify-stretch w-screen">
-      {/* <h1 className='text-center font-black m-3'>Admin page</h1> */}
+      <h1 className='text-center font-black m-3'>Admin page</h1>
        <ListaMedic/>
         <div className="w-7/12 rounded-l-3xl bg-primary h-fit mt-16 shadow-2xl absolute">
           <div className="mt-8  ">

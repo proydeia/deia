@@ -9,7 +9,7 @@ datasource db {
 }
 
 model Organization {
-  name     String  @id
+  name     String  @id @unique
   phone    String?
   email    String?
   address  String?
@@ -19,7 +19,7 @@ model Organization {
 }
 
 model User {
-  email         String       @id
+  email         String       @id @unique
   adm           Boolean
   password      String
   organization  String
@@ -28,7 +28,7 @@ model User {
 }
 
 model Patient {
-  id           Int          @id @default(autoincrement())
+  id           Int          @id @default(autoincrement()) @unique
   extrainfo    String?
   medic        String
   altura       Float
@@ -40,19 +40,34 @@ model Patient {
 }
 
 model Spirometry {
-  id                Int      @id @default(autoincrement())
-  patient           Int
-  date              DateTime @db.Date
-  fev1              Float?
-  fvc               Float?
-  obstruction       Int?
-  obstructionai     Float?
-  restriction       Int?
-  restrictionai     Float?
-  correctionobsGold Int      @default(-1)
-  correctionobsGLI  Int      @default(-1)
-  correctionresGold Int      @default(-1)
-  correctionresGLI  Int      @default(-1)
-  enjson            Int      @default(0)
-  patients          Patient  @relation(fields: [patient], references: [id], onDelete: Cascade)
+  id Int      @id @default(autoincrement()) @unique
+  patient Int
+  date DateTime @db.Date
+
+  fev1 Float?
+  fvc Float?
+  
+  obstructiongold Float
+  obstructionaigold Float
+  obstructiongli Float
+  obstructionaigli Float
+  obstructionaigoldcategorical Float?
+  obstructionaiglicategorical Float?
+  restrictiongold Float
+  restrictionaigold Float
+  restrictiongli Float
+  restrictionaigli Float 
+
+  correctionobsGold Int? @default(-1)
+  correctionobsGoldAi Int? @default(-1)
+  correctionobsGli Int? @default(-1)
+  correctionobsGliAi Int? @default(-1)
+  correctionobsGliAiCategorical Int? @default(-1)
+  correctionresGold Int? @default(-1)
+  correctionresGoldAi Float? @default(-1)
+  correctionresGli Int? @default(-1)
+  correctionresGliAi Float? @default(-1)
+  enjson Int      @default(0)
+  
+  patients Patient  @relation(fields: [patient], references: [id], onDelete: Cascade)
 }

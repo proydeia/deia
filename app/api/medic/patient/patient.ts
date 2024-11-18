@@ -41,8 +41,6 @@ export async function getPatient(patientId:number){
                 select:{
                     id: true,
                     date: true,
-                    obstruction: true,
-                    restriction: true,
                 }
             } }
     });
@@ -92,6 +90,7 @@ export async function createPatient(data: {
     if (!user || user.adm) return new Error('U');
 
     try{
+        console.log(user.id);
         const date = new Date(data.nacimiento)
         date.setDate(date.getDate() + 1);
 
@@ -109,10 +108,11 @@ export async function createPatient(data: {
                 name: true,
              }
         });
-
+        console.log(newPatient);
         return { newPatient };
     }
     catch(error: unknown){
+        console.log(error);
         return new Error('D');
     }
 }

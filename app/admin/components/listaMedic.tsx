@@ -10,7 +10,7 @@ export default async function ListaMedic() {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     "use client";
     searchTerm = event.target.value.toLowerCase();
-    medicos = medicos.filter((medico) => medico.name.toLowerCase().includes(searchTerm));
+    medicos = medicos.filter((medico) => medico.email.toLowerCase().includes(searchTerm));
   };
 
   return (
@@ -34,23 +34,23 @@ export default async function ListaMedic() {
           {medicos.map((medico) => (
             <div
               className="mt-4 mb-4 flex flex-col gap-4 shadow-md rounded-xl bg-primary_light"
-              key={medico.id}
+              key={medico.email}
             >
               <div className="flex flex-row  justify-between items-center rounded-xl">
                 <form
                   action={async () => {
                     "use server";
-                    console.log(await getMedic(medico.id));
+                    console.log(await getMedic(medico.email));
                   }}
                 >
                   <button type="submit" className=" rounded-md m-1">
-                    <h3 className="m-1">{medico.name}</h3>
+                    <h3 className="m-1">{medico.email}</h3>
                   </button>
                 </form>
                 <form
                   action={async () => {
                     "use server";
-                    await deleteUser(medico.id);
+                    await deleteUser(medico.email);
                   }}
                 >
                   <button type="submit" className="bg-red p-1 rounded-md m-1">
