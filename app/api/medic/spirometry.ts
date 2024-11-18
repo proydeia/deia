@@ -133,18 +133,22 @@ async function loadSpirometry(data:spirometryInput){
 
         
         let newSpirometry = {
-            date: date,
             patient: data.id,
-            obstructiongold: 0,
-            obstructionaigold: 0,
-            obstructiongli: 0,
-            obstructionaigli: 0,
-            obstructionaigoldcategorical: null,
-            obstructionaiglicategorical: null,
-            restrictiongold: 0,
-            restrictionaigold: 0,
-            restrictiongli: 0,
-            restrictionaigli: 0,
+            date: date,
+            fvc: spirometryData.fvc,
+            fev1: spirometryData.fev1,
+            obstructiongold: -1,
+            obstructionaigold: -1,
+            obstructiongli: -1,
+            obstructionaigli: -1,
+            obstructionaigoldcategorical1: -1,
+            obstructionaigoldcategorical2: -1,
+            obstructionaiglicategorical1: -1,
+            obstructionaiglicategorical2: -1,
+            restrictiongold: -1,
+            restrictionaigold: -1,
+            restrictiongli: -1,
+            restrictionaigli: -1,
         }
 
         const fetchs = [
@@ -164,6 +168,10 @@ async function loadSpirometry(data:spirometryInput){
             await axios.post(`${URL}/${fetch}`, spirometryData)
             .then((res:any) => {
                 if(res.data.result === -1) throw new Error('Render 500');
+                if(fetch.includes('categorical')){
+                    newSpirometry = {...newSpirometry, [fetch+"1"]: res.data.result1, [fetch+"2"]: res.data.result2};
+                    return
+                };
                 newSpirometry = {...newSpirometry, [fetch]: res.data.result};
                 return
             })
@@ -172,7 +180,7 @@ async function loadSpirometry(data:spirometryInput){
                 throw new Error(fetch);
             })
         }
-        console.log("newspryrometry: ",newSpirometry);
+        console.log("newspryrometry: ", newSpirometry);
         
         return await prisma.spirometry.create({
             data: newSpirometry

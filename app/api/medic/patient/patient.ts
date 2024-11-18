@@ -62,7 +62,6 @@ export async function deletePatient(patientId: number) {
                 id: patientId
             },
         });
-
         return {
             message:'Paciente eliminado con éxito.'
         }
