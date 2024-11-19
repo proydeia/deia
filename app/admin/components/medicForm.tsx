@@ -6,7 +6,7 @@ import FormButton from "../../componenetes/form_button";
 export default function Form() {
     const [state, formAction] = useFormState(createMedic, undefined);
     return (
-        <form className="space-y-6 w-full" action={formAction}>
+        <form className="space-y-3 w-full " action={formAction}>
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                     Correo Electrónico

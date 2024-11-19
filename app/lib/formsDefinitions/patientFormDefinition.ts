@@ -17,10 +17,6 @@ export const patientFormSchema = z.object({
   .optional()
   .nullable(),
 
-  peso: z
-  .number({message:'Ingresar un valor numerico'})
-  .min(1, {message:'Ingresar una valor válida'}),
-
   altura: z
   .number({message:'Ingresar un valor numerico'})
   .min(1, {message:'Ingresar una valor válida'}),
@@ -37,7 +33,6 @@ export type patientState =
       name?: string[]
       nacimiento?: string[]
       extraInfo?: string[]
-      peso?: string[] 
       altura?: string[]
       sexo?: string[]
     }

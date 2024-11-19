@@ -1,72 +1,56 @@
 "use server"
-import { uuid } from "@/app/api/ID";
 import { userData } from "@/app/api/auth/userData";
-import db, { Medic } from "@/app/lib/dbSchema/schema";
 import { medicFormSchema, medicState } from "@/app/lib/formsDefinitions/medicFormDefinition";
+import { PrismaClient, User } from "@prisma/client";
+const prisma = new PrismaClient();
 
 // Pacientes
 
-export async function getMedicList(): Promise < Medic[] > {
+export async function getMedicList(): Promise < User[] > {
     
     const user = await userData();
     if (!user || !user.adm) throw new Error('U');
  
     try{    
-        return await db
-        .selectFrom("userTable")
-        .where("adm", "=", false)
-        .where("organization", "=", user.organization)
-        .selectAll()
-        .execute();        
-    }
-    catch(error:unknown){
-        throw new Error('D');
-    }
-}
-
-export async function getMedic(medicId:string): Promise < Medic > {
- 
-    const user = await userData();
-    if (!user || !user.adm) throw new Error('U');
-    try{
-        return await db
-        .selectFrom("userTable")
-        .where("adm", "=", false)
-        .where("organization", "=", user.organization)
-        .where("userTable.id", "=", medicId)
-        .selectAll()
-        .executeTakeFirstOrThrow();
-    }
-    catch(error:unknown){
-        throw new Error('D');
-    }
-}
-
-export async function deleteUser(userId: string) {
- 
-    const user = await userData();
-    if (!user || !user.adm) throw new Error('U');
-    try{
-        await db.connection().execute(async (trx) => {
-            await trx
-                .deleteFrom('spirometryTable')
-                .where('spirometryTable.patient', 'in', 
-                    trx.selectFrom('patientTable')
-                      .select('patientTable.id')
-                      .where('patientTable.medic', '=', userId)
-                )
-                .executeTakeFirstOrThrow();
-
-            await trx
-                .deleteFrom('patientTable')
-                .where('patientTable.medic', '=', userId)
-                .executeTakeFirstOrThrow();
-
-            await trx
-                .deleteFrom('userTable')
-                .where('userTable.id', '=', userId)
-                .executeTakeFirstOrThrow();
+        return await prisma.user.findMany({
+            where: {
+                adm: false,
+                organization: user.organization
+            }
         });
+        }
+    catch(error:unknown){
+        console.log(error);
+        throw new Error('D');
+    }
+}
+
+export async function getMedic(email:string): Promise < User | null> {
+ 
+    const user = await userData();
+    if (!user || !user.adm) throw new Error('U');
+    try{
+        return await prisma.user.findUnique({
+            where: {
+                email: email
+            },
+        });
+    }
+    catch(error:unknown){
+        throw new Error('D');
+    }
+}
+
+export async function deleteUser(email: string) {
+ 
+    const user = await userData();
+    if (!user || !user.adm) throw new Error('U');
+    try{
+        await prisma.user.delete({
+            where: {
+                email: email
+            }
+        })
         return {
             message:'Usuario eliminado con éxito.'
         }
@@ -94,25 +78,24 @@ export async function createMedic(state:medicState, formData:FormData) {
     if (!user || !user.adm) throw new Error('U');
 
     try{
-        if(await db.selectFrom("userTable").where("name", "=", validatedFields.data.email).where("organization", "=", user.organization).executeTakeFirst()){
+        const medic = await getMedic(validatedFields.data.email);
+
+        if(medic){
             return {
                 message:'El usuario ya existe.'
             };
         }
 
-        const uniqueId = await uuid("patientTable")
-     
-        const newUser = await db
-        .insertInto("userTable")
-        .values({
-            id: uniqueId,
-            name: validatedFields.data.email,
-            password: validatedFields.data.password,
-            organization: user.organization,
-            adm: false,
-        })
-        .returningAll()
-        .executeTakeFirstOrThrow();
+        const newUser = await prisma.user.create({
+            data:{
+                ...validatedFields.data,
+                adm: false,
+                organization: user.organization,
+            },
+            select:{
+                email:true,
+            }
+        });
         
         return {
             message:'Registro creado con éxito.',

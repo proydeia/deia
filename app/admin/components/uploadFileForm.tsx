@@ -29,7 +29,7 @@ export default function AvatarUploadPage() {
         }}
       >
         <input name="file" ref={inputFileRef} type="file" required />
-        <button type="submit">Upload</button>
+        <button type="submit" className='px-4 py-2 bg-secondary text-primary_light block rounded-lg mt-2'>Enviar</button>
       </form>
       {blob && (
         <div>

@@ -1,4 +1,4 @@
-import { Spirometry } from "@/app/lib/dbSchema/schema";
+import { Spirometry } from "@prisma/client";
 
 interface SpirometryListProps {
   spirometries: Spirometry[];
@@ -31,10 +31,10 @@ export default function SpirometryList({ spirometries, onVerMas }: SpirometryLis
           <div className="flex-grow max-h-10 flex-row">
             <p>Fecha: {new Date(spirometry.date).toDateString()}</p>
             <p>
-              {spirometry.obstruction >= 0 && spirometry.restriction <= 0 ? (
-                `Obstrucción: ${spirometry.obstruction}`
-              ) : spirometry.restriction >= 0 && spirometry.obstruction <= 0 ? (
-                `Restricción: ${spirometry.restriction}`
+              {spirometry.obstructiongold >= 0 && spirometry.restrictiongold <= 0 ? (
+                `Obstrucción: ${spirometry.obstructiongold}`
+              ) : spirometry.restrictiongold >= 0 && spirometry.obstructiongold <= 0 ? (
+                `Restricción: ${spirometry.restrictiongold}`
               ) : (
                 "No hay obstrucción ni restricción"
               )}

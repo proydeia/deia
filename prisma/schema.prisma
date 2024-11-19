@@ -4,11 +4,11 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgres://default:HnVxZN1SDea2@ep-misty-snow-a4608mqj-pooler.us-east-1.aws.neon.tech/verceldb?sslmode=require"
+  url      = "postgres://default:HnVxZN1SDea2@ep-misty-snow-a4608mqj-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
 }
 
 model Organization {
-  name     String  @id
+  name     String  @id @unique
   phone    String?
   email    String?
   address  String?
@@ -18,7 +18,7 @@ model Organization {
 }
 
 model User {
-  email         String       @id
+  email         String       @id @unique
   adm           Boolean
   password      String
   organization  String
@@ -27,10 +27,9 @@ model User {
 }
 
 model Patient {
-  id           Int          @id @default(autoincrement())
+  id           Int          @id @unique @default(autoincrement())
   extrainfo    String?
   medic        String
-  peso         Float
   altura       Float
   nacimiento   DateTime     @db.Date
   sexo         Int
@@ -40,23 +39,42 @@ model Patient {
 }
 
 model Spirometry {
-  id                Int      @id @default(autoincrement())
-  patient           Int
-  date              DateTime @db.Date
-  gold              Boolean  @default(false)
-  gli               Boolean  @default(false)
-  fev1              Float?
-  fev1pred          Float?
-  fvc               Float?
-  fvcpred           Float?
-  obstruction       Int?
-  obstructionai     Float?
-  restriction       Int?
-  restrictionai     Float?
-  correctionobsGold Int      @default(-1)
-  correctionobsGLI  Int      @default(-1)
-  correctionresGold Int      @default(-1)
-  correctionresGLI  Int      @default(-1)
-  enjson            Int      @default(0)
-  patients          Patient  @relation(fields: [patient], references: [id], onDelete: Cascade)
+  id                            Int      @id @unique @default(autoincrement())
+  patient                       Int
+  date                          DateTime @db.Date
+  fev1                          Float?
+  fvc                           Float?
+  
+  obstructiongold               Float
+  obstructionaigold             Float
+  obstructionaigoldcategorical1 Float
+  obstructionaigoldcategorical2 Float
+  
+  obstructiongli                Float
+  obstructionaigli              Float
+  obstructionaiglicategorical1  Float
+  obstructionaiglicategorical2  Float
+
+  restrictiongold               Float
+  restrictionaigold             Float
+
+  restrictiongli                Float
+  restrictionaigli              Float
+
+  correctionobsGold             Int?     @default(-1)
+  correctionobsGoldAi           Int?     @default(-1)
+  correctionobsGli              Int?     @default(-1)
+  correctionobsGliAi            Int?     @default(-1)
+  correctionobsGliAiCategorical1 Int?    @default(-1)
+  correctionobsGliAiCategorical2 Int?    @default(-1)
+  correctionobsGoldAiCategorical1 Int?   @default(-1)
+  correctionobsGoldAiCategorical2 Int?   @default(-1)
+  correctionresGold             Int?     @default(-1)
+  correctionresGoldAi           Float?   @default(-1)
+  correctionresGli              Int?     @default(-1)
+  correctionresGliAi            Float?   @default(-1)
+  enjson                        Int      @default(0)
+
+  obstructionaigoldcategorical  Float?
+  patients                      Patient  @relation(fields: [patient], references: [id], onDelete: Cascade)
 }

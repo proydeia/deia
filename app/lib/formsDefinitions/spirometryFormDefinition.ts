@@ -3,8 +3,7 @@ import { z } from 'zod'
  
 export const spirometryFormSchema = z.object({
     id: z
-    .string()
-    .trim(),
+    .number(),
 
     sexo: z
     .number(),

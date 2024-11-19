@@ -45,18 +45,19 @@ export default function Ver_Mas({
   //En id_paciente no se estarian pasando correctamente los datos, y por eso no podemos hacer una query
 
   return (
+  <>
     <div className="mt-10 w-11/12 flex flex-col h-screen">
            <div className="flex flex-row w-full justify-start items-center">
         <button
           className={`px-4 py-1 font-subtitulo font-thin ${activeTab === 'Pag1' ? 'border-b-2 text-secondary' : 'border-b-0 text-secondary'}`}
           onClick={() => setActiveTab('Pag1')}
-        >
+          >
           Información 
         </button>
         <button
           className={`px-4 py-1 font-subtitulo font-thin ${activeTab === 'SpirometryList' ? 'border-b-2 text-secondary' : 'border-b-0 text-secondary'}`}
           onClick={() => setActiveTab('SpirometryList')}
-        >
+          >
           Espirometrías
         </button>
       </div>
@@ -72,7 +73,7 @@ export default function Ver_Mas({
               layout="fixed"
               width={30}
               height={30}
-            />
+              />
           </button>
           <button onClick={() => Pagina(-1)} className="px-4 h-2/3">
             <Image
@@ -81,7 +82,7 @@ export default function Ver_Mas({
               layout="fixed"
               width={30}
               height={30}
-            />
+              />
           </button>
         </div>
       </div>
@@ -90,8 +91,8 @@ export default function Ver_Mas({
         <p>Cargando...</p>
       ) : spyrometry ? (
         <>
-          {/* {activeTab === 'Pag1' && <Pag1 paciente={spyrometry} />} */}
-          {activeTab === 'SpirometryList' && (
+          {activeTab === 'Pag1' && <Pag1 paciente={spyrometry} />}
+          {activeTab === 'SpirometryList' &&(
             <div className="flex flex-col gap-4 justify-center items-center bg-primary_light py-4 rounded-sm h-4/5">
               <div className="flex flex-row justify-between w-full items-center">
                 <div className="text-xl sm:text-2xl font-bold text-left w-full mb-2 mt-4 px-4">
@@ -162,5 +163,6 @@ export default function Ver_Mas({
         </>
       )}
     </div>
+    </>
   );
 }

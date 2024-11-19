@@ -1,9 +1,9 @@
 "use server"
 const axios = require('axios');
 import { spirometryFormSchema, spirometryState } from "@/app/lib/formsDefinitions/spirometryFormDefinition";
-import { PrismaClient } from '@prisma/client';
+import { userData } from "#/auth/userData";
+import { PrismaClient, Spirometry } from '@prisma/client';
 const prisma = new PrismaClient()
-import { userData } from "../auth/userData";
 
 axios.defaults.withCredentials = true
 const URL = process.env.URL
@@ -11,7 +11,7 @@ const URL = process.env.URL
 // Datos del input medico
 
 type spirometryInput = {
-    id:         string;
+    id:         number;
     peso:       number;
     sexo:       number;
     altura:     number;
@@ -35,7 +35,7 @@ export async function getSpirometryList (patientId: number){
             select:{
                 date: true,
                 fev1: true,
-                fev1pred: true,
+                fvc:true,
                 id:true
             }
         })
@@ -56,20 +56,9 @@ export async function getSpirometry (spirometryId: number){
             where:{
                 id: spirometryId
             },
-            select:{
-                date: true,
-                fev1: true,
-                fev1pred: true,
-                fvc: true,
-                fvcpred: true,
-                obstruction: true,
-                obstructionai: true,
-                restriction: true,
-                restrictionai: true,
-            }
         });
-
-        return s;   
+        console.log(s);
+        return s;
     }
     catch(error:unknown){
         console.log(error);
@@ -98,7 +87,7 @@ export async function deleteSpirometry(spirometryId: number) {
 
 export async function createSpirometry(state: spirometryState, formData: FormData): Promise<spirometryState> {
     const validatedFields = spirometryFormSchema.safeParse({
-        id:         formData.get('id'),
+        id:         Number(formData.get('id')),
         sexo:       Number(formData.get('sexo')),
         altura:     Number(formData.get('altura')),
         peso:       Number(formData.get('peso')),
@@ -138,66 +127,63 @@ async function loadSpirometry(data:spirometryInput){
             sexo:       data.sexo, 
             altura:     data.altura,
         }
-        
-        const obstruction:number = await axios.post(`${URL}/obstructiongold`, spirometryData)
-        .then((res:any) => {
-            if(res.data.result === -1) throw new Error('Render 500');
-            return res.data.result;
-        })
-        .catch((error:unknown) => {
-            throw new Error('O');
-        })
-        
-        const obstructionAi:number = await axios.post(`${URL}/obstructionaigold`, spirometryData)
-        .then((res:any) => {
-            if(res.data.result === -1) throw new Error('Render 500');
-            return res.data.result;
-        })
-        .catch((error:unknown) => {
-            throw new Error('Oia');
-        })
-        
-        const restriction:number = await axios.post(`${URL}/restrictiongold`, spirometryData)
-        .then((res:any) => {
-            if(res.data.result === -1) throw new Error('Render 500');
-            return res.data.result;
-        })
-        .catch((error:unknown) => {
-            throw new Error('R');
-        })
-        
-        const restrictionAi:number = await axios.post(`${URL}/restrictionaigold`, spirometryData)
-        .then((res:any) => {
-            if(res.data.result === -1) throw new Error('Render 500');
-            return res.data.result;
-        })
-        .catch((error:unknown) => {
-            throw new Error('Ria');
-        })	
-        
+
         var date = new Date;
         date.setDate(date.getDate() + 1); //no se que le pasa pero me resta un dia. esta fue la mejor soucion un miercoles a las 23:48pm
-        
 
-        const spirometry = {
-            patient:        parseInt(data.id),
-            date:           date,
-            gold:           true,
-            gli:            true,
-            fev1:           data.fev1,
-            fev1pred:       data.fev1, //preguntar que carajo es este dato
-            fvc:            data.fvc,
-            fvcpred:        data.fvc, //preguntar que carajo es este dato
-            obstruction:    obstruction,
-            obstructionai:  obstructionAi,
-            restriction:    restriction,
-            restrictionai:  restrictionAi,
-        }; 
         
-        console.log(spirometry);
+        let newSpirometry = {
+            patient: data.id,
+            date: date,
+            fvc: spirometryData.fvc,
+            fev1: spirometryData.fev1,
+            obstructiongold: -1,
+            obstructionaigold: -1,
+            obstructiongli: -1,
+            obstructionaigli: -1,
+            obstructionaigoldcategorical1: -1,
+            obstructionaigoldcategorical2: -1,
+            obstructionaiglicategorical1: -1,
+            obstructionaiglicategorical2: -1,
+            restrictiongold: -1,
+            restrictionaigold: -1,
+            restrictiongli: -1,
+            restrictionaigli: -1,
+        }
+
+        const fetchs = [
+            "obstructiongold",
+            "obstructionaigold",
+            "obstructiongli",
+            "obstructionaigli",
+            "obstructionaigoldcategorical",
+            "obstructionaiglicategorical",
+            "restrictiongold",
+            "restrictionaigold",
+            "restrictiongli",
+            "restrictionaigli",
+        ]
+        
+        for (const fetch of fetchs){
+            await axios.post(`${URL}/${fetch}`, spirometryData)
+            .then((res:any) => {
+                if(res.data.result === -1) throw new Error('Render 500');
+                if(fetch.includes('categorical')){
+                    newSpirometry = {...newSpirometry, [fetch+"1"]: res.data.result1, [fetch+"2"]: res.data.result2};
+                    return
+                };
+                newSpirometry = {...newSpirometry, [fetch]: res.data.result};
+                return
+            })
+            .catch((error:unknown) => {
+                console.log(fetch, error);
+                throw new Error(fetch);
+            })
+        }
+        console.log("newspryrometry: ", newSpirometry);
         
         return await prisma.spirometry.create({
-            data: spirometry
+            data: newSpirometry
         });
     }
     catch(error:unknown){

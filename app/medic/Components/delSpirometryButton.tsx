@@ -1,5 +1,5 @@
 import { deleteSpirometry } from "#/medic/spirometry";
-import { deletePatient } from "#/medic/patient";
+import { deletePatient } from "@/app/api/medic/patient/patient";
 
 export default function ByebyeButton({ tabla, id }: { tabla: string, id: number }) {
     console.log(tabla, id);

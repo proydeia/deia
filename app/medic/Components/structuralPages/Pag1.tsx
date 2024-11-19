@@ -1,6 +1,4 @@
-
-import { Patient } from "@/app/lib/dbSchema/schema";
-
+import { Patient } from "@prisma/client";
 export default function Pag1({ paciente }: { paciente: Patient }) {
   console.log(paciente); // Log the patient data to the console
 
