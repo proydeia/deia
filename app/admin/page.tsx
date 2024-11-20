@@ -17,7 +17,7 @@ export default async function adminPage() {
         <div className="w-full md:w-7/12 items-end rounded-l-3xl bg-primary mt-16 shadow-2xl md:h-screen h-full grow">
           <div className="mt-8 h-screen">
             <h3 className="text-2xl font-bold px-6 py-3 font-subtitulo text-left w-full mt-4 mb-2 bg-primary_light">
-              Crear Medicos
+              Crear Médicos
             </h3>
             <div className="w-1/2 m-5 flex">
               <Form />

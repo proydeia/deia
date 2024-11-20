@@ -14,11 +14,11 @@ export default async function ListaMedic() {
   };
 
   return (
-    <div className="flex flex-row-reverse  w-full">
+    <div className="flex flex-row-reverse relative w-full">
       <div className="pt-24 w-full">
          <div className="flex flex-col gap-1 items-start mx-10 justify-between">
             <h3 className="text-2xl  font-bold  font-subtitulo text-left  mt-4 mb-2">
-              Lista Medicos
+              Lista Médicos
             </h3>
             <input
               type="search"
@@ -33,7 +33,7 @@ export default async function ListaMedic() {
         <div className="w-10/12 mx-4 mb-6 mt-3  overflow-y-auto">
           {medicos.map((medico) => (
             <div
-              className="mt-4 mb-4 flex flex-col gap-4 shadow-md rounded-xl bg-primary_light"
+              className="mt-4 mb-4 flex flex-col py-2 px-4 gap-4 shadow-md rounded-xl bg-primary_light"
               key={medico.email}
             >
               <div className="flex flex-row  justify-between items-center rounded-xl">

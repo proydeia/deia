@@ -109,7 +109,7 @@ export default function Ver_Mas({
           <p>Cargando...</p>
         ) : spyrometry ? (
           <>
-            {activeTab === "SpirometryList" && <Pag1 paciente={patient} />}
+            {activeTab === "SpirometryList" && <Pag1 paciente={pacienteId} />}
             {activeTab === "Pag1" && (
               <div className="flex flex-col gap-4 justify-center items-center bg-primary_light w-full py-4 rounded-sm h-4/5">
                 <div className="flex flex-col justify-between w-full items-center">

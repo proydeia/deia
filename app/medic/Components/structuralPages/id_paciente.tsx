@@ -114,7 +114,7 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
           </div>
 
 
-          {activeTab === 'Pag1' && <Pag1 paciente={patient} />}
+          {activeTab === 'Pag1' && <Pag1 paciente={patient.id} />}
           {activeTab === 'SpirometryList' && spirometries && (
             <>
             <SpirometryList spirometries={spirometries} onVerMas={NavigetoVer_Mas} />

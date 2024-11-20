@@ -18,6 +18,7 @@ const config: Config = {
       transparent: 'rgb(var(--color-transparent) / <alpha-value>)',
       dark: 'rgb(var(--color-dark) / <alpha-value>)',
       fourth: 'rgb(var(--color-fourth) / <alpha-value>)',
+      fifth: 'rgb(var(--color-fifth) / <alpha-value>)',
     },
     fontFamily:{
       titulo: (['Inter', 'sans-serif']),

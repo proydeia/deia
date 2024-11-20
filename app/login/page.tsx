@@ -5,7 +5,7 @@ import Image from "next/image";
 export default function LoginPage() {
   return (
     <>
-      <div className="overscroll-x-contain overflow-x-hidden flex h-screen bg-fourth flex-1 flex-col justify-center items-center mt-14 px-6 py-12 lg:px-8">
+      <div className="overscroll-x-contain overflow-x-hidden flex h-screen bg-fifth flex-1 flex-col justify-center items-center mt-14 px-6 py-12 lg:px-8">
         <Image
           src="/log.png"
           alt="Mi imagen"
