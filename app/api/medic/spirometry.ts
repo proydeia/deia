@@ -95,7 +95,7 @@ export async function createSpirometry(state: spirometryState, formData: FormDat
         fvc:        Number(formData.get('fvc')),
     });
 
-    console.log(1)
+    console.log(validatedFields.data)
     
     if (!validatedFields.success) {
         return {
