@@ -70,7 +70,7 @@ export default function AgregarPacientes({ Pagina }: Props) {
 
 
     <div className="h-full flex flex-col justify-center items-center w-11/12 my-2">
-      <div className="w-full h-1/12 bg-primary_light">f</div>
+      <div className="w-full h-1/12 bg-primary_light"></div>
       <div className="flex flex-row justify-between items-center w-full">
         <p className="text-2xl sm:text-3xl font-bold text-left text-primary_light w-full mb-4 mt-4">
           Agregar Paciente
