@@ -96,15 +96,19 @@ export async function createSpirometry(state: spirometryState, formData: FormDat
         fvc:        Number(formData.get('fvc')),
     });
 
+    console.log(1)
+    
     if (!validatedFields.success) {
         return {
-          errors: validatedFields.error.flatten().fieldErrors,
+            errors: validatedFields.error.flatten().fieldErrors,
         };
     };
-
+    console.log(2)
+    
     const user = await userData();
     if (!user || user.adm) throw new Error('U');
-
+    
+    console.log(3)
     try{
         await loadSpirometry(validatedFields.data);
         return {
@@ -131,7 +135,7 @@ async function loadSpirometry(data:spirometryInput){
         var date = new Date;
         date.setDate(date.getDate() + 1); //no se que le pasa pero me resta un dia. esta fue la mejor soucion un miercoles a las 23:48pm
 
-        
+        console.log(4)
         let newSpirometry = {
             patient: data.id,
             date: date,
@@ -163,7 +167,7 @@ async function loadSpirometry(data:spirometryInput){
             "restrictiongli",
             "restrictionaigli",
         ]
-        
+        console.log(5)
         for (const fetch of fetchs){
             await axios.post(`${URL}/${fetch}`, spirometryData)
             .then((res:any) => {
