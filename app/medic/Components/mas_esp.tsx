@@ -114,7 +114,7 @@ export default function Ver_Mas({
               <div className="flex flex-col gap-4 justify-center items-center bg-primary_light w-full py-4 rounded-sm h-4/5">
                 <div className="flex flex-col justify-between w-full items-center">
                   <div className="text-xl sm:text-2xl font-bold text-left w-full mb-2 mt-4 px-4">
-                    {spyrometry.date.toDateString() || "No spirometry data"}
+                    {spyrometry.date.toDateString() || 0}
                   </div>
                   <div className="justify-start bg-white w-full pr-4">
                     <button
@@ -143,13 +143,13 @@ export default function Ver_Mas({
                   <div className="p-2 sm:p-4 w-max-h-10 sm:col-span-2 col-span-1 bg-white flex flex-col gap-2 justify-center items-center">
                     <p className="font-semibold text-sm text-center">FEV1:</p>
                     <p className="font-extrabold">
-                      {spyrometry.fev1 || "No spirometry data"}
+                      {spyrometry.fev1 || 0}
                     </p>
                   </div>
                   <div className="p-2 sm:p-4 w-max-h-10 sm:col-span-2 col-span-1 bg-white flex flex-col gap-2 justify-center items-center">
                     <p className="font-semibold text-sm">FVC:</p>
                     <p className="font-extrabold text-lg">
-                      {spyrometry.fvc || "No spirometry data"}
+                      {spyrometry.fvc || 0}
                     </p>
                   </div>
                   <div className="px-2 gap-3 md:px-4 md:flex-col  flex flex-col py-2 col-span-4 bg-white justify-center items-start">
@@ -163,7 +163,7 @@ export default function Ver_Mas({
                       <p className="block font-black text-lg sm:text-xl items-center justify-self-end">
                         {activeDataTab === "GLI"
                           ? spyrometry.obstructiongli
-                          : spyrometry.obstructiongold || "No spirometry data"}
+                          : spyrometry.obstructiongold || 0}
                       </p>
                       <p className="md:text-lg sm:text-xl font-bold text-lg items-center">
                         Posible restricción:
@@ -193,14 +193,14 @@ export default function Ver_Mas({
                           {activeDataTab === "GLI"
                             ? spyrometry.obstructionaiglicategorical1
                             : spyrometry.obstructionaigoldcategorical1 ||
-                              "No spirometry data"}
+                              0}
                         </p>
                         <p className="block font-black text-lg sm:text-xl items-center justify-self-end">
                           N°2:
                           {activeDataTab === "GLI"
                             ? spyrometry.obstructionaiglicategorical2
                             : spyrometry.obstructionaigoldcategorical2 ||
-                              "No spirometry data"}
+                              0}
                         </p>
                       </div>
                       <p className="md:text-lg sm:text-xl font-bold text-lg items-center">
