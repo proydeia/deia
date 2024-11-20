@@ -90,7 +90,6 @@ export async function createSpirometry(state: spirometryState, formData: FormDat
         id:         Number(formData.get('id')),
         sexo:       Number(formData.get('sexo')),
         altura:     Number(formData.get('altura')),
-        // peso:       Number(formData.get('peso')),
         nacimiento: new Date(formData.get('nacimiento') as string),
         fev1:       Number(formData.get('fev1')),
         fvc:        Number(formData.get('fvc')),
