@@ -61,11 +61,10 @@ model Spirometry {
   correctionresGli                Int?     @default(-1)
   correctionresGliAi              Float?   @default(-1)
   enjson                          Int      @default(0)
-  obstructionaigoldcategorical    Float?  //esto me sirve
-  obstructionaiglicategorical1    Float //esto me sirve
-  obstructionaiglicategorical2    Float //esto me sirve
-  obstructionaigoldcategorical1   Float //esto me sirve
-  obstructionaigoldcategorical2   Float //esto me sirve
+  obstructionaiglicategorical1    Float
+  obstructionaiglicategorical2    Float
+  obstructionaigoldcategorical1   Float
+  obstructionaigoldcategorical2   Float
   correctionobsGliAiCategorical1  Int?     @default(-1)
   correctionobsGliAiCategorical2  Int?     @default(-1)
   correctionobsGoldAiCategorical1 Int?     @default(-1)
