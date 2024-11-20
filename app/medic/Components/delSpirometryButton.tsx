@@ -44,7 +44,7 @@ export default function ByebyeButton({ tabla, id }: { tabla: string, id: number 
 
     return (
         <div className="container" >
-            <button onClick={() => erradicate()} className="bg-red p-2 ml-2 rounded-lg shadow-lg ">
+            <button onClick={() => erradicate()} className="bg-red p-2 ml-2 rounded-lg shadow-lg my-4">
                 Eliminar {Persona()}
             </button>
         </div>

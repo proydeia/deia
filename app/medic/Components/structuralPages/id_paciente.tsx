@@ -72,10 +72,24 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
               Espirometrías
             </button>
           </div>
-          <div className="flex flex-row flex-direction-row-reverse justify-between bg-secondary gap-6 w-full ">
-            <p className="text-2xl sm:text-3xl font-bold text-left text-primary w-full mb-4 mt-4">
-              {patient.name}
+          <div className="flex flex-row flex-direction-row-reverse justify-between bg-fourth gap-6 w-full ">
+           
+          <div className={`${activeTab === 'SpirometryList' ? 'block' : 'hidden'}`}>
+           
+            <p className="text-2xl sm:text-3xl font-bold text-left text-white w-full mb-4 mt-4">
+                
+              Espirometrías
             </p>
+           </div>
+          <div className={`${activeTab === 'Pag1' ? 'block' : 'hidden'}`}>
+           
+            <p className="text-2xl sm:text-3xl font-bold text-left text-white w-full mb-4 mt-4">
+              {patient.name}
+                
+            </p>
+           </div>
+
+            
             <div className="flex flex-row items-center justify-center">
               {/* {activeTab === 'SpirometryList' ? return(
                 
@@ -107,7 +121,7 @@ export default function Id_paciente({ pacienteId, Pagina, Page, Espiro }: Props)
             {selectedSpirometryId && (
               <Ver_Mas Pagina={Pagina} Page={Page} EspiroId={selectedSpirometryId} pacienteId={pacienteId} />
             )}
-            <ByebyeButton tabla={"patient"} id={pacienteId} />
+            {/* <ByebyeButton tabla={"patient"} id={pacienteId} /> */}
           </>
           )}
           <div className={`${activeTab === 'SpirometryList' ? 'hidden' : 'block'}`}>

@@ -8,7 +8,7 @@ interface SpirometryListProps {
 const VerMasButton = ({ Id, Espiro_id }: { Id: string; Espiro_id: (id: number) => void }) => {
   return (
     <button
-      className="bg-primary_light rounded-sm h-11/12 p-2 ml-auto"
+      className="bg-primary_light rounded-lg h-11/12 p-2 ml-auto"
       onClick={() => Espiro_id(Number(Id))}
     >
       Ver Mas
@@ -19,8 +19,7 @@ const VerMasButton = ({ Id, Espiro_id }: { Id: string; Espiro_id: (id: number) =
 export default function SpirometryList({ spirometries, onVerMas }: SpirometryListProps) {
   return (
     <>
-      <div className="flex flex-row flex-direction-row-reverse justify-between bg-secondary  w-full ">
-        
+      <div className="flex flex-row flex-direction-row-reverse justify-between bg-secondary  w-full mt-4">
 
       </div>
       {spirometries.map((spirometry) => (
@@ -29,8 +28,8 @@ export default function SpirometryList({ spirometries, onVerMas }: SpirometryLis
           key={spirometry.id}
         >
           <div className="flex-grow max-h-10 flex-row">
-            <p>Fecha: {new Date(spirometry.date).toDateString()}</p>
-            <p>
+            <p className="text-lg font-subtitulo font-semibold">Fecha: {new Date(spirometry.date).toDateString()}</p>
+            {/* <p>
               {spirometry.obstructiongold >= 0 && spirometry.restrictiongold <= 0 ? (
                 `Obstrucción: ${spirometry.obstructiongold}`
               ) : spirometry.restrictiongold >= 0 && spirometry.obstructiongold <= 0 ? (
@@ -38,7 +37,7 @@ export default function SpirometryList({ spirometries, onVerMas }: SpirometryLis
               ) : (
                 "No hay obstrucción ni restricción"
               )}
-            </p>
+            </p> */}
           </div>
           <VerMasButton Id={spirometry.id.toString()} Espiro_id={onVerMas} />
         </div>
