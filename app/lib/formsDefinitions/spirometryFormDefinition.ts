@@ -11,9 +11,6 @@ export const spirometryFormSchema = z.object({
     altura: z
     .number(),
 
-    peso: z
-    .number(),
-
     nacimiento: z
     .date(),
 
@@ -32,7 +29,6 @@ export type spirometryState =
         id?:        string[]
         sexo?:      string[]
         altura?:    string[]
-        peso?:      string[]
         nacimiento?:string[]
         fev1?:      string[]
         fvc?:       string[]
