@@ -86,6 +86,8 @@ export async function deleteSpirometry(spirometryId: number) {
 }
 
 export async function createSpirometry(state: spirometryState, formData: FormData): Promise<spirometryState> {
+    console.log("aaaa")
+    
     const validatedFields = spirometryFormSchema.safeParse({
         id:         Number(formData.get('id')),
         sexo:       Number(formData.get('sexo')),
