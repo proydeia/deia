@@ -194,6 +194,7 @@ export default function Ver_Mas({
                             ? spyrometry.obstructionaiglicategorical1
                             : spyrometry.obstructionaigoldcategorical1 ||
                               0}
+                              
                         </p>
                         <p className="block font-black text-lg sm:text-xl items-center justify-self-end">
                           N°2:
