@@ -159,18 +159,6 @@ export default function AgregarPacientes({ Pagina }: Props) {
             </div>
             {state?.errors?.sexo && <p>{state.errors.sexo}</p>}
           </div>
-          <div className="col-span-2 w-full">
-            <label className="w-11/12">
-              <h1 className="text-sm font-light text-third">Extra info</h1>
-              <input
-                type="text"
-                id="extrainfo"
-                name="extrainfo"
-                className="px-3 rounded-sm bg-primary py-4 w-full focus:ring-0 border-0 border-b-2 border-secondary focus:outline-none"
-              />
-            </label>
-          </div>
-
             <div>
               <label className="col-span-2 w-full">
                 <h1 className="text-sm font-light text-third">DNI</h1>

@@ -90,10 +90,6 @@ export default function AgregarEspiro({Pagina, id, Page}:{ Pagina: Dispatch<SetS
               />
 
               {state?.errors?.fvc && <p>{state.errors.fvc}</p>}
-              {state?.errors?.fvc && <p>{state.errors.id}</p>}
-              {state?.errors?.fvc && <p>{state.errors.sexo}</p>}
-              {state?.errors?.fvc && <p>{state.errors.altura}</p>}
-              {state?.errors?.fvc && <p>{state.errors.nacimiento}</p>}
             </label>
           </div>
 

@@ -218,10 +218,6 @@ export default function Ver_Mas({
                       </p>
                     </div>
                   </div>
-                    <div className="px-2 gap-3 md:px-4 md:flex-col font-titulo font-bold text-lg flex flex-col py-2 col-span-4 bg-white justify-center items-start">
-                      Informacion Extra
-                      <p className="font-subtitulo font-medium text-lg">{patient?.extrainfo}</p>
-                    </div>
                 </div>
               </div>
             )}
