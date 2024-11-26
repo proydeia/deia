@@ -30,25 +30,12 @@ export default function Funcion() {
                         className="relative top-0 -left-0 z-30 animate-rotate-y animate-once animate-delay-[300ms] animate-ease-in-out animate-normal "
                     />
                     <div>
-                        <h2 className="text-lg font-bold text-center mb-0 md:mb-3">Resultados precisos</h2>
+                        <h2 className="text-lg font-bold text-center mb-0 md:mb-3">Registro de las Espirometrías </h2>
 
                     </div>
-                    <p className="text-sm font-light text-center px-6 mb-6 hidden md:block">Nuestra IA se encarga de analizar los datos de la espirometría para brindar un diagnóstico preciso. </p>
+                    <p className="text-sm font-light text-center px-6 mb-6 hidden md:block">Todos los pacientes registrados estarán en la base de datos de cada médico, junto a sus respectivas consultas y diagnósticos. </p>
                 </div>
-                <div className="flex flex-row  md:flex-col justify-center items-center gap-4 w-full bg-white shadow-lg py-4 rounded-xl">
-                    {/* <div className="w-10 h-10 rounded-xl bg-third mt-6 mb-3"></div> */}
-                    <Image
-                        src="/resp.png"
-                        alt="Mi imagen"
-                        layout="fixed"
-                        width={45}
-                        height={45}
-                        className="relative top-0 -left-0 z-30 animate-rotate-y animate-once animate-delay-[300ms] animate-ease-in-out animate-normal "
-                    />
-                    {/* Comentario epico */}
-                    <h2 className="text-lg font-bold text-center mb-0 md:mb-3">Resultados confiables</h2>
-                    <p className="text-sm font-light text-center px-6 mb-6 hidden md:block">Nuestros modelos de IA están entrenados para brindar resultados confiables gracias a la base de datos con la que trabajamos. </p>
-                </div>
+             
 
             </div>
 

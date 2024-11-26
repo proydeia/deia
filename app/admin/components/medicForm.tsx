@@ -6,7 +6,7 @@ import FormButton from "../../componenetes/form_button";
 export default function Form() {
     const [state, formAction] = useFormState(createMedic, undefined);
     return (
-        <form className="space-y-3 w-full " action={formAction}>
+        <form className="space-y-3 w-full py-4 px-2 bg-primary_light" action={formAction}>
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                     Correo Electrónico
@@ -17,7 +17,7 @@ export default function Form() {
                       name="email"
                       type="text"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm  placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                      className="block w-1/2 rounded-md border-0 py-1.5 px-2 text-dark shadow-sm  placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     />
                     {state?.errors?.email && <p>{state.errors.email}</p>}
                   </div>
@@ -36,7 +36,7 @@ export default function Form() {
                       type="password"
                       autoComplete="current-password"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm  placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                      className="block w-1/2 rounded-md border-0 py-1.5 px-2 text-dark shadow-sm  placeholder:text-gray-400 sm:text-sm sm:leading-6"
                       />
                       {state?.errors?.password && <p>{state.errors.password}</p>}
                   </div>

@@ -14,15 +14,16 @@ export default async function adminPage() {
         <div className="w-full md:w-5/12 items-start md:h-full h-screen ">
           <ListaMedic />
         </div>
-        <div className="w-full md:w-7/12 items-end rounded-l-3xl bg-primary mt-16 shadow-2xl md:h-screen h-full grow">
-          <div className="mt-8 h-screen">
-            <h3 className="text-2xl font-bold px-6 py-3 font-subtitulo text-left w-full mt-4 mb-2 bg-primary_light">
+        <div className="w-full md:w-7/12 items-end rounded-l-3xl bg-fourth mt-16 shadow-2xl md:h-screen h-full grow">
+          <div className="h-screen flex justify-start mt-4 items-center flex-col">
+            <div className="bg-primary_light text-primary_light rounded-tl-xl w-11/12">.</div>
+            <h3 className="text-2xl font-bold px-6 pt-2 font-subtitulo text-left w-full mt-0 mb-0 bg-fourth text-primary_light">
               Crear Médicos
             </h3>
-            <div className="w-1/2 m-5 flex">
+            <div className="w-11/12 m-5 flex ">
               <Form />
             </div>
-          <div className="bg-primary m-5 flex flex-col items-baseline justify-center gap-4">
+          <div className="bg-primary_light w-11/12 mx-5 mb-5 mt-0 py-4 px-2 flex flex-col items-baseline justify-center gap-4">
             {!file && !aproved ? (
               <>
                 <UploadForm />
