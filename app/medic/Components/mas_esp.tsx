@@ -162,9 +162,27 @@ export default function Ver_Mas({
                       </p>
                       <p className="block font-black text-lg sm:text-xl items-center justify-self-end">
                         {activeDataTab === "GLI"
-                          ? spyrometry.obstructiongli
-                          : spyrometry.obstructiongold || 0}
-                      </p>
+                          ? spyrometry.obstructiongli === 0
+                          ? "normal"
+                          : spyrometry.obstructiongli === 1
+                          ? "leve"
+                          : spyrometry.obstructiongli === 2
+                          ? "moderado"
+                          : spyrometry.obstructiongli === 3
+                          ? "severo"
+                          : "muy severo"
+                          : spyrometry.obstructiongold === 0
+                          ? "normal"
+                          : spyrometry.obstructiongold === 1
+                          ? "leve"
+                          : spyrometry.obstructiongold === 2
+                          ? "moderado"
+                          : spyrometry.obstructiongold === 3
+                          ? "severo"
+                          : spyrometry.obstructiongold === 4
+                          ? "muy severo"
+                          : "0"}
+                        </p>
                       <p className="md:text-lg sm:text-xl font-bold text-lg items-center">
                         Posible restricción:
                       </p>
