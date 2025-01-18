@@ -7,7 +7,7 @@ import google from 'next-auth/providers/google';
 export const authConfig = {
   pages: {
     signIn: '/login',
-    error: '/login',
+    error: '/error',
   },
 
   providers: [
